@@ -33,7 +33,7 @@
 #ifndef __LISTOF_HPP__
 #define __LISTOF_HPP__
 
-/* $Id: ListOf.hpp,v 1.1 2000/09/19 18:20:07 philogelos Exp $ */
+/* $Id: ListOf.hpp,v 1.2 2001/06/09 14:50:28 philogelos Exp $ */
 
 #include "Concatenation.hpp"
 #include "GrammarNode.hpp"
@@ -43,12 +43,14 @@
 
 BEGIN_QR_NAMESPACE
 
+class List;
+
 /**
 
    @author Philogelos
    @created Mon Sep 11 18:48:00 2000
 */
-class ListOf : public Concatenation
+class ListOf : public GrammarNode
 {
 
   /**
@@ -64,17 +66,31 @@ public: ListOf( String aName,
    */
 public: virtual ~ListOf();
 
+public:  virtual void parse( LookAheadEnumeration *aStream )
+  THROWS( ParseError * );
+
+protected: virtual boolean isHere( LookAheadEnumeration *aStream,
+								   GrammarNode *aNode, List *aResults,
+								   boolean aFatal );
   /**
    */
 public:  virtual String  getClassName() const;
 
-protected: CRef< Concatenation > representation;
+protected: CRef< GrammarNode > start;
+protected: CRef< GrammarNode > item;
+protected: CRef< GrammarNode > delimiter;
+protected: CRef< GrammarNode > end;
+protected: boolean emptyable;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: ListOf.hpp,v $
+ * Revision 1.2  2001/06/09 14:50:28  philogelos
+ * ListOf made special GrammarNode like Alternative rather than
+ * sub-class of Concatenation.
+ *
  * Revision 1.1  2000/09/19 18:20:07  philogelos
  * Lexer and parser redone.
  *
