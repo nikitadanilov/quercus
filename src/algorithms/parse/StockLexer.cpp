@@ -30,12 +30,13 @@
 
 
 
-/* $Id: StockLexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: StockLexer.cpp,v 1.2 2000/10/12 21:34:09 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: StockLexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: StockLexer.cpp,v 1.2 2000/10/12 21:34:09 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
+#include "algorithms/parse/Comment.hpp"
 #include "algorithms/parse/Constant.hpp"
 #include "algorithms/parse/NumericLiteral.hpp"
 #include "algorithms/parse/TokenFactory.hpp"
@@ -52,39 +53,24 @@ BEGIN_QR_NAMESPACE
 StockLexer::StockLexer( ParseStream *aStream ) :
   Lexer( aStream )
 {
-  if( ! init )
-	{
-	  comma     = getTerminal( "COMMA", "," );
-	  dot       = getTerminal( "DOT", "." );
-	  colon     = getTerminal( "COLON", ":" );
-	  semicolon = getTerminal( "SEMICOLON", ";" );
-	  lparen    = getTerminal( "LPAREN", "(" );
-	  rparen    = getTerminal( "RPAREN", ")" );
-	  lbrace    = getTerminal( "LBRACE", "{" );
-	  rbrace    = getTerminal( "RBRACE", "}" );
-	  lbracket  = getTerminal( "LBRACKET", "[" );
-	  rbracket  = getTerminal( "RBRACKET", "]" );
+  comma     = getTerminal( "COMMA", "," );
+  dot       = getTerminal( "DOT", "." );
+  colon     = getTerminal( "COLON", ":" );
+  semicolon = getTerminal( "SEMICOLON", ";" );
+  lparen    = getTerminal( "LPAREN", "(" );
+  rparen    = getTerminal( "RPAREN", ")" );
+  lbrace    = getTerminal( "LBRACE", "{" );
+  rbrace    = getTerminal( "RBRACE", "}" );
+  lbracket  = getTerminal( "LBRACKET", "[" );
+  rbracket  = getTerminal( "RBRACKET", "]" );
+  
+  commentToken = new Comment( "/*", "*/", true );
 
-	  id     = new Terminal( "id", new Identifier() );
-	  number = new Terminal( "number", new NumericLiteral() );
+  id     = new Terminal( "id", new Identifier() );
+  number = new Terminal( "number", new NumericLiteral() );
+  comment = new Terminal( "comment", getCommentToken() );
 
-	  getComma()     -> dontManage();
-	  getDot()       -> dontManage();
-	  getColon()     -> dontManage();
-	  getSemicolon() -> dontManage();
-	  getLParen()    -> dontManage();
-	  getRParen()    -> dontManage();
-	  getLBrace()    -> dontManage();
-	  getRBrace()    -> dontManage();
-	  getLBracket()  -> dontManage();
-	  getRBracket()  -> dontManage();
-
-	  id     -> dontManage();
-	  number -> dontManage();
-
-	  init = true;
-	}
-
+  addAt( TCAST( getComment() -> getRecognizer(), TokenFactory ), tail );
   addAt( TCAST( getComma() -> getRecognizer(), TokenFactory ), tail );
   addAt( TCAST( getDot() -> getRecognizer(), TokenFactory ), tail );
   addAt( TCAST( getColon() -> getRecognizer(), TokenFactory ), tail );
@@ -137,62 +123,72 @@ Terminal *StockLexer::getTerminal( String aName, String aValue )
 
 Terminal *StockLexer::getComma() const
 {
-  return comma;
+  return *comma;
 }
 
 Terminal *StockLexer::getDot() const
 {
-  return dot;
+  return *dot;
 }
 
 Terminal *StockLexer::getColon() const
 {
-  return colon;
+  return *colon;
 }
 
 Terminal *StockLexer::getSemicolon() const
 {
-  return semicolon;
+  return *semicolon;
 }
 
 Terminal *StockLexer::getLParen() const
 {
-  return lparen;
+  return *lparen;
 }
 
 Terminal *StockLexer::getRParen() const
 {
-  return rparen;
+  return *rparen;
 }
 
 Terminal *StockLexer::getLBrace() const
 {
-  return lbrace;
+  return *lbrace;
 }
 
 Terminal *StockLexer::getRBrace() const
 {
-  return rbrace;
+  return *rbrace;
 }
 
 Terminal *StockLexer::getLBracket() const
 {
-  return lbracket;
+  return *lbracket;
 }
 
 Terminal *StockLexer::getRBracket() const
 {
-  return rbracket;
+  return *rbracket;
 }
 
 Terminal *StockLexer::getId() const
 {
-  return id;
+  return *id;
 }
 
 Terminal *StockLexer::getNumber() const
 {
-  return number;
+  return *number;
+}
+
+Terminal *StockLexer::getComment() const
+{
+  return *comment;
+}
+
+Comment *StockLexer::getCommentToken() const
+{
+  return *commentToken;
 }
 
 String  StockLexer::getClassName() const
@@ -200,20 +196,6 @@ String  StockLexer::getClassName() const
   return "StockLexer";
 }
 
-
-boolean   StockLexer::init = false;
-Terminal *StockLexer::comma = NULL;
-Terminal *StockLexer::dot = NULL;
-Terminal *StockLexer::colon = NULL;
-Terminal *StockLexer::semicolon = NULL;
-Terminal *StockLexer::lparen = NULL;
-Terminal *StockLexer::rparen = NULL;
-Terminal *StockLexer::lbrace = NULL;
-Terminal *StockLexer::rbrace = NULL;
-Terminal *StockLexer::lbracket = NULL;
-Terminal *StockLexer::rbracket = NULL;
-Terminal *StockLexer::id = NULL;
-Terminal *StockLexer::number = NULL;
 
 END_QR_NAMESPACE
 
@@ -224,6 +206,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: StockLexer.cpp,v $
+ * Revision 1.2  2000/10/12 21:34:09  philogelos
+ * Got rid of statics
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *
