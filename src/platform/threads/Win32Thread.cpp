@@ -30,13 +30,13 @@
 
 
 
-/* $Id: Win32Thread.cpp,v 1.1.1.1 2000/07/19 16:52:03 philogelos Exp $ */
+/* $Id: Win32Thread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #include "platform/threads/Win32Thread.hpp"
 
 #if defined( USE_WIN32THREADS )
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Win32Thread.cpp,v 1.1.1.1 2000/07/19 16:52:03 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Win32Thread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -223,7 +223,7 @@ void Win32ThreadFactory::initClass()
    }
 }
 
-void Win32ThreadFactory::reportError( String aMessage )
+void Win32ThreadFactory::reportError( String aMessage ) THROWS( Errno * )
 {
 	DWORD error;
 	String message;
@@ -556,6 +556,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Win32Thread.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:03  philogelos
  * stored sources into sourceforge.net CVS
  *

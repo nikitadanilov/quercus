@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Pixmap.cpp,v 1.1.1.1 2000/07/19 16:54:35 philogelos Exp $ */
+/* $Id: Pixmap.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Pixmap.cpp,v 1.1.1.1 2000/07/19 16:54:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Pixmap.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -195,7 +195,8 @@ void Xq::Pixmap::writeToXPMFile( String aFileName )
   delete []fileName;
 }
 
-void Xq::Pixmap::handleXPMError( int aCode, String aMessage )
+void Xq::Pixmap::handleXPMError( int aCode, String aMessage ) 
+  THROWS( XException * )
 {
   if( aCode != XpmSuccess )
 	{
@@ -272,6 +273,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Pixmap.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:54:35  philogelos
  * stored sources into sourceforge.net CVS
  *

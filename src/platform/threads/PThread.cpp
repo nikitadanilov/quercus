@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -81,7 +81,7 @@ extern "C" int nanosleep( const struct timespec *rqtp,
 
 BEGIN_QR_NAMESPACE
 
-static void pthreadCleanupHandler( void *aKiller )
+static void pthreadCleanupHandler( void *aKiller ) THROWS( ThreadDeath * )
 {
   DLOGOBJECT
    	( "pthreadCleanupHandler(): %s", ( ThreadDeath * ) aKiller );
@@ -257,7 +257,8 @@ pthread_key_t PThreadFactory::backRefKey;
    union! (u_pad64) */
 pthread_once_t PThreadFactory::initClassOnce = PTHREAD_ONCE_INIT;
 
-int PThreadsSystem::pthrCall( const char *callName, int retCode )
+int PThreadsSystem::pthrCall( const char *callName, int retCode ) 
+  THROWS( Errno * )
 {
   if( ( retCode != 0 ) && ( retCode != EINTR ) )
 	{
@@ -286,7 +287,7 @@ Mutex *PThreadsSystem::mutex()
   return new PMutex();
 }
 
-Mutex *PThreadsSystem::recMutex()
+Mutex *PThreadsSystem::recMutex() THROWS( Errno * )
 {
 #if defined( __linux__ )
   pthread_mutexattr_t attribute;
@@ -307,18 +308,18 @@ Mutex *PThreadsSystem::recMutex()
 #endif
 }
 
-CondVar *PThreadsSystem::condition()
+CondVar *PThreadsSystem::condition() THROWS( Errno * )
 {
   return new PCondVar( new PMutex() );
 }
 
-Semaphore *PThreadsSystem::semaphore( Index anInitialCount )
+Semaphore *PThreadsSystem::semaphore( Index anInitialCount ) THROWS( Errno * )
 {
   preC_( anInitialCount >= 0 );
   return new PSemaphore( false, anInitialCount );
 }
 
-RWLock *PThreadsSystem::rwLock()
+RWLock *PThreadsSystem::rwLock() THROWS( Errno * )
 {
   return new PRWLock();
 }
@@ -337,7 +338,7 @@ Thread *PThreadsSystem::getSelf()
   return ( Thread * ) result;
 }
 
-void PThreadsSystem::cancel( Thread *aVictim )
+void PThreadsSystem::cancel( Thread *aVictim ) THROWS( Errno * )
 {
   preC_( aVictim != ( Thread * ) NULL );
   preC_( DCAST( aVictim, PThread ) != ( PThread * ) NULL );
@@ -346,7 +347,8 @@ void PThreadsSystem::cancel( Thread *aVictim )
   PTHC( pthread_cancel( aVictim -> getId() ) );
 }
 
-void PThreadsSystem::sleep( Index aSecond, Index aNanoseconds )
+void PThreadsSystem::sleep( Index aSecond, Index aNanoseconds ) 
+  THROWS( Errno * )
 {
   struct timespec delay;
 
@@ -407,7 +409,7 @@ void PThread::setUserThread( boolean aFlag )
   userThread = aFlag;
 }
 
-void PThread::join()
+void PThread::join() THROWS( Errno * )
 {
   void *status;
 
@@ -477,34 +479,34 @@ boolean PThread::tester( int ) const
 }
 #endif
 
-PMutex::PMutex()
+PMutex::PMutex() THROWS( Errno * )
 {
   PTHC( pthread_mutex_init( &core, NULL ) );
 }
 
-PMutex::PMutex( pthread_mutexattr_t *anAttribute )
+PMutex::PMutex( pthread_mutexattr_t *anAttribute ) THROWS( Errno * )
 {
   PTHC( pthread_mutex_init( &core, anAttribute ) );
 }
 
-PMutex::~PMutex()
+PMutex::~PMutex() THROWS( Errno * )
 {
   PTHC( pthread_mutex_destroy( &core ) );
 }
 
-void PMutex::enter( const Top * )
+void PMutex::enter( const Top * ) THROWS( Errno * )
 {
   //   DLOGOBJECT( "PMutex::enter: %s", this );
   PTHC( pthread_mutex_lock( &core ) );
 }
 
-void PMutex::leave( const Top * )
+void PMutex::leave( const Top * ) THROWS( Errno * )
 {
   PTHC( pthread_mutex_unlock( &core ) );
   //   DLOGOBJECT( "PMutex::leave: %s", this );
 }
 
-boolean PMutex::tryEnter( const Top * )
+boolean PMutex::tryEnter( const Top * ) THROWS( Errno * )
 {
   PTRYCALL( pthread_mutex_trylock, &core, EBUSY );
 }
@@ -516,14 +518,14 @@ String  PMutex::toString() const
 }
 
 
-PCondVar::PCondVar( PMutex *aMutex )
+PCondVar::PCondVar( PMutex *aMutex ) THROWS( Errno * )
 {
   FNNINIT( mutex, aMutex );
 
   PTHC( pthread_cond_init( &core, NULL ) );
 }
 
-PCondVar::~PCondVar()
+PCondVar::~PCondVar() THROWS( Errno * )
 {
   PTHC( pthread_cond_destroy( &core ) );
   FDONE( mutex );
@@ -534,17 +536,17 @@ Mutex *PCondVar::getMutex() const
   return mutex;
 }
 
-void PCondVar::wait()
+void PCondVar::wait() THROWS( Errno * )
 {
   PTHC( pthread_cond_wait( &core, &( mutex -> core ) ) );
 }
 
-void PCondVar::signal()
+void PCondVar::signal() THROWS( Errno * )
 {
   PTHC( pthread_cond_signal( &core ) );
 }
 
-void PCondVar::broadcast()
+void PCondVar::broadcast() THROWS( Errno * )
 {
   PTHC( pthread_cond_broadcast( &core ) );
 }
@@ -557,63 +559,64 @@ String  PCondVar::toString() const
 }
 
 
-PSemaphore::PSemaphore( boolean aShared, Index anInitialCount )
+PSemaphore::PSemaphore( boolean aShared, Index anInitialCount ) 
+  THROWS( Errno * )
 {
   PTHC( sem_init( &core, aShared, anInitialCount ) );
 }
 
-PSemaphore::~PSemaphore()
+PSemaphore::~PSemaphore() THROWS( Errno * )
 {
   PTHC( sem_destroy( &core ) );
 }
 
-void PSemaphore::inc()
+void PSemaphore::inc() THROWS( Errno * )
 {
   PTHC( sem_post( &core ) );
 }
 
-void PSemaphore::dec()
+void PSemaphore::dec() THROWS( Errno * )
 {
   PTHC( sem_wait( &core ) );
 }
 
-boolean PSemaphore::tryDec()
+boolean PSemaphore::tryDec() THROWS( Errno * )
 {
   PTRYCALL( sem_trywait, &core, EAGAIN );
 }
 
 
-PRWLock::PRWLock()
+PRWLock::PRWLock() THROWS( Errno * )
 {
   PTHC( pthread_rwlock_init( &core, NULL ) );
 }
 
-PRWLock::~PRWLock()
+PRWLock::~PRWLock() THROWS( Errno * )
 {
   PTHC( pthread_rwlock_destroy( &core ) );
 }
 
-void PRWLock::enterRead( const Top * )
+void PRWLock::enterRead( const Top * ) THROWS( Errno * )
 {
   PTHC( pthread_rwlock_rdlock( &core ) );
 }
 
-void PRWLock::enterWrite( const Top * )
+void PRWLock::enterWrite( const Top * ) THROWS( Errno * )
 {
   PTHC( pthread_rwlock_wrlock( &core ) );
 }
 
-void PRWLock::leave( const Top * )
+void PRWLock::leave( const Top * ) THROWS( Errno * )
 {
   PTHC( pthread_rwlock_unlock( &core ) );
 }
 
-boolean PRWLock::tryEnterRead()
+boolean PRWLock::tryEnterRead() THROWS( Errno * )
 {
   PTRYCALL( pthread_rwlock_tryrdlock, &core, EBUSY );
 }
 
-boolean PRWLock::tryEnterWrite()
+boolean PRWLock::tryEnterWrite() THROWS( Errno * )
 {
   PTRYCALL( pthread_rwlock_trywrlock, &core, EBUSY );
 }
@@ -630,6 +633,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:02  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: POSIXPlatform.cpp,v 1.1.1.1 2000/07/19 16:51:29 philogelos Exp $ */
+/* $Id: POSIXPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.1.1.1 2000/07/19 16:51:29 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -181,7 +181,7 @@ void POSIXPlatform::startSignalWaiterThread()
 POSIXPlatform::~POSIXPlatform()
 {}
 
-int POSIXPlatform::fork()
+int POSIXPlatform::fork() THROWS( Errno * )
 {
   int result;
 
@@ -197,7 +197,7 @@ int POSIXPlatform::fork()
 	}
 }
 
-void POSIXPlatform::execl( const char *path, ... )
+void POSIXPlatform::execl( const char *path, ... ) THROWS( Errno * )
 {
   preC_( path != NULL );
 
@@ -209,7 +209,8 @@ void POSIXPlatform::execl( const char *path, ... )
 }
 
 void POSIXPlatform::vexecl( const char *path, 
-							va_list nullTerminatedArgvs, Index aLength )
+							va_list nullTerminatedArgvs, Index aLength ) 
+  THROWS( Errno * )
 {
   preC_( path != NULL );
   preC_( aLength > 0 );
@@ -221,7 +222,7 @@ void POSIXPlatform::vexecl( const char *path,
   this -> execv( path, argv );
 }
 
-void POSIXPlatform::execv( const char *path, char *const argv[] )
+void POSIXPlatform::execv( const char *path, char *const argv[] ) THROWS( Errno * )
 {
   preC_( path != NULL );
 
@@ -232,7 +233,7 @@ void POSIXPlatform::execv( const char *path, char *const argv[] )
 	}
 }
 
-void POSIXPlatform::execle( const char *path, ... )
+void POSIXPlatform::execle( const char *path, ... ) THROWS( Errno * )
 {
   preC_( path != NULL );
 
@@ -250,7 +251,7 @@ void POSIXPlatform::execle( const char *path, ... )
 
 void POSIXPlatform::vexecle( const char *path, 
 							 va_list nullTerminatedArgvsAndEnvp,
-							 Index aLength )
+							 Index aLength ) THROWS( Errno * )
 {
   preC_( path != NULL );
   preC_( aLength > 0 );
@@ -271,7 +272,7 @@ void POSIXPlatform::vexecle( const char *path,
 
 void POSIXPlatform::execve( const char *path, 
 							char *const argv[], 
-							char *const envp[] )
+							char *const envp[] ) THROWS( Errno * )
 {
   preC_( path != NULL );
 
@@ -282,7 +283,7 @@ void POSIXPlatform::execve( const char *path,
 	}
 }
 
-void POSIXPlatform::execlp( const char *file, ... )
+void POSIXPlatform::execlp( const char *file, ... ) THROWS( Errno * )
 {
   preC_( file != NULL );
 
@@ -295,6 +296,7 @@ void POSIXPlatform::execlp( const char *file, ... )
 
 void POSIXPlatform::vexeclp( const char *file, 
 							 va_list nullTerminatedArgvs, Index aLength )
+  THROWS( Errno * )
 {
   preC_( file != NULL );
   preC_( aLength > 0 );
@@ -306,7 +308,8 @@ void POSIXPlatform::vexeclp( const char *file,
   this -> execvp( file, argv );
 }
 
-void POSIXPlatform::execvp( const char *file, char *const argv[] )
+void POSIXPlatform::execvp( const char *file, char *const argv[] ) 
+  THROWS( Errno * )
 {
   preC_( file != NULL );
 
@@ -317,7 +320,7 @@ void POSIXPlatform::execvp( const char *file, char *const argv[] )
 	}
 }
 
-void POSIXPlatform::system( const char *aCmd )
+void POSIXPlatform::system( const char *aCmd ) THROWS( Errno * )
 {
   preC_( aCmd != NULL );
   if( ::system( aCmd ) != 0 )
@@ -326,7 +329,7 @@ void POSIXPlatform::system( const char *aCmd )
 	}
 }
 
-pid_t POSIXPlatform::getPid()
+pid_t POSIXPlatform::getPid() THROWS( Errno * )
 {
   pid_t result;
 
@@ -342,7 +345,7 @@ pid_t POSIXPlatform::getPid()
 	}
 }
 
-void POSIXPlatform::kill( pid_t aPid, int aSig )
+void POSIXPlatform::kill( pid_t aPid, int aSig ) THROWS( Errno * )
 {
   ++callsNum;
   if( ::kill( aPid, aSig ) == -1 )
@@ -359,7 +362,7 @@ void POSIXPlatform::kill( pid_t aPid, int aSig )
 
 void *POSIXPlatform::mmap( void *anAddr, size_t aLen, 
 						   int aProt, int aFlags,
-						   int aFildes, off_t anOff )
+						   int aFildes, off_t anOff ) THROWS( Errno * )
 {
   void *result;
 
@@ -376,7 +379,7 @@ void *POSIXPlatform::mmap( void *anAddr, size_t aLen,
 	}
 }
 
-void POSIXPlatform::munmap( void *addr, size_t len )
+void POSIXPlatform::munmap( void *addr, size_t len ) THROWS( Errno * )
 {
   ++callsNum;
   if( ::munmap( ( MMAP_ADDRESS_TYPE ) addr, len ) == -1 )
@@ -765,6 +768,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:22  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:51:29  philogelos
  * stored sources into sourceforge.net CVS
  *

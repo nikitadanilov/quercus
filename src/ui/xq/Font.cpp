@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Font.cpp,v 1.1.1.1 2000/07/19 16:54:26 philogelos Exp $ */
+/* $Id: Font.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Font.cpp,v 1.1.1.1 2000/07/19 16:54:26 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Font.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -90,7 +90,8 @@ Xq::Font *Xq::Font::createFixed( Display *aDisplay )
   return create( aDisplay, "fixed" );
 }
 
-Xq::Font *Xq::Font::create( Display *aDisplay, String aName )
+Xq::Font *Xq::Font::create( Display *aDisplay, String aName ) 
+  THROWS( XException * )
 {
   preC_( aDisplay != ( Xq::Display * ) NULL );
 
@@ -119,6 +120,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Font.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:54:26  philogelos
  * stored sources into sourceforge.net CVS
  *

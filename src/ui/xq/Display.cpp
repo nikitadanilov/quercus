@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Display.cpp,v 1.1.1.1 2000/07/19 16:54:13 philogelos Exp $ */
+/* $Id: Display.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Display.cpp,v 1.1.1.1 2000/07/19 16:54:13 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Display.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -143,12 +143,12 @@ Visual *Xq::Display::defaultVisual( int aScreen ) const
   return DefaultVisual( getData(), aScreen );
 }
 
-Xq::Display *Xq::Display::open()
+Xq::Display *Xq::Display::open() THROWS( XException * )
 {
   return open( NULL );
 }
 
-Xq::Display *Xq::Display::open( const char *aName )
+Xq::Display *Xq::Display::open( const char *aName ) THROWS( XException * )
 {
   struct _XDisplay *data;
 
@@ -244,6 +244,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Display.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:54:13  philogelos
  * stored sources into sourceforge.net CVS
  *

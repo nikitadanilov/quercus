@@ -30,9 +30,9 @@
 
 
 
-/* $Id: WindowEventSource.cpp,v 1.1.1.1 2000/07/19 16:54:37 philogelos Exp $ */
+/* $Id: WindowEventSource.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: WindowEventSource.cpp,v 1.1.1.1 2000/07/19 16:54:37 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: WindowEventSource.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -60,7 +60,7 @@ Xq::Window *Xq::WindowEventSource::getWindow() const
   return ( Xq::Window * ) window;
 }
 
-Aq::AqEvent *Xq::WindowEventSource::getNextTypedElement()
+Aq::AqEvent *Xq::WindowEventSource::getNextTypedElement() THROWS( Errno * )
 {
   /* busy loop! (somewhat relieved by ::select() ) XXX */
   while( true )
@@ -145,6 +145,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: WindowEventSource.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:23  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:54:37  philogelos
  * stored sources into sourceforge.net CVS
  *

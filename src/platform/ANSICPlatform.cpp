@@ -30,9 +30,9 @@
 
 
 
-/* $Id: ANSICPlatform.cpp,v 1.1.1.1 2000/07/19 16:51:16 philogelos Exp $ */
+/* $Id: ANSICPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.1.1.1 2000/07/19 16:51:16 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -481,7 +481,7 @@ void *ANSICPlatform::memset( void *s, int c, Index n )
   return ::memset( s, c, n );
 }
 
-void *ANSICPlatform::allocateMemory( Index aSize )
+void *ANSICPlatform::allocateMemory( Index aSize ) THROWS( OutOfMemory * )
 {
   char *arena;
 
@@ -573,7 +573,7 @@ Index  ANSICPlatform::stdargLengthPredMeth( va_list aList,
 											boolean ( Top::*aPred )( void* ) )
 {
   preC_( anObject != NULL );
-  preC_( aPred != NULL );
+  preC_( aPred != ( boolean ( Top::* )( void* ) ) NULL );
   Index i;
 
   for( i = 1 ; ( anObject ->* aPred )( va_arg( aList, void * ) ) ; ++i )
@@ -609,6 +609,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ANSICPlatform.cpp,v $
+ * Revision 1.2  2000/08/30 12:33:22  philogelos
+ * update THROWS to correspond to the actual throws
+ *
  * Revision 1.1.1.1  2000/07/19 16:51:16  philogelos
  * stored sources into sourceforge.net CVS
  *
