@@ -33,7 +33,7 @@
 #ifndef __DEBUG_HPP__
 #define __DEBUG_HPP__
 
-/* $Id: Debug.hpp,v 1.3 2000/10/20 20:29:19 philogelos Exp $ */
+/* $Id: Debug.hpp,v 1.4 2001/06/23 12:15:32 philogelos Exp $ */
 
 #include "defines.h"
 #include "Object.hpp"
@@ -186,7 +186,7 @@ protected:  INLINE Debug();
 protected:  virtual ~Debug();
 
 protected: Mutex *getMutex() const;
-protected: Mutex *mutex;
+protected: mutable Mutex *mutex;
 
 protected:  static Debug *logger;
 
@@ -201,6 +201,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.hpp,v $
+ * Revision 1.4  2001/06/23 12:15:32  philogelos
+ * ::mutex member marked mutable
+ *
  * Revision 1.3  2000/10/20 20:29:19  philogelos
  * Simplifications through using of NopThreads
  *
