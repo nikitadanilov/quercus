@@ -31,7 +31,7 @@
 
 
 
-/* $Id: new-operator.ipp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: new-operator.ipp,v 1.3 2001/06/23 12:29:43 philogelos Exp $ */
 
 #if !defined(__NEW_OPERATOR_IPP__)
 #define __NEW_OPERATOR_IPP__
@@ -65,7 +65,6 @@ static const size_t doubleShift = 2 * shift;
 static  long *firstInAllocatedChain = ( long * ) NULL;
 static  long *lastInAllocatedChain = ( long * ) NULL;
 
-void dumpAllocatedByNew();
 /* USE_ALLOC_CHAIN */
 #endif
 
@@ -183,7 +182,7 @@ INLINE boolean checkForDelete( const void *aPointer )
 	}
   else
 	{
-	  long *arena = ( long * ) aPointer;
+	  long *arena = const_cast< long * >( ( const long * ) aPointer );
 	  if( arena[ -1 ] != magicStart )
 		{
 		  if( arena[ -1 ] == magicDeleted )
@@ -401,6 +400,10 @@ INLINE void operator delete( void *aPtr )
 
 /*
  * $Log: new-operator.ipp,v $
+ * Revision 1.3  2001/06/23 12:29:43  philogelos
+ *  . duplicate declaration of src/new-operator.ipp removed
+ *  . const_cast<> is used in stead of C-style cast
+ *
  * Revision 1.2  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *
