@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: ContainerAdapter.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
+/* $Id: ContainerAdapter.cpp,v 1.3 2001/06/23 12:31:24 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ContainerAdapter.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ContainerAdapter.cpp,v 1.3 2001/06/23 12:31:24 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -91,7 +91,7 @@ Index ContainerAdapter::getCardinality() const
 
 boolean ContainerAdapter::contains( const Top *anElement ) const
 {
-  return( EALG -> contains( getValueEnumeration(), anElement ) );
+  return( EALG -> contains( getValueEnumeration(), anElement ) != NULL );
 }
 
 Position *ContainerAdapter::find( const Top *anObject ) const
@@ -312,6 +312,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ContainerAdapter.cpp,v $
+ * Revision 1.3  2001/06/23 12:31:24  philogelos
+ * updated to conform to changed return type of
+ * EnumerationAlgorithms::contains()
+ *
  * Revision 1.2  2001/04/16 13:37:13  philogelos
  * Added ::getStringResult() to PrettyPrintIterable.
  * Clients updated to take advantage of this method.

@@ -31,9 +31,9 @@
 
 
 
-/* $Id: DumbDictionary.cpp,v 1.2 2001/04/16 10:40:41 philogelos Exp $ */
+/* $Id: DumbDictionary.cpp,v 1.3 2001/06/23 12:31:24 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: DumbDictionary.cpp,v 1.2 2001/04/16 10:40:41 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DumbDictionary.cpp,v 1.3 2001/06/23 12:31:24 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -77,8 +77,7 @@ Enumeration *DumbDictionary::getValues() const
 
 boolean DumbDictionary::isSuchKey( const DictKey *aKey ) const
 {
-  return( EAlg::get() -> contains
-		  ( getKeys(), aKey ) );
+  return( EAlg::get() -> contains( getKeys(), aKey ) != NULL );
 }
 
 Enumeration *DumbDictionary::getKeyEnumeration() const
@@ -446,6 +445,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DumbDictionary.cpp,v $
+ * Revision 1.3  2001/06/23 12:31:24  philogelos
+ * updated to conform to changed return type of
+ * EnumerationAlgorithms::contains()
+ *
  * Revision 1.2  2001/04/16 10:40:41  philogelos
  * Memory leak on key/value removeal corrected
  *
