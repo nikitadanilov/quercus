@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.3 2000/09/21 18:24:03 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -55,7 +55,8 @@ static char debugFileId[] = __FILE__;
 #include "containers/dicts/DumbDictionary.hpp"
 #include "algorithms/enumerations/EnumerationAlgorithms.hpp"
 #include "algorithms/parse/ParseStream.hpp"
-#include "algorithms/parse/Parser.hpp"
+#include "algorithms/parse/Lexer.hpp"
+#include "algorithms/parse/GrammarNode.hpp"
 #include "algorithms/parse/WordParser.hpp"
 #include "observe/ObservableAdapter.hpp"
 #include "platform/POSIXPlatform.hpp"
@@ -85,6 +86,8 @@ static char debugFileId[] = __FILE__;
 #include "ui/wq/Wq.hpp"
 #include "ui/cq/Cq.hpp"
 
+#include "store/DefField.hpp"
+
 #include <stdio.h>
 
 BEGIN_QR_NAMESPACE
@@ -100,14 +103,20 @@ int QRMain( List * )
 	  //          test_( false );
 
 	  {
+		BaseDefField< Top, Top >::testerBaseDefField( 0 );
+	  }
+/* untested tests */
+#if 0
+	  {  
+		GrammarNode::testerGrammarNode( 0 );
+	  }
+	  {
 		DefTree *quercus;
 
 		quercus = new DefTree();
 		OGuard _quercus( quercus, quercus );
 		quercus -> tester( 0 );
 	  }
-/* untested tests */
-#if 0
 	  {
 		CRef< Proxy< Top > > proxy;
 
@@ -115,9 +124,9 @@ int QRMain( List * )
 		proxy -> tester( 0 );
 	  }
 	  {  
-		CRef< Parser > parser;
+		CRef< Lexer > parser;
 
-		parser = new Parser( new ParseStream( new StringEnumeration( "" ) ) );
+		parser = new Lexer( new ParseStream( new StringEnumeration( "" ) ) );
 		parser -> tester( 0 );
 	  }
 	  {  
