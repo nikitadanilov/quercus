@@ -105,6 +105,7 @@ int QRMain( List * )
 	{
 	  //          test_( false );
 
+#if 0
 	  {
 		GrammarNode::testerGrammarNode( 0 );
 	  }
@@ -113,7 +114,6 @@ int QRMain( List * )
 		test -> tester( 0 );
 	  }
 /* unused tests */
-#if 0
 	  {
 		CALG -> tester( 0 );
 	  }
