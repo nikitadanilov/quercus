@@ -33,9 +33,11 @@
 #ifndef __XQ_HPP__
 #define __XQ_HPP__
 
-/* $Id: Xq.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: Xq.hpp,v 1.3 2001/03/06 17:39:26 philogelos Exp $ */
 
 #define USE_XQ
+
+#include "defines.h"
 
 #if defined( WANT_USE_XQ )
 #define USE_XQ
@@ -50,7 +52,6 @@
 #include "String.hpp"
 #include "Object.hpp"
 #include "Top.hpp"
-#include "defines.h"
 #include "platform/threads/Runnable.hpp"
 #include "platform/threads/Thread.hpp"
 #include "exceptions/Errno.hpp"
@@ -230,6 +231,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Xq.hpp,v $
+ * Revision 1.3  2001/03/06 17:39:26  philogelos
+ * #includes rearranged
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
