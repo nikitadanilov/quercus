@@ -33,7 +33,7 @@
 #ifndef __STRINGBUFFER_HPP__
 #define __STRINGBUFFER_HPP__
 
-/* $Id: StringBuffer.hpp,v 1.1.1.1 2000/07/19 16:57:28 philogelos Exp $ */
+/* $Id: StringBuffer.hpp,v 1.2 2000/09/21 18:00:44 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "defines.h"
@@ -52,7 +52,8 @@ class StringBuffer : virtual public Object
 
   /**
    */
-public: StringBuffer( Index aLength, Index aDelta );
+public: StringBuffer( Index aLength = defaultLength, 
+					  Index aDelta = defaultDelta );
 
 public: virtual ~StringBuffer();
 
@@ -97,6 +98,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: StringBuffer.hpp,v $
+ * Revision 1.2  2000/09/21 18:00:44  philogelos
+ * default constructor
+ *
  * Revision 1.1.1.1  2000/07/19 16:57:28  philogelos
  * stored sources into sourceforge.net CVS
  *
