@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Relation.cpp,v 1.1 2001/04/13 19:29:45 philogelos Exp $ */
+/* $Id: Relation.cpp,v 1.2 2001/06/23 12:18:52 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Relation.cpp,v 1.1 2001/04/13 19:29:45 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Relation.cpp,v 1.2 2001/06/23 12:18:52 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -51,6 +51,21 @@ boolean Relation::areElementsIn( const Container *anObjects ) const
   return areIn( anObjects -> getValueEnumeration() );
 }
 
+Relation *Relation::getTruthValue( boolean aValue )
+{
+  return new TruthValueRel( aValue );
+};
+
+TruthValueRel::TruthValueRel( boolean aTruthValue )
+{
+  truthValue = aTruthValue;
+}
+
+boolean TruthValueRel::areIn( Enumeration * ) const
+{
+  return truthValue;
+}
+
 END_QR_NAMESPACE
 
 #if defined( _INLINE )
@@ -60,6 +75,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Relation.cpp,v $
+ * Revision 1.2  2001/06/23 12:18:52  philogelos
+ * ::getTruthValue() and class TruthValueRel added
+ *
  * Revision 1.1  2001/04/13 19:29:45  philogelos
  * Relations added
  *

@@ -33,8 +33,9 @@
 #ifndef __RELATION_HPP__
 #define __RELATION_HPP__
 
-/* $Id: Relation.hpp,v 1.1 2001/04/13 19:29:45 philogelos Exp $ */
+/* $Id: Relation.hpp,v 1.2 2001/06/23 12:18:52 philogelos Exp $ */
 
+#include "Object.hpp"
 #include "Top.hpp"
 #include "defines.h"
 
@@ -58,12 +59,25 @@ interface Relation : public virtual Top
   /** Returns true iff all elements of given enumeration are 
 	  in this relation (to each other). */
  public: virtual boolean areIn( Enumeration *anElements ) const = 0;
+
+ public: static Relation *getTruthValue( boolean aValue );
+};
+
+class TruthValueRel : public virtual Relation, public virtual Object
+{
+public: TruthValueRel( boolean aTruthValue );
+public: virtual boolean areIn( Enumeration *anElements ) const;
+
+protected: boolean truthValue;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: Relation.hpp,v $
+ * Revision 1.2  2001/06/23 12:18:52  philogelos
+ * ::getTruthValue() and class TruthValueRel added
+ *
  * Revision 1.1  2001/04/13 19:29:45  philogelos
  * Relations added
  *
