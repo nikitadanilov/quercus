@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: LinkManager.cpp,v 1.1.1.1 2000/07/19 16:41:06 philogelos Exp $ */
+/* $Id: LinkManager.cpp,v 1.2 2001/03/06 17:41:53 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: LinkManager.cpp,v 1.1.1.1 2000/07/19 16:41:06 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: LinkManager.cpp,v 1.2 2001/03/06 17:41:53 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -171,7 +171,7 @@ String  LinkManager::getClassName() const
   return "LinkManager";
 }
 
-LinkManager *LinkManager::instance = ( LinkManager * ) NIL;
+LinkManager *LinkManager::instance = NIL;
 
 END_QR_NAMESPACE
 
@@ -186,6 +186,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: LinkManager.cpp,v $
+ * Revision 1.2  2001/03/06 17:41:53  philogelos
+ * casts before NULL removed
+ *
  * Revision 1.1.1.1  2000/07/19 16:41:06  philogelos
  * stored sources into sourceforge.net CVS
  *
