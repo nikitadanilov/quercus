@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Stack.cpp,v 1.1.1.1 2000/07/19 16:45:50 philogelos Exp $ */
+/* $Id: Stack.cpp,v 1.2 2001/06/09 14:24:00 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Stack.cpp,v 1.1.1.1 2000/07/19 16:45:50 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Stack.cpp,v 1.2 2001/06/09 14:24:00 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -152,7 +152,7 @@ Top *Stack::top() const THROWS( EmptyStack * )
 
 PositionFactory *Stack::getDefaultPositionFactory() const
 {
-  return ( PositionFactory * ) NIL;
+  return NIL;
 }
 
 
@@ -316,6 +316,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Stack.cpp,v $
+ * Revision 1.2  2001/06/09 14:24:00  philogelos
+ * remove unnecessary cast of NIL
+ *
  * Revision 1.1.1.1  2000/07/19 16:45:50  philogelos
  * stored sources into sourceforge.net CVS
  *
