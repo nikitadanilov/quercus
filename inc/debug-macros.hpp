@@ -33,7 +33,7 @@
 #ifndef __DEBUGMACROS_HPP__
 #define __DEBUGMACROS_HPP__
 
-/* $Id: debug-macros.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: debug-macros.hpp,v 1.3 2001/06/23 12:20:16 philogelos Exp $ */
 
 /** Defined if compiling in debug mode 
 	(with pre-post-condition checking etc. */
@@ -188,7 +188,11 @@
 #define	sure_( EX ) sure( EX, Debug::assertionFailedMessage )
 #define impossible_ impossible( Debug::impossibleMessage )
 #define test_( EX ) test( EX, Debug::conditionFailedMessage )
+/** Stanard macro to check precondition of method or function.
+	Will Debug::precondition() if given condition is false. */
 #define preC_( EX ) preC( EX, Debug::preConditionFailedMessage )
+/** Stanard macro to check postcondition of method or function.
+	Will Debug::postcondition() if given condition is false. */
 #define postC_( EX ) postC( EX, Debug::postConditionFailedMessage )
 
 #define	sureF_( EX ) sureF( EX, Debug::assertionFailedMessage )
