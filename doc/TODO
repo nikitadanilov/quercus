@@ -40,4 +40,5 @@ may be string operations?
 * cron-driven night builds (done.)
 * auto_ptr template to initialise all instance fields. (done.)
 * clear parser error exceptions.
+* there is race in AeternalLifeController and Object::addRef().
 
