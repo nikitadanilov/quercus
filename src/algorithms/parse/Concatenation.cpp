@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Concatenation.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: Concatenation.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Concatenation.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Concatenation.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -96,7 +96,7 @@ String  Concatenation::getString() const
 	( "", " ", "", "...", 1000, &Top::toString );
 
   CRef< Iterator >( terms -> getValueIterator() ) -> iterate( *formatted );
-  result.add( String( *( String * )( formatted -> getResult() ) ) );
+  result.add( formatted -> getStringResult() );
   return result.asString();
 }
 
@@ -114,6 +114,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Concatenation.cpp,v $
+ * Revision 1.2  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Alternative.cpp,v 1.2 2000/10/12 21:32:32 philogelos Exp $ */
+/* $Id: Alternative.cpp,v 1.3 2001/04/16 13:37:13 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.2 2000/10/12 21:32:32 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.3 2001/04/16 13:37:13 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -120,7 +120,7 @@ String  Alternative::getString() const
 	  &Top::toString );
 
   CRef< Iterator >( branches -> getValueIterator() ) -> iterate( *formatted );
-  result.add( String( *( String * )( formatted -> getResult() ) ) );
+  result.add( formatted -> getStringResult() );
   return result.asString();
 }
 
@@ -157,6 +157,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Alternative.cpp,v $
+ * Revision 1.3  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.2  2000/10/12 21:32:32  philogelos
  * Excessive logging removed
  *

@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: PrettyPrintIterable.cpp,v 1.1.1.1 2000/07/19 16:50:17 philogelos Exp $ */
+/* $Id: PrettyPrintIterable.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PrettyPrintIterable.cpp,v 1.1.1.1 2000/07/19 16:50:17 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PrettyPrintIterable.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -116,6 +116,11 @@ void PrettyPrintIterable::doneIterations()
   result = buffer.asString();
 }
 
+String PrettyPrintIterable::getStringResult()
+{
+  return result;
+}
+
 Object *PrettyPrintIterable::getResult()
 {
   return &result;
@@ -155,6 +160,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PrettyPrintIterable.cpp,v $
+ * Revision 1.2  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.1.1.1  2000/07/19 16:50:17  philogelos
  * stored sources into sourceforge.net CVS
  *

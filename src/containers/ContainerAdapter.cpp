@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: ContainerAdapter.cpp,v 1.1.1.1 2000/07/19 16:44:59 philogelos Exp $ */
+/* $Id: ContainerAdapter.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ContainerAdapter.cpp,v 1.1.1.1 2000/07/19 16:44:59 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ContainerAdapter.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -225,8 +225,7 @@ String  ContainerAdapter::print( String ( Top::* aMethod )() const ) const
   OGuard _it( it, this );
 
   it -> iterate( runner );
-  result = Object::getString() + 
-	String( *( String * )( runner -> getResult() ) );
+  result = Object::getString() + runner -> getStringResult();
   
   return result;
 }
@@ -313,6 +312,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ContainerAdapter.cpp,v $
+ * Revision 1.2  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:59  philogelos
  * stored sources into sourceforge.net CVS
  *

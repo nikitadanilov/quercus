@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Lexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: Lexer.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Lexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Lexer.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -180,7 +180,7 @@ boolean Lexer::tester( int ) const
   
   it -> iterate( runner );
   /* it -> iterate( new EchoIterable() ); */
-  result = String( *( String * )( runner -> getResult() ) );
+  result = runner -> getStringResult();
   
   DLOGSTRING( "Parsed: %s", result );
 
@@ -210,6 +210,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Lexer.cpp,v $
+ * Revision 1.2  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *

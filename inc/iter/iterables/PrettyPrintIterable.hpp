@@ -34,7 +34,7 @@
 #ifndef __PRETTYPRINTITERABLE_HPP__
 #define __PRETTYPRINTITERABLE_HPP__
 
-/* $Id: PrettyPrintIterable.hpp,v 1.1.1.1 2000/07/19 17:02:32 philogelos Exp $ */
+/* $Id: PrettyPrintIterable.hpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
 
 #include "iter/iterables/IterativeBuilder.hpp"
 #include "StringBuffer.hpp"
@@ -74,6 +74,7 @@ public: virtual void fireOn( Top *anElement );
 public: virtual boolean isMore();
 public: virtual void doneIterations();
 
+public: String getStringResult();
 public: Object *getResult();
 
 #if defined( TESTING )
@@ -97,6 +98,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PrettyPrintIterable.hpp,v $
+ * Revision 1.2  2001/04/16 13:37:13  philogelos
+ * Added ::getStringResult() to PrettyPrintIterable.
+ * Clients updated to take advantage of this method.
+ *
  * Revision 1.1.1.1  2000/07/19 17:02:32  philogelos
  * stored sources into sourceforge.net CVS
  *
