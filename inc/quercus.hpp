@@ -82,6 +82,9 @@
 #include <CRef.hpp>
 #include <Proxy.hpp>
 #include <Recognizer.hpp>
+#include <Relation.hpp>
+#include <BinaryRelation.hpp>
+#include <Equivalence.hpp>
 #include <Quercus.hpp>
 #include <exceptions/Throwable.hpp>
 #include <exceptions/Exception.hpp>
@@ -94,6 +97,7 @@
 #include <exceptions/DivideByZero.hpp>
 #include <exceptions/InvalidArgument.hpp>
 #include <exceptions/NoEntity.hpp>
+#include <exceptions/AlreadyExists.hpp>
 #include <exceptions/ShouldBeOverriden.hpp>
 #include <exceptions/RuntimeError.hpp>
 #include <iter/enumerations/Enumeration.hpp>
@@ -215,6 +219,12 @@
 #include <algorithms/string/StringAlgorithms.hpp>
 #include <algorithms/string/FromToBy.hpp>
 #include <algorithms/string/InOrderFilter.hpp>
+#include <algorithms/hashes/Hash.hpp>
+#include <algorithms/hashes/FNV1Hash.hpp>
+#include <algorithms/hashes/AddressHash.hpp>
+#include <algorithms/access/AccessMethod.hpp>
+#include <algorithms/access/Comparator.hpp>
+#include <algorithms/access/HashTable.hpp>
 #include <platform/platform-specific.h>
 #include <platform/Platform.hpp>
 #include <platform/MinimalPlatform.hpp>
