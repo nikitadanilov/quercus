@@ -34,7 +34,7 @@
 
 #define __TOP_HPP__
 
-/* $Id: Top.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
+/* $Id: Top.hpp,v 1.3 2001/06/23 12:19:35 philogelos Exp $ */
 
 #include "defines.h"
 
@@ -106,13 +106,13 @@ interface Top
  public:  virtual boolean invariant() const = 0;
 
  public:  virtual Protector *getProtector() const = 0;
- public:  virtual void setProtector( Protector *aProtector ) = 0;
+ public:  virtual void setProtector( Protector *aProtector ) const = 0;
 
  public:  virtual void lock( const Top *anOwner ) const = 0;
  public:  virtual void unlock( const Top *anOwner ) const = 0;
  public:  virtual void lockRead( const Top *anOwner ) const = 0;
 
- public:  virtual void setLifeTimeController( LifeTimeController *aController ) = 0;
+ public:  virtual void setLifeTimeController( LifeTimeController *aController ) const = 0;
  public:  virtual LifeTimeController *getLifeTimeController() const = 0;
 
  public:  virtual void addRef() const = 0;
@@ -148,6 +148,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Top.hpp,v $
+ * Revision 1.3  2001/06/23 12:19:35  philogelos
+ * ::setProtector() and ::setLifeTimeController() made const
+ *
  * Revision 1.2  2000/10/20 20:29:19  philogelos
  * Simplifications through using of NopThreads
  *
