@@ -30,9 +30,9 @@
 
 
 
-/* $Id: POSIXPlatform.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: POSIXPlatform.cpp,v 1.5 2001/03/06 17:44:14 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.5 2001/03/06 17:44:14 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -710,7 +710,9 @@ END_QR_NAMESPACE
 #include "LinkManager.hpp"
 #include "OGuard.hpp"
 
+#if defined( USE_NAMESPACE )
 using QR::Top;
+#endif
 
 int main( int argc, char *argv[], char *[] )
 {
@@ -799,6 +801,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.cpp,v $
+ * Revision 1.5  2001/03/06 17:44:14  philogelos
+ * correct namespace handling for main()
+ *
  * Revision 1.4  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *
