@@ -1,3 +1,11 @@
+2000-09-15  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (getCWD): interface to getcwd(2) added.
+
+2000-09-11  Philogelos  <Philogelos@yahoo.com>
+
+	* List.cpp (clearAll): correct bug with NULL items
+
 2000-05-25  Philogelos  <Philogelos@yahoo.com>
 
 	* IterableAdapter.hpp: typo in comment corrected

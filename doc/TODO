@@ -39,4 +39,5 @@ may be string operations?
 * split [CWAX]q into per-class files. (done.)
 * cron-driven night builds (done.)
 * auto_ptr template to initialise all instance fields. (done.)
+* clear parser error exceptions.
 

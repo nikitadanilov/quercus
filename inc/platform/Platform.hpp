@@ -33,7 +33,7 @@
 #ifndef __PLATFORM_HPP__
 #define __PLATFORM_HPP__
 
-/* $Id: Platform.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: Platform.hpp,v 1.2 2000/09/21 18:34:02 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
@@ -142,7 +142,7 @@ interface Platform : public virtual Top
 	Rudimentary interactive facility.
  */
  public: virtual Index askUser( const char *caption,
-							   const char *prompt, ... ) = 0;
+								const char *prompt, ... ) = 0;
  /**
 	Returns static string describing platform-dependent
 	error code.
@@ -296,6 +296,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Platform.hpp,v $
+ * Revision 1.2  2000/09/21 18:34:02  philogelos
+ * minor changes.
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *
