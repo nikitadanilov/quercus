@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Whitespace.cpp,v 1.1.1.1 2000/07/19 16:44:17 philogelos Exp $ */
+/* $Id: Whitespace.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Whitespace.cpp,v 1.1.1.1 2000/07/19 16:44:17 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Whitespace.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -52,41 +52,17 @@ Whitespace::Whitespace()
 Whitespace::~Whitespace()
 {}
 
-boolean Whitespace::canStartHere( TokenCradle *aCradle ) const
+Index Whitespace::accept( TokenCradle *aCradle ) const
 {
   preC_( aCradle != NULL );
 
-  for( Index i = 0 ; i < aCradle -> getAccepted() ; ++i )
-	{
-	  if( ! isWhitespace( aCradle -> getBuffer() -> getAt( i ) ) )
-		{
-		  return false;
-		}
-	}
-  return aCradle -> hasAt( aCradle -> getAccepted() ) && 
-	isWhitespace( aCradle -> getAt( aCradle -> getAccepted() ) );
-}
+  Index result;
 
-void Whitespace::grow( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  while( aCradle -> hasAt( aCradle -> getAccepted() ) && 
-		 isWhitespace( aCradle -> getAt( aCradle -> getAccepted() ) ) )
-	{
-	  aCradle -> accept( 1 );
-	}
-}
-
-Token *Whitespace::graduate( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  TokenAdapter *result;
-  
-  result = new TokenAdapter();
-  result -> setTag( new String( "whitespace" ) );
-  result -> setCore( aCradle -> getResult().clone() );
+  for( result = 0 ; 
+	   aCradle -> hasAt( result ) && 
+		 isWhitespace( aCradle -> getAt( result ) ) ; 
+	   ++result )
+	{}
   return result;
 }
 
@@ -111,6 +87,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Whitespace.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:17  philogelos
  * stored sources into sourceforge.net CVS
  *

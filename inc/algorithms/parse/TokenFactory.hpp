@@ -33,7 +33,7 @@
 #ifndef __TOKENFACTORY_HPP__
 #define __TOKENFACTORY_HPP__
 
-/* $Id: TokenFactory.hpp,v 1.1.1.1 2000/07/19 16:58:32 philogelos Exp $ */
+/* $Id: TokenFactory.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
@@ -51,13 +51,18 @@ class Token;
 interface TokenFactory : public virtual Top
 {
  public: virtual Index accept( TokenCradle *aCradle ) const = 0;
- public: virtual Token *graduate( TokenCradle *aCradle, Index aLength ) = 0;
+ public: virtual Token *graduate( TokenCradle *aCradle, Index aLength );
+
+ protected: virtual Token *getMatrix() const;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: TokenFactory.hpp,v $
+ * Revision 1.2  2000/08/26 13:26:57  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:32  philogelos
  * stored sources into sourceforge.net CVS
  *

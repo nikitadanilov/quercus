@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Constant.cpp,v 1.1.1.1 2000/07/19 16:44:34 philogelos Exp $ */
+/* $Id: Constant.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Constant.cpp,v 1.1.1.1 2000/07/19 16:44:34 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Constant.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -56,7 +56,7 @@ Constant::Constant( String aString, Top *aTokenCore )
 Constant::~Constant()
 {}
 
-boolean Constant::canStartHere( TokenCradle *aCradle ) const
+Index Constant::accept( TokenCradle *aCradle ) const
 {
   preC_( aCradle != NULL );
 
@@ -66,34 +66,23 @@ boolean Constant::canStartHere( TokenCradle *aCradle ) const
 		{
 		  if( aCradle -> getAt( i ) != string.getUNIChars()[ i ] )
 			{
-			  return false;
+			  return 0;
 			}
 		}
-	  return true;
+	  return string.length();
 	}
   else
 	{
-	  return false;
+	  return 0;
 	}
 }
 
-void Constant::grow( TokenCradle *aCradle )
+Token *Constant::getMatrix() const
 {
-  preC_( aCradle != NULL );
-  preC_( canStartHere( aCradle ) );
-
-  aCradle -> acceptTo( string.length() );
-}
-
-Token *Constant::graduate( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
   TokenAdapter *result;
   
   result = new TokenAdapter();
-  result -> setTag( string.clone() );
-  result -> setCore( *core );
+  result -> setTag( *core );
   return result;
 }
 
@@ -111,6 +100,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Constant.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:34  philogelos
  * stored sources into sourceforge.net CVS
  *

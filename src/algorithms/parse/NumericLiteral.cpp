@@ -30,9 +30,9 @@
 
 
 
-/* $Id: NumericLiteral.cpp,v 1.1.1.1 2000/07/19 16:44:27 philogelos Exp $ */
+/* $Id: NumericLiteral.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: NumericLiteral.cpp,v 1.1.1.1 2000/07/19 16:44:27 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: NumericLiteral.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -54,22 +54,7 @@ NumericLiteral::NumericLiteral()
 NumericLiteral::~NumericLiteral()
 {}
 
-boolean NumericLiteral::canStartHere( TokenCradle *aCradle ) const
-{
-  preC_( aCradle != NULL );
-
-  // DLOG( "NumericLiteral::canStartHere: accepted: %li", aCradle -> getAccepted() );
-  return( doInternal( aCradle ) > aCradle -> getAccepted() );
-}
-
-void NumericLiteral::grow( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  aCradle -> acceptTo( doInternal( aCradle ) );
-}
-
-Index NumericLiteral::doInternal( TokenCradle *aCradle ) const
+Index NumericLiteral::accept( TokenCradle *aCradle ) const
 {
   preC_( aCradle != NULL );
 
@@ -82,37 +67,24 @@ Index NumericLiteral::doInternal( TokenCradle *aCradle ) const
 	  unichar element;
 
 	  element = aCradle -> getAt( len );
-	  // DLOG( "NumericLiteral::doInternal: loop: %li, %c", len, ( char ) element );
-	  if( ( ( len != 1 ) || ( aCradle -> getAt( 0 ) != ( unichar ) '0' ) ) &&
-		  ! isDigitInBase( element, base ) )
+	  if( !isDigitInBase( element, base ) )
 		{
-		  // DLOG( "NumericLiteral::doInternal: break1" );
-		  break;
-		}
-	  else if( len == 1 )
-		{
-		  base = getBase( element );
-		  if( base < 0 )
+		  if( ( len != 1 ) ||
+			  ( aCradle -> getAt( 0 ) != ( unichar ) '0' ) )
 			{
-			  // DLOG( "NumericLiteral::doInternal: break2" );
 			  break;
+			}
+		  else
+			{
+			  base = getBase( element );
+			  if( base < 0 )
+				{
+				  break;
+				}
 			}
 		}
 	}
-  // DLOG( "NumericLiteral::doInternal: len: %li", len );
   return len;
-}
-
-Token *NumericLiteral::graduate( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  TokenAdapter *result;
-  
-  result = new TokenAdapter();
-  result -> setTag( new String( "number" ) );
-  result -> setCore( aCradle -> getResult().clone() );
-  return result;
 }
 
 boolean NumericLiteral::isDigitInBase( unichar aChar, Index aBase )
@@ -145,14 +117,7 @@ Index NumericLiteral::getBase( unichar aChar )
 	case 'b':
 	  return 2;
 	default:
-	  if( ! isDigitInBase( aChar, 10 ) )
-		{
-		  return -1;
-		}
-	  else
-		{
-		  return 10;
-		}
+	  return -1;
 	}
 }
 
@@ -170,6 +135,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: NumericLiteral.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:27  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __NUMERICLITERAL_HPP__
 #define __NUMERICLITERAL_HPP__
 
-/* $Id: NumericLiteral.hpp,v 1.1.1.1 2000/07/19 16:58:34 philogelos Exp $ */
+/* $Id: NumericLiteral.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
 
 #include "TokenFactory.hpp"
 #include "Object.hpp"
@@ -58,14 +58,10 @@ public: NumericLiteral();
    */
 public: virtual ~NumericLiteral();
 
-public: virtual boolean canStartHere( TokenCradle *aCradle ) const;
-public: virtual void grow( TokenCradle *aCradle );
-public: virtual Token *graduate( TokenCradle *aCradle );
+public: virtual Index accept( TokenCradle *aCradle ) const;
 
 public: static boolean isDigitInBase( unichar aChar, Index aBase );
 public: static Index getBase( unichar aChar );
-
-protected: virtual Index doInternal( TokenCradle *aCradle ) const;
 
 /**
 */
@@ -76,6 +72,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: NumericLiteral.hpp,v $
+ * Revision 1.2  2000/08/26 13:26:57  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:34  philogelos
  * stored sources into sourceforge.net CVS
  *

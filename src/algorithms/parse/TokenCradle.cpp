@@ -30,9 +30,9 @@
 
 
 
-/* $Id: TokenCradle.cpp,v 1.1.1.1 2000/07/19 16:44:14 philogelos Exp $ */
+/* $Id: TokenCradle.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: TokenCradle.cpp,v 1.1.1.1 2000/07/19 16:44:14 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: TokenCradle.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -56,7 +56,6 @@ TokenCradle::TokenCradle( ParseStream *aStream )
   buffer = new StringBuffer( StringBuffer::defaultLength,
 							 StringBuffer::defaultDelta );
   attributes = new DumbDictionary();
-  clear();
 }
 
 TokenCradle::~TokenCradle()
@@ -98,41 +97,6 @@ boolean TokenCradle::hasAt( Index anIndex )
   return true;
 }
 
-void TokenCradle::clear()
-{
-  String bufferCopy;
-
-  bufferCopy = buffer -> asString();
-  buffer = new StringBuffer( buffer -> getLength() - getAccepted(),
-							 StringBuffer::defaultDelta );
-  for( Index i = getAccepted() ; i < bufferCopy.length() ; ++i )
-	{
-	  buffer -> add( bufferCopy.getUNIChars()[ i ] );
-	}
-  accepted = 0;
-}
-
-void TokenCradle::accept( Index aNumOfChars )
-{
-  preC_( aNumOfChars >= 0 );
-
-  accepted += aNumOfChars;
-  hasAt( accepted - 1 );
-}
-
-void TokenCradle::acceptTo( Index anIndex )
-{
-  preC_( anIndex > 0 );
-
-  accepted = anIndex;
-  hasAt( accepted - 1 );
-}
-
-Index TokenCradle::getAccepted() const
-{
-  return accepted;
-}
-
 void TokenCradle::markStart()
 {
   start = stream -> getCurrentMark();
@@ -158,16 +122,30 @@ StringBuffer *TokenCradle::getBuffer() const
   return *buffer;
 }
 
-String TokenCradle::getResult()
+String TokenCradle::pop( Index aLength )
 {
-  StringBuffer result( StringBuffer::defaultLength,
-					   StringBuffer::defaultDelta );
+  preC_( aLength >= 0 );
 
-  for( Index i = 0 ; i < accepted ; ++i )
+  if( aLength > 0 )
 	{
-	  result.add( getAt( i ) );
+	  String content;
+
+	  if( !hasAt( aLength - 1 ) )
+		{
+		  throw new InternalError
+			( String( "pop( " ) +String( aLength ) + 
+			  " ) beyond the end of the stream", null );
+		}
+	  content = getBuffer() -> asString();
+	  buffer = new StringBuffer( content.length() - aLength,
+								 StringBuffer::defaultDelta );
+	  buffer -> add( content.clip( aLength, content.length() ) );
+	  return content.clip( 0, aLength );
 	}
-  return result.asString();
+  else
+	{
+	  return "";
+	}
 }
 
 Top *TokenCradle::clone() const
@@ -201,6 +179,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TokenCradle.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:14  philogelos
  * stored sources into sourceforge.net CVS
  *

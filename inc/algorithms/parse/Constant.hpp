@@ -33,7 +33,7 @@
 #ifndef __CONSTRANT_HPP__
 #define __CONSTRANT_HPP__
 
-/* $Id: Constant.hpp,v 1.1.1.1 2000/07/19 16:58:45 philogelos Exp $ */
+/* $Id: Constant.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
 
 #include "TokenFactory.hpp"
 #include "Object.hpp"
@@ -47,7 +47,7 @@ BEGIN_QR_NAMESPACE
    @created Sun Apr 30 14:17:29 2000
 */
 class Constant : public virtual TokenFactory,
-				  public virtual Object
+				 public virtual Object
 {
 
   /**
@@ -58,10 +58,9 @@ public: Constant( String aString, Top *aTokenCore );
    */
 public: virtual ~Constant();
 
-public: virtual boolean canStartHere( TokenCradle *aCradle ) const;
-public: virtual void grow( TokenCradle *aCradle );
-public: virtual Token *graduate( TokenCradle *aCradle );
+public: virtual Index accept( TokenCradle *aCradle ) const;
 
+protected: virtual Token *getMatrix() const;
   /**
    */
 public:  virtual String  getClassName() const;
@@ -74,6 +73,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Constant.hpp,v $
+ * Revision 1.2  2000/08/26 13:26:57  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:45  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Identifier.cpp,v 1.1.1.1 2000/07/19 16:44:32 philogelos Exp $ */
+/* $Id: Identifier.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Identifier.cpp,v 1.1.1.1 2000/07/19 16:44:32 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Identifier.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -52,33 +52,8 @@ Identifier::Identifier()
 Identifier::~Identifier()
 {}
 
-boolean Identifier::canStartHere( TokenCradle *aCradle ) const
-{
-  preC_( aCradle != NULL );
 
-  return( doInternal( aCradle ) > aCradle -> getAccepted() );
-}
-
-void Identifier::grow( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  aCradle -> acceptTo( doInternal( aCradle ) );
-}
-
-Token *Identifier::graduate( TokenCradle *aCradle )
-{
-  preC_( aCradle != NULL );
-
-  TokenAdapter *result;
-  
-  result = new TokenAdapter();
-  result -> setTag( new String( "identifier" ) );
-  result -> setCore( aCradle -> getResult().clone() );
-  return result;
-}
-
-Index Identifier::doInternal( TokenCradle *aCradle ) const
+Index Identifier::accept( TokenCradle *aCradle ) const
 {
   preC_( aCradle != NULL );
 
@@ -89,8 +64,9 @@ Index Identifier::doInternal( TokenCradle *aCradle ) const
 	}
   else
 	{
-	  for( Index i = 1 ; 
-		   aCradle -> hasAt( i ) && 
+	  Index i;
+
+	  for( i = 1 ; aCradle -> hasAt( i ) && 
 			 canContinueIdentifier( aCradle -> getAt( i ) ) ; ++i )
 		{}
 	  return i;
@@ -134,6 +110,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Identifier.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:32  philogelos
  * stored sources into sourceforge.net CVS
  *

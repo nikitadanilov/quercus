@@ -33,7 +33,7 @@
 #ifndef __IDENTIFIER_HPP__
 #define __IDENTIFIER_HPP__
 
-/* $Id: Identifier.hpp,v 1.1.1.1 2000/07/19 16:58:35 philogelos Exp $ */
+/* $Id: Identifier.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
 
 #include "TokenFactory.hpp"
 #include "Object.hpp"
@@ -58,16 +58,12 @@ public: Identifier();
 */
 public: virtual ~Identifier();
 
-public: virtual boolean canStartHere( TokenCradle *aCradle ) const;
-public: virtual void grow( TokenCradle *aCradle );
-public: virtual Token *graduate( TokenCradle *aCradle );
+public: virtual Index accept( TokenCradle *aCradle ) const;
 
 public: static boolean canStartIdentifier( const unichar aChar );
 public: static boolean canContinueIdentifier( const unichar aChar );
 public: static boolean isLetter( const unichar aChar );
 public: static boolean isDigit( const unichar aChar );
-
-protected: Index doInternal( TokenCradle *aCradle ) const;
 
   /**
    */
@@ -81,6 +77,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Identifier.hpp,v $
+ * Revision 1.2  2000/08/26 13:26:57  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:35  philogelos
  * stored sources into sourceforge.net CVS
  *

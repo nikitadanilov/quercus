@@ -33,7 +33,7 @@
 #ifndef __TOKENCRADLE_HPP__
 #define __TOKENCRADLE_HPP__
 
-/* $Id: TokenCradle.hpp,v 1.1.1.1 2000/07/19 16:58:35 philogelos Exp $ */
+/* $Id: TokenCradle.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "defines.h"
@@ -68,15 +68,10 @@ public: virtual boolean hasAt( Index anIndex );
 public: virtual ParseStream *getStream() const;
 public: virtual StringBuffer *getBuffer() const;
 
-public: virtual void clear();
-public: virtual void accept( Index aNumOfChars );
-public: virtual void acceptTo( Index anIndex );
-public: virtual Index getAccepted() const;
-
 public: virtual void markStart();
 public: virtual void markEnd();
 
-public: virtual String getResult();
+public: virtual String pop( Index aLength );
 
 public: virtual Dictionary *getAttributes() const;
   /**
@@ -104,6 +99,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TokenCradle.hpp,v $
+ * Revision 1.2  2000/08/26 13:26:57  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:35  philogelos
  * stored sources into sourceforge.net CVS
  *

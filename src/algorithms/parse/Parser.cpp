@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Parser.cpp,v 1.1.1.1 2000/07/19 16:44:18 philogelos Exp $ */
+/* $Id: Parser.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Parser.cpp,v 1.1.1.1 2000/07/19 16:44:18 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Parser.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -73,7 +73,6 @@ Token *Parser::getNextToken()
 
   school = NULL;
   acceptedLength = 0;
-  cradle -> clear();
   startPosition = cradle -> getStream() -> getCurrentMark();
   /* maximum-munch parse */
   for( factory -> toFirst() ; ! factory -> atEnd() ; factory -> next() )
@@ -96,7 +95,6 @@ Token *Parser::getNextToken()
   if( ( *school != NULL ) && ( acceptedLength > 0 ) )
 	{
 	  cradle -> markEnd();
-	  // DLOGOBJECT( "Graduating from school: %s", *school );
 	  return school -> graduate( *cradle, acceptedLength );
 	}
   else
@@ -113,9 +111,7 @@ Token *Parser::getNextTypedElement()
 
 boolean Parser::hasMoreElements()
 {
-  return 
-	( ( !cradle -> getStream() -> isEOF() ) ||
-	  ( cradle -> getAccepted() != cradle -> getBuffer() -> getLength() ) );
+  return( cradle -> hasAt( 0 ) );
 }
 
 String  Parser::getClassName() const
@@ -147,7 +143,7 @@ boolean Parser::tester( int ) const
 
   parser = new Parser
 	( new ParseStream( new StringEnumeration
-					   ( "s1 keywords (.,) 0 10 20 0xa 0o7" ) ) );
+					   ( "s1 keyword (.,) 0 10 20 0xa 0o7" ) ) );
 
   parser -> add( new Constant( "keyword", new String( "keyword_KEYWORD" ) ) );
   parser -> add( new Whitespace() );
@@ -196,6 +192,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Parser.cpp,v $
+ * Revision 1.2  2000/08/26 13:26:55  philogelos
+ * New simple parser framework done. Compiles and passes Parser::tester()
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:18  philogelos
  * stored sources into sourceforge.net CVS
  *
