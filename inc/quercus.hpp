@@ -229,6 +229,7 @@
 #include <platform/threads/ThreadsSystem.hpp>
 #include <platform/threads/PThread.hpp>
 #include <platform/threads/Win32Thread.hpp>
+#include <platform/threads/NopThread.hpp>
 #include <platform/threads/Mutex.hpp>
 #include <platform/threads/Semaphore.hpp>
 #include <platform/threads/RWLock.hpp>
@@ -287,3 +288,4 @@
 #include <store/FieldWriter.hpp>
 #include <store/DefField.hpp>
 #endif
+
