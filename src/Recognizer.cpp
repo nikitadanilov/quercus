@@ -30,13 +30,13 @@
 
 
 
-/* $Id: Recognizer.cpp,v 1.1 2000/09/21 18:20:31 philogelos Exp $ */
+/* $Id: Recognizer.cpp,v 1.2 2000/10/12 21:31:19 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Recognizer.cpp,v 1.1 2000/09/21 18:20:31 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Recognizer.cpp,v 1.2 2000/10/12 21:31:19 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
-#include "Recongnizer.hpp"
+#include "Recognizer.hpp"
 #include "Debug.hpp"
 
 BEGIN_QR_NAMESPACE
@@ -49,6 +49,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Recognizer.cpp,v $
+ * Revision 1.2  2000/10/12 21:31:19  philogelos
+ * Typo in include corrected
+ *
  * Revision 1.1  2000/09/21 18:20:31  philogelos
  * Interface used (currently only) by Lexer
  *

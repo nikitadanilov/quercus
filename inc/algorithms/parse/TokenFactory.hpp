@@ -33,11 +33,11 @@
 #ifndef __TOKENFACTORY_HPP__
 #define __TOKENFACTORY_HPP__
 
-/* $Id: TokenFactory.hpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: TokenFactory.hpp,v 1.4 2000/10/12 21:28:53 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
-#include "Recongnizer.hpp"
+#include "Recognizer.hpp"
 
 BEGIN_QR_NAMESPACE
 
@@ -64,6 +64,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TokenFactory.hpp,v $
+ * Revision 1.4  2000/10/12 21:28:53  philogelos
+ * Typo in include corrected
+ *
  * Revision 1.3  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *
