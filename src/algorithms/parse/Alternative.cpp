@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Alternative.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: Alternative.cpp,v 1.2 2000/10/12 21:32:32 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.2 2000/10/12 21:32:32 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -73,27 +73,27 @@ void Alternative::parse( LookAheadEnumeration *aStream )
 	{
 	  try
 		{
-		  DLOGOBJECT( "parse-1: %s", aStream );
+		  // DLOGOBJECT( "parse-1: %s", aStream );
 		  TCAST( values -> getNextElement(), GrammarNode ) -> parse( aStream );
 		  aStream -> pop( *anchor );
-		  DLOGOBJECT( "parse-2: %s", aStream );
+		  // DLOGOBJECT( "parse-2: %s", aStream );
 		  return;
 		}
 	  catch( UnableToParse *oops )
 		{
 		  OGuard _error( oops, this );
 
-		  DLOGOBJECT( "parse-3: %s", aStream );
-		  DLOGOBJECT( "anchor: %s", *anchor );
+		  // DLOGOBJECT( "parse-3: %s", aStream );
+		  // DLOGOBJECT( "anchor: %s", *anchor );
 		  aStream -> rollTo( *anchor );
-		  DLOGOBJECT( "parse-4: %s", aStream );
+		  // DLOGOBJECT( "parse-4: %s", aStream );
 		  continue;
 		}
 	  /* LexError etc. */
 	  catch( ParseError *whatTheHell )
 		{
-		  DLOGOBJECT( "parse-5: %s", aStream );
-		  DLOGOBJECT( "anchor: %s", *anchor );
+		  // DLOGOBJECT( "parse-5: %s", aStream );
+		  // DLOGOBJECT( "anchor: %s", *anchor );
 		  whatTheHell -> addTraceBack( this, "" );
 		  throw whatTheHell;
 		}
@@ -157,6 +157,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Alternative.cpp,v $
+ * Revision 1.2  2000/10/12 21:32:32  philogelos
+ * Excessive logging removed
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *

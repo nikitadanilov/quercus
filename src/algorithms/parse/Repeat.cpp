@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Repeat.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: Repeat.cpp,v 1.2 2000/10/12 21:33:28 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Repeat.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Repeat.cpp,v 1.2 2000/10/12 21:33:28 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -68,11 +68,11 @@ void Repeat::parse( LookAheadEnumeration *aStream )
 
   Index i;
 
-  DLOG( "repeat: min: %li, max: %li", min, max );
+  // DLOG( "repeat: min: %li, max: %li", min, max );
 
   for( i = 0 ; i < min ; ++i )
 	{
-	  DLOG( "repeat: %li", i );
+	  // DLOG( "repeat: %li", i );
 	  try
 		{
 		  body -> parse( aStream );
@@ -125,6 +125,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Repeat.cpp,v $
+ * Revision 1.2  2000/10/12 21:33:28  philogelos
+ * Excessive logging removed
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *
