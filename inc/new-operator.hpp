@@ -34,7 +34,7 @@
 
 #define __NEW_OPERATOR_HPP__
 
-/* $Id: new-operator.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
+/* $Id: new-operator.hpp,v 1.3 2001/06/23 12:24:07 philogelos Exp $ */
 
 #if !defined(__SUNPRO_CC)
 #include <new>
@@ -96,18 +96,19 @@
 #endif
 
 #if !defined(__SUNPRO_CC) || ( defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x510) )
-INLINE void *operator new ( size_t ) STD_THROW( std::bad_alloc );
-INLINE void *operator new[] ( size_t ) STD_THROW( std::bad_alloc );
-INLINE void operator delete ( void * ) NOTHROW();
-INLINE void operator delete[] ( void * ) NOTHROW();
+/* already declared in /usr/lib/gcc-lib/ * / * /include/new */
+/* INLINE void *operator new ( size_t ) STD_THROW( std::bad_alloc );  */
+/* INLINE void *operator new[] ( size_t ) STD_THROW( std::bad_alloc ); */
+/* INLINE void operator delete ( void * ) NOTHROW(); */
+/* INLINE void operator delete[] ( void * ) NOTHROW(); */
 #if !defined( __BORLANDC__ )
-INLINE void *operator new( size_t, const std::nothrow_t& ) NOTHROW( );
-INLINE void *operator new[] ( size_t, const std::nothrow_t& ) NOTHROW( );
+/* INLINE void *operator new( size_t, const std::nothrow_t& ) NOTHROW( ); */
+/* INLINE void *operator new[] ( size_t, const std::nothrow_t& ) NOTHROW( ); */
 #endif
 #if defined( __GNUC__ )
 #if ( __GNUC__ > 2 ) || ( ( __GNUC__ == 2 ) && ( __GNUC_MINOR__ >= 9 ) )
-INLINE void operator delete ( void *, const std::nothrow_t& ) throw();
-INLINE void operator delete[] ( void *, const std::nothrow_t& ) throw();
+/* INLINE void operator delete ( void *, const std::nothrow_t& ) throw(); */
+/* INLINE void operator delete[] ( void *, const std::nothrow_t& ) throw(); */
 #endif
 #endif
 
