@@ -30,9 +30,9 @@
 
 
 
-/* $Id: TokenCradle.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
+/* $Id: TokenCradle.cpp,v 1.3 2001/07/03 12:48:28 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: TokenCradle.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: TokenCradle.cpp,v 1.3 2001/07/03 12:48:28 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -40,6 +40,7 @@ static char debugFileId[] = __FILE__;
 #include "algorithms/parse/TokenCradle.hpp"
 #include "algorithms/parse/ParseStream.hpp"
 #include "containers/Position.hpp"
+#include "containers/Stack.hpp"
 #include "StringBuffer.hpp"
 #include "String.hpp"
 #include "OGuard.hpp"
@@ -179,6 +180,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TokenCradle.cpp,v $
+ * Revision 1.3  2001/07/03 12:48:28  philogelos
+ * add #include "containers/Stack.hpp"
+ *
  * Revision 1.2  2000/08/26 13:26:55  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *
