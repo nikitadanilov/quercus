@@ -33,7 +33,7 @@
 #ifndef __WINDOW_HPP__
 #define __WINDOW_HPP__
 
-/* $Id: Window.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: Window.hpp,v 1.2 2000/10/12 21:29:41 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -66,7 +66,7 @@ public: void setClass( String aName, String aClass );
 
 public: void selectInput( long aMask );
 
-public: Xq::WindowEventSource *getXEventSource() const;
+public: Xq::WindowEventSource *getXEventSource( boolean allEvents = false ) const;
 public: Aq::EventSource *getEventSource() const;
 
 public: static Xq::Window *createSimple( Xq::Display *aDisplay,
@@ -83,6 +83,9 @@ public: virtual String getClassName() const;
 
 /*
  * $Log: Window.hpp,v $
+ * Revision 1.2  2000/10/12 21:29:41  philogelos
+ * Option to get all events on display added to getXEventSource()
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *
