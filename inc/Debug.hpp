@@ -33,7 +33,7 @@
 #ifndef __DEBUG_HPP__
 #define __DEBUG_HPP__
 
-/* $Id: Debug.hpp,v 1.1.1.1 2000/07/19 16:55:41 philogelos Exp $ */
+/* $Id: Debug.hpp,v 1.2 2000/08/26 13:48:57 philogelos Exp $ */
 
 #include "defines.h"
 #include "Object.hpp"
@@ -55,6 +55,16 @@ class Object;
 class Exception;
 interface Top;
 
+#define GET_LOGGER_BODY							\
+{												\
+  if( logger == nil )							\
+	{											\
+	  logger = new Debug();						\
+	  logger -> dontManage();					\
+	}											\
+  return logger;								\
+}
+
 /** 
 	Debugging and logging facility.
 	
@@ -63,15 +73,13 @@ interface Top;
 */
 class Debug : public Object
 {
-public: INLINE static Debug *getLogger( const Top *const /* aClient */ = ( const Top * ) null )
+public: INLINE static Debug *getLogger
+( const Top *const /* aClient */ = ( const Top * ) null, 
+  const char *const /* aModule */ = NULL, 
+  const char *const /* aMethod */ = NULL,
+  const Index /* anOffset */ = 0 )
 #if defined( INLINE_GETLOGGER )
-{
-  if( logger == nil )
-	{
-	  logger = new Debug();
-	}
-  return logger;
-}
+  GET_LOGGER_BODY
 #endif
  ;
 
@@ -198,6 +206,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.hpp,v $
+ * Revision 1.2  2000/08/26 13:48:57  philogelos
+ * new parameters added to the ::getLogger(). Hopefully will evolve into
+ * per-module controllable debug settings
+ *
  * Revision 1.1.1.1  2000/07/19 16:55:41  philogelos
  * stored sources into sourceforge.net CVS
  *

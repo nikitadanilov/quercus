@@ -34,7 +34,7 @@
 #ifndef __DEBUG_IPP__
 #define __DEBUG_IPP__
 
-/* $Id: Debug.ipp,v 1.1.1.1 2000/07/19 16:40:35 philogelos Exp $ */
+/* $Id: Debug.ipp,v 1.2 2000/08/26 13:48:57 philogelos Exp $ */
 
 #include "Debug.hpp"
 #include "String.hpp"
@@ -72,15 +72,11 @@ extern "C"
 BEGIN_QR_NAMESPACE
 
 #if !defined( INLINE_GETLOGGER )
-INLINE Debug *Debug::getLogger( const Top * const )
-{
-  if( logger == nil )
-	{
-	  logger = new Debug();
-	  logger -> dontManage();
-	}
-  return logger;
-}
+INLINE Debug *Debug::getLogger( const Top *const /* aClient */, 
+								const char *const /* aModule */, 
+								const char *const /* aMethod */,
+								const Index /* anOffset */ )
+GET_LOGGER_BODY
 #endif
 
 INLINE Debug::Debug()
@@ -313,6 +309,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.ipp,v $
+ * Revision 1.2  2000/08/26 13:48:57  philogelos
+ * new parameters added to the ::getLogger(). Hopefully will evolve into
+ * per-module controllable debug settings
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:35  philogelos
  * stored sources into sourceforge.net CVS
  *
