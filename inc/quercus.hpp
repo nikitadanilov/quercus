@@ -84,6 +84,7 @@
 #include <Recognizer.hpp>
 #include <Relation.hpp>
 #include <BinaryRelation.hpp>
+#include <UnaryRelation.hpp>
 #include <Equivalence.hpp>
 #include <Quercus.hpp>
 #include <exceptions/Throwable.hpp>
