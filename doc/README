@@ -5,7 +5,8 @@ For the list of tasks to be completed to the TODO.
 License is in COPYING.LIB.
 
 Quercus Robusta is free C++ library. Currently it includes extensible 
-containers subsystem and publish-subscribe patterns.
+containers subsystem, publish-subscribe patterns, portable UI, 
+multi-threading and parsing.
 
 Why to develop yet another general-purpose library?
     1. High-level
