@@ -33,7 +33,7 @@
 #ifndef __CREF_HPP__
 #define __CREF_HPP__
 
-/* $Id: CRef.hpp,v 1.1.1.1 2000/07/19 16:55:11 philogelos Exp $ */
+/* $Id: CRef.hpp,v 1.2 2001/06/09 14:22:12 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "defines.h"
@@ -46,7 +46,7 @@ BEGIN_QR_NAMESPACE
    @author Philogelos
    @created
 */
-template < class X > class CRef : public Object
+template < class X > class CRef /* : public Object */
 {
 
 public: CRef< X >();
@@ -57,6 +57,8 @@ public: CRef< X >( X *aTarget,
 				   boolean mustLock = false,
 				   boolean mustRecycle = true,
 				   boolean mustLink = true );
+
+public: CRef< X >( const CRef< X > &aRef );
 
   /**
    */
@@ -74,8 +76,8 @@ public: virtual X *operator  * () const;
 public:  virtual boolean equals( const Top *anOther ) const;
 
   /**
-   */
 public:  virtual Top *clone() const;
+   */
 
   /**
    */
@@ -93,10 +95,10 @@ protected: void done();
 protected: void init( X *aTarget );
 
 protected: X *target;
-protected: boolean canBeNull :1;
-protected: boolean lock :1;  
-protected: boolean link :1;  
-protected: boolean recycle :1;  
+protected: boolean canBeNull;
+protected: boolean lock;
+protected: boolean link;
+protected: boolean recycle;
 };
 
 END_QR_NAMESPACE
@@ -108,6 +110,14 @@ END_QR_NAMESPACE
 
 /*
  * $Log: CRef.hpp,v $
+ * Revision 1.2  2001/06/09 14:22:12  philogelos
+ *  . remove inheritance from Object (CRefs are only supposed to be
+ *    allocated on the stack)
+ *
+ *  . add copy constructor
+ *
+ *  . replace bitfields with ordinary booleans
+ *
  * Revision 1.1.1.1  2000/07/19 16:55:11  philogelos
  * stored sources into sourceforge.net CVS
  *

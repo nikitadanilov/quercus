@@ -30,11 +30,13 @@
 
 
 
-/* $Id: CRef.tpp,v 1.1.1.1 2000/07/19 16:40:28 philogelos Exp $ */
+/* $Id: CRef.tpp,v 1.2 2001/06/09 14:22:12 philogelos Exp $ */
 
 #include "CRef.hpp"
 #include "Debug.hpp"
 #include "LinkManager.hpp"
+
+#include "exceptions/InvalidArgument.hpp"
 
 BEGIN_QR_NAMESPACE
 
@@ -60,6 +62,20 @@ template < class X > CRef< X >::CRef( X *aTarget,
   link = mustLink;
 
   init( aTarget );
+}
+
+template < class X > CRef< X >::CRef( const CRef< X > &aRef )
+{
+  if( &aRef != this )
+	{
+	  canBeNull = aRef.canBeNull;
+	  lock = aRef.lock;
+	  recycle = aRef.recycle;
+	  link = aRef.link;
+	  
+	  done();
+	  init( aRef.target );
+	}
 }
 
 template < class X > CRef< X >::~CRef()
@@ -102,15 +118,17 @@ template < class X > boolean CRef < X >::equals( const Top *anOther ) const
 			equals( getValue() ) ) );
 }
 
+/*
 template < class X > Top *CRef< X >::clone() const
 {
   return new CRef< X >( getValue(), true, lock, recycle, link );
 }
+*/
 
 template < class X > String  CRef< X >::toString() const
 {
-  return Object::toString() + 
-	" ref. to: " + ( ( getValue() == NULL ) ? 
+  return /* Object::toString() + */
+	String( " ref. to: " ) + ( ( getValue() == NULL ) ? 
 					 String::nullLiteral : 
 					 getValue() -> toString() );
 }
@@ -131,17 +149,17 @@ template < class X > void CRef< X >::done()
 	{
 	  if( lock )
  		{
-		  target -> unlock( this );
+		  target -> unlock( target );
 		}
 	  else if( link )
 		{
 		  if( recycle )
 			{
-			  OFREE( target );
+			  LinkManager::free( target, target );
 			}
 		  else
 			{
-			  LinkManager::unreg( this, target );
+			  LinkManager::unreg( target, target );
 			}
 		}
 	}
@@ -157,11 +175,11 @@ template < class X > void CRef< X >::init( X *aTarget )
 	{
 	  if( lock )
 		{
-		  target -> lock( this );
+		  target -> lock( target );
 		}
 	  else if( link )
 		{
-		  OREG( target );
+		  LinkManager::reg( target, target );
 		}
 	}
 }
@@ -175,6 +193,14 @@ END_QR_NAMESPACE
 
 /*
  * $Log: CRef.tpp,v $
+ * Revision 1.2  2001/06/09 14:22:12  philogelos
+ *  . remove inheritance from Object (CRefs are only supposed to be
+ *    allocated on the stack)
+ *
+ *  . add copy constructor
+ *
+ *  . replace bitfields with ordinary booleans
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:28  philogelos
  * stored sources into sourceforge.net CVS
  *
