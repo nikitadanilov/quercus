@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Backtrace.cpp,v 1.1.1.1 2000/07/19 16:40:28 philogelos Exp $ */
+/* $Id: Backtrace.cpp,v 1.2 2000/09/21 18:03:18 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.1.1.1 2000/07/19 16:40:28 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.2 2000/09/21 18:03:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -327,7 +327,9 @@ boolean Backtrace::loadSymTableFor( const char *
 #endif
 									)
 {
-#if !defined( CAN_LOAD_SYM_TABLE )
+#if defined( USE_DLADDR_DLSYM_FOR_BACKTRACE )
+  return true;
+#elif !defined( CAN_LOAD_SYM_TABLE )
   return false;
 #else
 #if !defined( HAS_BFD )
@@ -729,6 +731,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Backtrace.cpp,v $
+ * Revision 1.2  2000/09/21 18:03:18  philogelos
+ * dladdr() support improved
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:28  philogelos
  * stored sources into sourceforge.net CVS
  *
