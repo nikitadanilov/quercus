@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Display.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
+/* $Id: Display.cpp,v 1.3 2000/10/12 21:35:29 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Display.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Display.cpp,v 1.3 2000/10/12 21:35:29 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -182,8 +182,8 @@ Mutex *Xq::Display::getX11Serialiser() const
 
 Aq::AqEvent *Xq::Display::getNextTypedElement()
 {
-  XEvent event;
-
+  ::XEvent  event;
+  
   LOCK_X11_DISPLAY( this );
   ::XNextEvent( getData(), &event );
   return XqEvent::create( this, &event );
@@ -244,6 +244,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Display.cpp,v $
+ * Revision 1.3  2000/10/12 21:35:29  philogelos
+ * Minor change
+ *
  * Revision 1.2  2000/08/30 12:33:23  philogelos
  * update THROWS to correspond to the actual throws
  *
