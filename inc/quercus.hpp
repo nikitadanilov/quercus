@@ -187,6 +187,7 @@
 #include <events/Event.hpp>
 #include <events/EventAdapter.hpp>
 #include <algorithms/AlgorithmPackage.hpp>
+#include <algorithms/containers/ContainerAlgorithms.hpp>
 #include <algorithms/enumerations/EnumerationAlgorithms.hpp>
 #include <algorithms/parse/Token.hpp>
 #include <algorithms/parse/TokenAdapter.hpp>

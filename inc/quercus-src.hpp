@@ -38,6 +38,9 @@
 #include <CRef.cpp>
 #include <Proxy.cpp>
 #include <Recognizer.cpp>
+#include <Relation.cpp>
+#include <BinaryRelation.cpp>
+#include <Equivalence.cpp>
 #include <Quercus.cpp>
 #include <exceptions/Throwable.cpp>
 #include <exceptions/Exception.cpp>
@@ -50,6 +53,7 @@
 #include <exceptions/DivideByZero.cpp>
 #include <exceptions/InvalidArgument.cpp>
 #include <exceptions/NoEntity.cpp>
+#include <exceptions/AlreadyExists.cpp>
 #include <exceptions/ShouldBeOverriden.cpp>
 #include <exceptions/RuntimeError.cpp>
 #include <iter/enumerations/Enumeration.cpp>
@@ -121,6 +125,7 @@
 #include <observe/JustCondition.cpp>
 #include <events/Event.cpp>
 #include <events/EventAdapter.cpp>
+#include <algorithms/containers/ContainerAlgorithms.cpp>
 #include <algorithms/enumerations/EnumerationAlgorithms.cpp>
 #include <algorithms/parse/TokenAdapter.cpp>
 #include <algorithms/parse/TokenCradle.cpp>
@@ -151,6 +156,10 @@
 #include <algorithms/string/StringAlgorithms.cpp>
 #include <algorithms/string/FromToBy.cpp>
 #include <algorithms/string/InOrderFilter.cpp>
+#include <algorithms/hashes/Hash.cpp>
+#include <algorithms/hashes/FNV1Hash.cpp>
+#include <algorithms/hashes/AddressHash.cpp>
+#include <algorithms/access/HashTable.cpp>
 #include <platform/Platform.cpp>
 #include <platform/MinimalPlatform.cpp>
 #include <platform/ANSICPlatform.cpp>
