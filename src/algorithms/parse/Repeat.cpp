@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Repeat.cpp,v 1.2 2000/10/12 21:33:28 philogelos Exp $ */
+/* $Id: Repeat.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Repeat.cpp,v 1.2 2000/10/12 21:33:28 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Repeat.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -67,8 +67,12 @@ void Repeat::parse( LookAheadEnumeration *aStream )
   preC_( aStream != NULL );
 
   Index i;
+  CRef< List > results;
 
   // DLOG( "repeat: min: %li, max: %li", min, max );
+
+  parseResult = NULL;
+  results = new List();
 
   for( i = 0 ; i < min ; ++i )
 	{
@@ -76,10 +80,12 @@ void Repeat::parse( LookAheadEnumeration *aStream )
 	  try
 		{
 		  body -> parse( aStream );
+		  results -> append( body -> getResult() );
 		}
 	  catch( ParseError *error )
 		{
 		  error -> addTraceBack( this, "too few" );
+		  throw error;
 		}
 	}
   for( ; ( max == infinity ) || ( i < max ) ; ++i )
@@ -91,6 +97,7 @@ void Repeat::parse( LookAheadEnumeration *aStream )
 	  try
 		{
 		  body -> parse( aStream );
+		  results -> append( body -> getResult() );
 		}
 	  catch( ParseError *noWay )
 		{
@@ -102,6 +109,7 @@ void Repeat::parse( LookAheadEnumeration *aStream )
 		}
 	  aStream -> pop( *anchor );
 	}
+  parseResult = *results;
 }
 
 String  Repeat::getString() const
@@ -125,6 +133,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Repeat.cpp,v $
+ * Revision 1.3  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.2  2000/10/12 21:33:28  philogelos
  * Excessive logging removed
  *

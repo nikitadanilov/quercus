@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Alternative.cpp,v 1.3 2001/04/16 13:37:13 philogelos Exp $ */
+/* $Id: Alternative.cpp,v 1.4 2001/06/09 15:02:18 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.3 2001/04/16 13:37:13 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Alternative.cpp,v 1.4 2001/06/09 15:02:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -52,6 +52,7 @@ Alternative::Alternative( String aName, Container *aBranch ) :
   preC_( aBranch != NULL );
 
   branches = aBranch;
+  selected = NULL;
 }
 
 Alternative::~Alternative()
@@ -65,35 +66,36 @@ void Alternative::parse( LookAheadEnumeration *aStream )
   OGuard _stream( aStream, this );
 
   CRef< LAAnchor > anchor;
+  CRef< Enumeration > values;
   
+  parseResult = NULL;
+  selected = NULL;
   anchor = aStream -> push();
 
-  for( CRef< Enumeration > values = branches -> getValueEnumeration() ;
-	   values -> hasMoreElements() ; )
+  values = branches -> getValueEnumeration();
+  for( ; values -> hasMoreElements() ; )
 	{
 	  try
 		{
-		  // DLOGOBJECT( "parse-1: %s", aStream );
-		  TCAST( values -> getNextElement(), GrammarNode ) -> parse( aStream );
+		  CRef< GrammarNode > branch;
+
+		  branch = TCAST( values -> getNextElement(), GrammarNode );
+		  branch -> parse( aStream );
 		  aStream -> pop( *anchor );
-		  // DLOGOBJECT( "parse-2: %s", aStream );
+		  selected = *branch;
+		  parseResult = branch -> getResult();
 		  return;
 		}
 	  catch( UnableToParse *oops )
 		{
 		  OGuard _error( oops, this );
 
-		  // DLOGOBJECT( "parse-3: %s", aStream );
-		  // DLOGOBJECT( "anchor: %s", *anchor );
 		  aStream -> rollTo( *anchor );
-		  // DLOGOBJECT( "parse-4: %s", aStream );
 		  continue;
 		}
 	  /* LexError etc. */
 	  catch( ParseError *whatTheHell )
 		{
-		  // DLOGOBJECT( "parse-5: %s", aStream );
-		  // DLOGOBJECT( "anchor: %s", *anchor );
 		  whatTheHell -> addTraceBack( this, "" );
 		  throw whatTheHell;
 		}
@@ -103,7 +105,12 @@ void Alternative::parse( LookAheadEnumeration *aStream )
 	 catch( Exception * ). Moreover, direct dynamic_cast< Exception * > 
 	 fails. Have to surround outermost parse() method with catch(). */
   aStream -> pop( *anchor );
-  throw new AlternativesExhausted( "", this );
+  throw new AlternativesExhausted( "", nil );
+}
+
+GrammarNode *Alternative::getSelected() const
+{
+  return *selected;
 }
 
 String  Alternative::getString() const
@@ -157,6 +164,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Alternative.cpp,v $
+ * Revision 1.4  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.3  2001/04/16 13:37:13  philogelos
  * Added ::getStringResult() to PrettyPrintIterable.
  * Clients updated to take advantage of this method.

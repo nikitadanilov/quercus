@@ -30,9 +30,9 @@
 
 
 
-/* $Id: GrammarNode.cpp,v 1.2 2000/10/12 21:33:07 philogelos Exp $ */
+/* $Id: GrammarNode.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.2 2000/10/12 21:33:07 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -46,8 +46,16 @@ static char debugFileId[] = __FILE__;
 
 BEGIN_QR_NAMESPACE
 
-GrammarNode::GrammarNode( String aName ) : name( aName )
-{}
+GrammarNode::GrammarNode( String aName, Map *aTransformer ) : name( aName )
+{
+  parseResult = NULL;
+  transformer = aTransformer;
+}
+
+String GrammarNode::toString() const
+{
+  return Object::toString() + "name: " + getName();
+}
 
 String GrammarNode::getString() const
 {
@@ -59,9 +67,35 @@ String GrammarNode::getName() const
   return name;
 }
 
+Map *GrammarNode::getTransformer() const
+{
+  return *transformer;
+}
+
+void GrammarNode::setTransformer( Map *aMap )
+{
+  transformer = aMap;
+  
+}
+
+Top *GrammarNode::getResult() const
+{
+  if( getTransformer() != NULL )
+	{
+	  return getTransformer() -> apply( *parseResult );
+	}
+  else
+	{
+	  return *parseResult;
+	}
+}
+
 #if defined( TESTING )
 
 END_QR_NAMESPACE
+#include "containers/Singleton.hpp"
+#include "containers/Pair.hpp"
+
 #include "algorithms/parse/Concatenation.hpp"
 #include "algorithms/parse/ParseStream.hpp"
 #include "algorithms/parse/Alternative.hpp"
@@ -92,7 +126,8 @@ boolean GrammarNode::testerGrammarNode( int )
 	CRef< LookAheadEnumeration > lae;
 	
 	lexer = new StockLexer
-	  ( new ParseStream( new StringEnumeration( "({(* afsdklj (* kljasd *) *).(*sdfklj*).(*(**)*)},{(*fl;(*sdk*)f(*;*)})" ) ) );
+	  ( new ParseStream( new StringEnumeration
+						 ( "(i1,{(**)},i2,{(* *).(***)})" ) ) );
 	
 	lexer -> getCommentToken() -> setStart( "(*" );
 	lexer -> getCommentToken() -> setEnd( "*)" );
@@ -105,18 +140,21 @@ boolean GrammarNode::testerGrammarNode( int )
 				new List( 2,
 						  OW( lexer -> addTerminal( "keyword_bar", "bar", 
 													StockLexer::head ) ),
+						  OW( new Terminal( "' '", new Whitespace() ) ),
 						  OW( lexer -> getNumber() ), 
 						  NULL ) ) ),
-		  OW( new ListOf( String( "ИдентСписок",
-								  new KOI8RConverter() ),
+		  OW( new ListOf( String( "ИдентСписок", new KOI8RConverter() ),
 						  true,
 						  lexer -> getLParen(),
+						  new Alternative
+						  ( "id-or-braces",
+							new Pair( lexer -> getId(),
 						  new ListOf( "innerlist",
 									  false,
 									  lexer -> getLBrace(),
 									  lexer -> getComment(),
 									  lexer -> getDot(),
-									  lexer -> getRBrace() ),
+												  lexer -> getRBrace() ) ) ),
 						  lexer -> getComma(),
 						  lexer -> getRParen() ) ),
 		  NULL ) );
@@ -124,7 +162,11 @@ boolean GrammarNode::testerGrammarNode( int )
 	lae = new LookAheadEnumeration( *lexer );
 	try
 	  {
+		CRef< Top > result;
+
 		fooOrBar -> parse( *lae );
+		result = fooOrBar -> getResult();
+		DLOGOBJECT( "parsing result: %s", *result, &Top::getString );
 	  }
 	catch( ParseError *error )
 	  {
@@ -153,6 +195,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: GrammarNode.cpp,v $
+ * Revision 1.3  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.2  2000/10/12 21:33:07  philogelos
  * Tests updated
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Terminal.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: Terminal.cpp,v 1.2 2001/06/09 15:02:18 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Terminal.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Terminal.cpp,v 1.2 2001/06/09 15:02:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -64,6 +64,7 @@ void Terminal::parse( LookAheadEnumeration *aStream ) THROWS( ParseError * )
   preC_( aStream != NULL );
   OGuard _stream( aStream, this );
 
+  parseResult = NULL;
   if( aStream -> hasMoreElements() )
 	{
 	  CRef< Top > onWire;
@@ -79,6 +80,7 @@ void Terminal::parse( LookAheadEnumeration *aStream ) THROWS( ParseError * )
 			( String( "want: ,," ) + getRecognizer() -> getString() + "``" +
 			  String( "got: ,," ) + onWire -> getString() + "``", null );
 		}
+	  parseResult = *onWire;
 	}
   else
 	{
@@ -143,6 +145,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Terminal.cpp,v $
+ * Revision 1.2  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *

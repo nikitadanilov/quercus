@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Concatenation.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $ */
+/* $Id: Concatenation.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Concatenation.cpp,v 1.2 2001/04/16 13:37:13 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Concatenation.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -65,16 +65,22 @@ void Concatenation::parse( LookAheadEnumeration *aStream )
 
   OGuard _stream( aStream, this );
 
-  for( CRef< Enumeration > values = terms -> getValueEnumeration() ;
-	   values -> hasMoreElements() ; )
+  CRef< List > results;
+  CRef< Enumeration > values;
+
+  parseResult = NULL;
+  results = new List();
+  values = terms -> getValueEnumeration();
+  for( ; values -> hasMoreElements() ; )
 	{
-	  GrammarNode *term;
+	  CRef< GrammarNode > term;
 
 	  term = TCAST( values -> getNextElement(), GrammarNode );
 	  try
 		{
 		  //		  DLOGOBJECT( "term: %s", term );
 		  term -> parse( aStream );
+		  results -> append( term -> getResult() );
 		}
 	  catch( UnableToParse *error )
 		{
@@ -82,6 +88,7 @@ void Concatenation::parse( LookAheadEnumeration *aStream )
 		  throw error;
 		}
 	}
+  parseResult = *results;
 }
 
 String  Concatenation::getString() const
@@ -114,6 +121,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Concatenation.cpp,v $
+ * Revision 1.3  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.2  2001/04/16 13:37:13  philogelos
  * Added ::getStringResult() to PrettyPrintIterable.
  * Clients updated to take advantage of this method.

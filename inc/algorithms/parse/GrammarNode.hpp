@@ -33,15 +33,18 @@
 #ifndef __GRAMMARNODE_HPP__
 #define __GRAMMARNODE_HPP__
 
-/* $Id: GrammarNode.hpp,v 1.1 2000/09/19 18:20:07 philogelos Exp $ */
+/* $Id: GrammarNode.hpp,v 1.2 2001/06/09 15:02:18 philogelos Exp $ */
 
+#include "CRef.hpp"
 #include "String.hpp"
 #include "Object.hpp"
 #include "defines.h"
+#include "Map.hpp"
 
 BEGIN_QR_NAMESPACE
 
 class LookAheadEnumeration;
+class Map;
 
 class ParseError;
 
@@ -53,17 +56,23 @@ class ParseError;
 abstract class GrammarNode : public virtual Object
 {
 
-public:  GrammarNode( String aName );
+public:  GrammarNode( String aName, Map *aTransformer = NULL );
 
 public:  virtual void parse( LookAheadEnumeration *aStream ) 
   THROWS( ParseError * ) = 0;
 
+public: virtual Top *getResult() const;
 public:  virtual String getName() const;
+
+public: virtual Map *getTransformer() const;
+public: virtual void setTransformer( Map *aMap );
 
 public: virtual String toString() const;
 public: virtual String getString() const;
 
 protected: const String name;
+protected: CRef< Top > parseResult;
+protected: CRef< Map > transformer;
 
 #if defined( TESTING )
 public:  static boolean testerGrammarNode( int aParam );
@@ -74,6 +83,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: GrammarNode.hpp,v $
+ * Revision 1.2  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.1  2000/09/19 18:20:07  philogelos
  * Lexer and parser redone.
  *

@@ -33,7 +33,7 @@
 #ifndef __ALTERNATIVE_HPP__
 #define __ALTERNATIVE_HPP__
 
-/* $Id: Alternative.hpp,v 1.1 2000/09/19 18:20:07 philogelos Exp $ */
+/* $Id: Alternative.hpp,v 1.2 2001/06/09 15:02:18 philogelos Exp $ */
 
 #include "containers/Container.hpp"
 #include "UnableToParse.hpp"
@@ -63,6 +63,8 @@ public: virtual ~Alternative();
 public:  virtual void parse( LookAheadEnumeration *aStream ) 
   THROWS( ParseError * );
 
+public: virtual GrammarNode *getSelected() const;
+
   /**
    */
 public:  virtual String  getString() const;
@@ -72,6 +74,7 @@ public:  virtual String  getString() const;
 public:  virtual String  getClassName() const;
 
 protected: CRef< Container > branches;
+protected: CRef< GrammarNode > selected;
 };
 
 class AlternativesExhausted : public virtual UnableToParse
@@ -85,6 +88,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Alternative.hpp,v $
+ * Revision 1.2  2001/06/09 15:02:18  philogelos
+ * GrammarNode::getResult() and ::[gs]etTransformer() added to the
+ * interface and implemented in all nodes.
+ *
  * Revision 1.1  2000/09/19 18:20:07  philogelos
  * Lexer and parser redone.
  *
