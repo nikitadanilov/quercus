@@ -1,8 +1,8 @@
 /* -*- C++ -*- Automatically generated. Do not edit. */
-#define BUILD_DATE "Thu Apr 19 17:51:16 UTC 2001"
+#define BUILD_DATE "Sat Jun  9 15:10:15 UTC 2001"
 #define BUILD_HOST "beta"
 #define BUILDER    "philogelos"
-#define BUILD       231
+#define BUILD       233
 
 #define MAJOR_VERSION  0
 #define MINOR_VERSION  0
