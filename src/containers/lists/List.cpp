@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: List.cpp,v 1.1.1.1 2000/07/19 16:46:50 philogelos Exp $ */
+/* $Id: List.cpp,v 1.2 2000/09/21 18:05:09 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: List.cpp,v 1.1.1.1 2000/07/19 16:46:50 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: List.cpp,v 1.2 2000/09/21 18:05:09 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -133,7 +133,13 @@ void List::clearAll()
   OGuard _this( this, this );
   while( !isEmpty() )
 	{
-	  LinkManager::recycle( behead() );
+	  Top *king;
+
+	  king = behead();
+	  if( king != NULL )
+		{
+		  LinkManager::recycle( king );
+		}
 	}
 }
 
@@ -539,7 +545,7 @@ Index List::getHighBound() const
 void List::setCurrentAt( const Index anIndex )
 {
   OGuard _this( this, this );
-  preC_( isValidIndex( anIndex ) );
+  preC_( isValidIndex( anIndex ) || ( anIndex == length() ) );
 
   Index i;
 
@@ -550,7 +556,8 @@ void List::setCurrentAt( const Index anIndex )
 		  return;
 		}
 	}
-  impossible_;
+  test_( anIndex == length() );
+  test_( atEnd() );
 }
 
 Index List::getCurrentIndex() const
@@ -1586,6 +1593,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: List.cpp,v $
+ * Revision 1.2  2000/09/21 18:05:09  philogelos
+ * error in clearAll() corrected (can cope with NULL elements now)
+ *
  * Revision 1.1.1.1  2000/07/19 16:46:50  philogelos
  * stored sources into sourceforge.net CVS
  *
