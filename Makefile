@@ -1,6 +1,10 @@
 # Makefile for Quercus Robusta project
-# $Id: Makefile,v 1.14 2001/06/23 12:03:49 philogelos Exp $
+# $Id: Makefile,v 1.15 2001/07/03 12:46:25 philogelos Exp $
 # $Log: Makefile,v $
+# Revision 1.15  2001/07/03 12:46:25  philogelos
+#  . switch to immediate assignment
+#  . align code
+#
 # Revision 1.14  2001/06/23 12:03:49  philogelos
 # changed in dependant files
 #
@@ -154,16 +158,64 @@ default: all
   #                                                                         #
   ###########################################################################
 
-CC=cc
-CPP=cc
-DEFINES=-D_REENTRANT # -D_THREAD_SAFE -D__USE_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 
-COPT=-fno-vtable-thunks #-fkeep-inline-functions#-fno-inline-functions -O3 -rdynamic
-PROFOPT=-g #-pg
-LIBS=-L/usr/X11/lib -lbfd -liberty -lpthread -lX11 -lm -lXpm -lreadline -lncurses -lstdc++ -ldl #-lgc #-lefence -lposix4 
-SHARED_COPT=-fPIC -shared -DUNWANT_TESTING
-SHARED_LDOPT=-shared -dy -DUNWANT_TESTING
-CFLAGS=$(COPT) $(PROFOPT) -pipe -ansi -pedantic -W -Wall -Wtraditional -Wshadow -Wid-clash-24 -Wpointer-arith -Wwrite-strings -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wnested-externs -Woverloaded-virtual -Winline -Wformat -Wbad-function-cast -Wconversion -Wsynth -Wundef -Wcast-align -Wno-comment -Wbad-function-cast -Wsign-compare -Wmissing-noreturn -Wlarger-than-1024 #-Weffc++ -Waggregate-return -Wcast-qual -Wredundant-decls 
-LDFLAGS=$(PROFOPT) $(DEFINES) -rdynamic #-Xlinker -Map -Xlinker ld.map -Xlinker --cref
+CC           = cc
+CPP          = cc
+DEFINES      = -D_REENTRANT 
+# -D_THREAD_SAFE -D__USE_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 
+COPT         = -frepo \
+               -fno-vtable-thunks
+PROFOPT      = -g #-pg
+LIBS         = -L/usr/X11/lib \
+               -lbfd \
+               -liberty \
+               -lpthread \
+               -lX11 \
+               -lm \
+               -lXpm \
+               -lreadline \
+               -lncurses \
+               -lstdc++ \
+               -ldl #-lgc #-lefence -lposix4 
+SHARED_COPT  = -fPIC -shared -DUNWANT_TESTING
+SHARED_LDOPT = -shared -dy -DUNWANT_TESTING
+CFLAGS      := $(COPT) \
+               $(PROFOPT) \
+               -pipe \
+               -ansi \
+               -pedantic \
+               -W \
+               -Wall \
+               -Wtraditional \
+               -Wshadow \
+               -Wid-clash-24 \
+               -Wpointer-arith \
+               -Wwrite-strings \
+               -Wconversion \
+               -Wstrict-prototypes \
+               -Wmissing-prototypes \
+               -Wmissing-declarations \
+               -Wnested-externs \
+               -Woverloaded-virtual \
+               -Winline -Wformat \
+               -Wbad-function-cast \
+               -Wconversion \
+               -Wsynth \
+               -Wundef \
+               -Wcast-align \
+               -Wno-comment \
+               -Wbad-function-cast \
+               -Wsign-compare \
+               -Wmissing-noreturn \
+               -Wlarger-than-1024 \
+               -Wnon-virtual-dtor \
+               -Wreorder \
+               -Wsign-promo
+#-Weffc++ -Waggregate-return -Wcast-qual -Wredundant-decls 
+
+LDFLAGS     := $(PROFOPT) \
+               $(DEFINES) \
+               -rdynamic 
+#-Xlinker -Map -Xlinker ld.map -Xlinker --cref
 
 ###########################################################################
 #                                                                         #
@@ -208,10 +260,10 @@ LDFLAGS=$(PROFOPT) $(DEFINES) -rdynamic #-Xlinker -Map -Xlinker ld.map -Xlinker 
   #                                                                         #
   ###########################################################################
 
-ETAGS=etags
-DOC_GENERATOR_HTML=doc++ -A -v -H -d 
-DOC_GENERATOR_TEX=doc++ -A -v -t -o 
-SHELL=bash
+ETAGS              = etags
+DOC_GENERATOR_HTML = doc++ -A -v -H -d 
+DOC_GENERATOR_TEX  = doc++ -A -v -t -o 
+SHELL              = bash
 
 ###########################################################################
 #                                                                         #
@@ -222,14 +274,14 @@ SHELL=bash
   #                                                                         #
   ###########################################################################
 
-DATE := $(shell env LANG=C date -u "+%a %b %e %T %Z %Y")
-HOST := $(shell hostname -s)
-USR  := philogelos#$(shell /usr/xpg4/bin/id -un)
+DATE              := $(shell env LANG=C date -u "+%a %b %e %T %Z %Y")
+HOST              := $(shell hostname -s)
+USR               := philogelos#$(shell /usr/xpg4/bin/id -un)
 
-MAJOR_VERSION=0
-MINOR_VERSION=0
-MICRO_VERSION=4
-QR_CODENAME=Cuchulain#Setanta
+MAJOR_VERSION      = 0
+MINOR_VERSION      = 0
+MICRO_VERSION      = 4
+QR_CODENAME        = Cuchulain#Setanta
 
 ###########################################################################
 #                                                                         #
@@ -240,17 +292,17 @@ QR_CODENAME=Cuchulain#Setanta
   #                                                                         #
   ###########################################################################
 
-SRC_DIR=./src
-INC_DIR=./inc
-OBJ_DIR=./obj
-LIB_DIR=./lib
-DOC_DIR=./doc
-ETC_DIR=./etc
-APP_NAME=test
-JUNK_FILES=*.o *.so core $(APP_NAME) *~ \\\#*\\\#
-JUNK_DIRS=SunWS_cache
-BUILD_INFO_FILE=$(INC_DIR)/build.h
-BUILD_TAG_FILE=.build
+SRC_DIR            = ./src
+INC_DIR            = ./inc
+OBJ_DIR            = ./obj
+LIB_DIR            = ./lib
+DOC_DIR            = ./doc
+ETC_DIR            = ./etc
+APP_NAME           = test
+JUNK_FILES        := *.o *.so *.rpo core $(APP_NAME) *~ \\\#*\\\#
+JUNK_DIRS          = SunWS_cache
+BUILD_INFO_FILE   := $(INC_DIR)/build.h
+BUILD_TAG_FILE     = .build
 
 CPP_FILTER= #2>&1 | ( LANG=C date -u >> $(DOC_DIR)/cc-out.log ; cat | tee -a $(DOC_DIR)/cc-out.log )
 
@@ -648,7 +700,7 @@ CPP_INC_STORE = \
 	store/FieldWriter.hpp \
 	store/DefField.hpp
 
-CPP_INC= \
+CPP_INC:= \
 	$(CPP_INC_BASE) \
 	$(CPP_INC_EXCEPTIONS) \
 	$(CPP_INC_ITER) \
@@ -925,7 +977,7 @@ CPP_SRC_STORE= \
 	store/FieldWriter.cpp \
 	store/DefField.cpp
 
-CPP_SRC= \
+CPP_SRC:= \
 	$(CPP_SRC_BASE) \
 	$(CPP_SRC_EXCEPTIONS)\
 	$(CPP_SRC_ITER) \
@@ -969,7 +1021,7 @@ CPP_IPP_BASE= \
 CPP_TPP_STORE= \
 	store/DefField.tpp
 
-CPP_IPP= \
+CPP_IPP:= \
 	$(CPP_IPP_BASE) \
 	$(CPP_TPP_STORE)
 
@@ -991,7 +1043,7 @@ CPP_TPP_BASE= \
 CPP_TPP_ITER= \
 	iter/enumerations/TypedEnumeration.tpp
 
-CPP_TPP= \
+CPP_TPP:= \
 	$(CPP_TPP_BASE) \
 	$(CPP_TPP_ITER)
 
@@ -1006,18 +1058,18 @@ CPP_TPP= \
   #                                                                         #
   ###########################################################################
 
-INCS=-I. -I$(INC_DIR) $(ADDITIONAL_INCS)
-SHLIB=lib/libquercus.so
-ALL_SOURCE=$(CPP_SRC) $(CPP_IPP) $(CPP_TPP)
-CPP_OBJ=$(CPP_SRC:.cpp=.o)
-CPP_SOBJ=$(CPP_SRC:.cpp=.so)
+INCS            := -I. -I$(INC_DIR) $(ADDITIONAL_INCS)
+SHLIB            = lib/libquercus.so
+ALL_SOURCE      := $(CPP_SRC) $(CPP_IPP) $(CPP_TPP)
+CPP_OBJ         := $(CPP_SRC:.cpp=.o)
+CPP_SOBJ        := $(CPP_SRC:.cpp=.so)
 
-INC=$(CPP_INC:%=$(INC_DIR)/%)
-SRC=$(ALL_SOURCE:%=$(SRC_DIR)/%)
-OBJ=$(CPP_OBJ:%=$(OBJ_DIR)/%)
-SOBJ=$(CPP_SOBJ:%=$(LIB_DIR)/%)
+INC             := $(CPP_INC:%=$(INC_DIR)/%)
+SRC             := $(ALL_SOURCE:%=$(SRC_DIR)/%)
+OBJ             := $(CPP_OBJ:%=$(OBJ_DIR)/%)
+SOBJ            := $(CPP_SOBJ:%=$(LIB_DIR)/%)
 
-ALL_DISTR_FILES= \
+ALL_DISTR_FILES:= \
 	$(INC) \
 	$(SRC) \
 	\
@@ -1042,38 +1094,38 @@ ALL_DISTR_FILES= \
 	$(DOC_DIR)/style.css \
 	$(DOC_DIR)/tuning-macros.txt
 
-CPP_SOBJ_BASE=$(CPP_SRC_BASE:.cpp=.so)
-SOBJ_BASE=$(CPP_SOBJ_BASE:%=$(LIB_DIR)/%)
+CPP_SOBJ_BASE:=$(CPP_SRC_BASE:.cpp=.so)
+SOBJ_BASE:=$(CPP_SOBJ_BASE:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_EXCEPTIONS=$(CPP_SRC_EXCEPTIONS:.cpp=.so)
-SOBJ_EXCEPTIONS=$(CPP_SOBJ_EXCEPTIONS:%=$(LIB_DIR)/%)
+CPP_SOBJ_EXCEPTIONS:=$(CPP_SRC_EXCEPTIONS:.cpp=.so)
+SOBJ_EXCEPTIONS:=$(CPP_SOBJ_EXCEPTIONS:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_ITER=$(CPP_SRC_ITER:.cpp=.so)
-SOBJ_ITER=$(CPP_SOBJ_ITER:%=$(LIB_DIR)/%)
+CPP_SOBJ_ITER:=$(CPP_SRC_ITER:.cpp=.so)
+SOBJ_ITER:=$(CPP_SOBJ_ITER:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_CONTAINERS_BASE=$(CPP_SRC_CONTAINERS_BASE:.cpp=.so)
-SOBJ_CONTAINERS_BASE=$(CPP_SOBJ_CONTAINERS_BASE:%=$(LIB_DIR)/%)
+CPP_SOBJ_CONTAINERS_BASE:=$(CPP_SRC_CONTAINERS_BASE:.cpp=.so)
+SOBJ_CONTAINERS_BASE:=$(CPP_SOBJ_CONTAINERS_BASE:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_CONTAINERS_MISC=$(CPP_SRC_CONTAINERS_MISC:.cpp=.so)
-SOBJ_CONTAINERS_MISC=$(CPP_SOBJ_CONTAINERS_MISC:%=$(LIB_DIR)/%)
+CPP_SOBJ_CONTAINERS_MISC:=$(CPP_SRC_CONTAINERS_MISC:.cpp=.so)
+SOBJ_CONTAINERS_MISC:=$(CPP_SOBJ_CONTAINERS_MISC:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_CONTAINERS_LIST=$(CPP_SRC_CONTAINERS_LIST:.cpp=.so)
-SOBJ_CONTAINERS_LIST=$(CPP_SOBJ_CONTAINERS_LIST:%=$(LIB_DIR)/%)
+CPP_SOBJ_CONTAINERS_LIST:=$(CPP_SRC_CONTAINERS_LIST:.cpp=.so)
+SOBJ_CONTAINERS_LIST:=$(CPP_SOBJ_CONTAINERS_LIST:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_OBSERVE=$(CPP_SRC_OBSERVE:.cpp=.so)
-SOBJ_OBSERVE=$(CPP_SOBJ_OBSERVE:%=$(LIB_DIR)/%)
+CPP_SOBJ_OBSERVE:=$(CPP_SRC_OBSERVE:.cpp=.so)
+SOBJ_OBSERVE:=$(CPP_SOBJ_OBSERVE:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_ALGORITHMS=$(CPP_SRC_ALGORITHMS:.cpp=.so)
-SOBJ_ALGORITHMS=$(CPP_SOBJ_ALGORITHMS:%=$(LIB_DIR)/%)
+CPP_SOBJ_ALGORITHMS:=$(CPP_SRC_ALGORITHMS:.cpp=.so)
+SOBJ_ALGORITHMS:=$(CPP_SOBJ_ALGORITHMS:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_PLATFORM_BASE=$(CPP_SRC_PLATFORM_BASE:.cpp=.so)
-SOBJ_PLATFORM_BASE=$(CPP_SOBJ_PLATFORM_BASE:%=$(LIB_DIR)/%)
+CPP_SOBJ_PLATFORM_BASE:=$(CPP_SRC_PLATFORM_BASE:.cpp=.so)
+SOBJ_PLATFORM_BASE:=$(CPP_SOBJ_PLATFORM_BASE:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_PLATFORM_THREADS=$(CPP_SRC_PLATFORM_THREADS:.cpp=.so)
-SOBJ_PLATFORM_THREADS=$(CPP_SOBJ_PLATFORM_THREADS:%=$(LIB_DIR)/%)
+CPP_SOBJ_PLATFORM_THREADS:=$(CPP_SRC_PLATFORM_THREADS:.cpp=.so)
+SOBJ_PLATFORM_THREADS:=$(CPP_SOBJ_PLATFORM_THREADS:%=$(LIB_DIR)/%)
 
-CPP_SOBJ_UI=$(CPP_SRC_UI:.cpp=.so)
-SOBJ_UI=$(CPP_SOBJ_UI:%=$(LIB_DIR)/%)
+CPP_SOBJ_UI:=$(CPP_SRC_UI:.cpp=.so)
+SOBJ_UI:=$(CPP_SOBJ_UI:%=$(LIB_DIR)/%)
 
 SHLIBS= \
 	libquercus.so \
@@ -1089,7 +1141,7 @@ SHLIBS= \
 	libQRThreads.so \
 	libQRUi.so
 
-SHLIBS_PATH= $(SHLIBS:%=$(LIB_DIR)/%)
+SHLIBS_PATH:= $(SHLIBS:%=$(LIB_DIR)/%)
 
 ###########################################################################
 #                                                                         #
@@ -1213,7 +1265,7 @@ htmlize:
 	for s in `find $(SRC_DIR) -name '*.?pp'` ;do gnudoit "(htmlize-file \"`pwd`/$$s\" \"`pwd`/$(DOC_DIR)/html/$(SRC_DIR)\")" ; echo $$s done. ;done
 
 all-in-one: $(INC_DIR)/quercus-src.hpp $(INC_DIR)/quercus.hpp
-	$(CPP) $(CFLAGS) $(INCS) -I$(SRC_DIR) $(LDFLAGS) $(DEFINES) $(SRC_DIR)/all-in-one.cpp -o test.one $(LIBS) $(CPP_FILTER)
+	$(CPP) $(CFLAGS) $(INCS) -I$(SRC_DIR) $(LDFLAGS) $(DEFINES) $(SRC_DIR)/all-in-one.cpp $(SRC_DIR)/test.cpp -o test.one $(LIBS) $(CPP_FILTER)
 
 all-in-one-shared: $(INC_DIR)/quercus-src.hpp $(INC_DIR)/quercus.hpp
 	$(CPP) $(CFLAGS) $(INCS) -I$(SRC_DIR) $(LDFLAGS) $(DEFINES) $(SHARED_COPT) $(SRC_DIR)/all-in-one.cpp -o $(SHLIB) $(CPP_FILTER)
