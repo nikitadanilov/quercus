@@ -63,6 +63,8 @@ USE_DLADDR_DLSYM_FOR_BACKTRACE	inc/Backtrace.hpp
 
 USE_METHOD_MAP					inc/MethodMap.hpp
 
+LOCKS_INFO                      inc/platform/threads/Mutex.hpp
+
 USE_PTHREADS					inc/platform/threads/PThread.hpp
 
 DEF_THREAD_FACTORY				inc/platform/threads/ThreadFactory.hpp
