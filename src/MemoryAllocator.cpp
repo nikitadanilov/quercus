@@ -30,9 +30,9 @@
 
 
 
-/* $Id: MemoryAllocator.cpp,v 1.2 2000/09/21 18:03:49 philogelos Exp $ */
+/* $Id: MemoryAllocator.cpp,v 1.3 2001/06/23 12:28:41 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: MemoryAllocator.cpp,v 1.2 2000/09/21 18:03:49 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: MemoryAllocator.cpp,v 1.3 2001/06/23 12:28:41 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -68,12 +68,12 @@ void MemoryAllocator::dumpStatistics()
 void MemoryAllocator::addToDump( const MemoryAllocator *anElement )
 {
   //  OGuard _element( anElement, this );
-  if( dumpList == ( List * ) NIL )
+  if( dumpList == NIL )
 	{
 	  dumpList = new List();
 	  dumpList -> dontManage();
 	}
-  dumpList -> append( ( Top * ) anElement );
+  dumpList -> append( const_cast< MemoryAllocator * >( anElement ) );
 }
 
 List *MemoryAllocator::dumpList = NIL;
@@ -89,6 +89,9 @@ END_QR_NAMESPACE
 
 /* 
  * $Log: MemoryAllocator.cpp,v $
+ * Revision 1.3  2001/06/23 12:28:41  philogelos
+ * casts of NULL removed. const_cast<> used in stead of C-style cast
+ *
  * Revision 1.2  2000/09/21 18:03:49  philogelos
  * redundant cast removed
  *
