@@ -9,14 +9,8 @@ CONFIG_IN=../inc/config.h.in
 CONFIG_OUT=../inc/config.h
 CONFIG_TMP=/tmp/`basename $0`-config.$$
 DIALOG=dialog
-WIDTH=${COLUMNS:-80}
-HEIGHT=${LINES:-24}
-LIST_HEIGHT=$(($HEIGHT-7))
 
 trap "rm -f $TMP_DEF $CONFIG_TMP" 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-
-VARNAME_MAX_LEN=23
-DESC_MAX_LEN=40
 
 function usage()
 {
@@ -126,6 +120,23 @@ then
 	echo "$DIALOG doens' exist or is not executable to me?!"
 	exit
 fi
+
+case $STYLE in
+	"dialog")
+		WIDTH=${COLUMNS:-80}
+		HEIGHT=${LINES:-24}
+		LIST_HEIGHT=$(($HEIGHT-7))
+		VARNAME_MAX_LEN=23
+		DESC_MAX_LEN=40
+		;;
+	"kdialog")
+		WIDTH=270 #$((`xwininfo -root | egrep Width | awk '{ print $2 }'`/2))
+		HEIGHT=40 #$((`xwininfo -root | egrep Height | awk '{ print $2 }'`/2))
+		LIST_HEIGHT=30
+		VARNAME_MAX_LEN=50
+		DESC_MAX_LEN=100
+		;;
+esac
 
 declareVar DEBUG                   on  "Compile-in debugging support"
 declareVar DROP_CORE_ON_PANIC      on  "Drop core on call to panic"
@@ -237,6 +248,25 @@ then
 	fi
 fi
 
+# remove duplicates
+UNDEF0=''
+for uvar in $UNDEF
+do
+	FOUND=no
+	for dvar in $DEF
+		do
+			if test $uvar = $dvar
+				then
+					FOUND=yes
+					break
+				fi
+		done
+	if test $FOUND = no
+		then
+			UNDEF0="$UNDEF0 $uvar"
+		fi
+done
+
 CLINES=`cat $CONFIG_IN | wc -l`
 cat $CONFIG_IN | head -n $(($CLINES-2)) > $CONFIG_TMP
 echo >> $CONFIG_TMP
@@ -245,7 +275,7 @@ echo "   from $CONFIG_IN" >> $CONFIG_TMP
 echo "   at " `LANG=C ; date` " */" >> $CONFIG_TMP
 echo >> $CONFIG_TMP
 echo "/* First all unwanted */" >> $CONFIG_TMP
-for var in $UNDEF
+for var in $UNDEF0
 do
 	echo "#define UNWANT_$var" >> $CONFIG_TMP
 done
