@@ -33,7 +33,7 @@
 #ifndef __PTHREAD_HPP__
 #define __PTHREAD_HPP__
 
-/* $Id: PThread.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: PThread.hpp,v 1.3 2001/03/06 17:38:34 philogelos Exp $ */
 
 #define USE_PTHREADS
 
@@ -335,6 +335,12 @@ public: virtual boolean tryEnter( const Top * = null ) THROWS( Errno * );
 public:  virtual String  toString() const;
 
 protected: pthread_mutex_t core;
+#if defined( LOCKS_INFO )
+public: virtual const void *holds() const;
+public: virtual const void *trying() const;
+protected: int isHolds; /* ok, no-english... */
+protected: int isTrying;
+#endif
 };
 
 typedef struct
@@ -438,6 +444,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.hpp,v $
+ * Revision 1.3  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *

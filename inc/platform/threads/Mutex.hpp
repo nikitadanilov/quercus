@@ -33,13 +33,19 @@
 #ifndef __MUTEX_HPP__
 #define __MUTEX_HPP__
 
-/* $Id: Mutex.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: Mutex.hpp,v 1.2 2001/03/06 17:38:34 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
 #include "Protector.hpp"
 
+#define LOCKS_INFO
 
+#if defined( WANT_LOCKS_INFO )
+#define LOCKS_INFO
+#elif defined( UNWANT_LOCKS_INFO )
+#undef LOCKS_INFO
+#endif
 
 BEGIN_QR_NAMESPACE
 
@@ -76,12 +82,19 @@ interface Mutex : public virtual Protector
 	true, false otherwise.
  */
  public: virtual boolean tryEnter( const Top * = null ) = 0;
+#if defined( LOCKS_INFO )
+ public: virtual const void *holds() const = 0;
+ public: virtual const void *trying() const = 0;
+#endif
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: Mutex.hpp,v $
+ * Revision 1.2  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *

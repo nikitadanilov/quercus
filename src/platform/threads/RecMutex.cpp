@@ -30,9 +30,9 @@
 
 
 
-/* $Id: RecMutex.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $ */
+/* $Id: RecMutex.cpp,v 1.2 2001/03/06 17:38:34 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: RecMutex.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: RecMutex.cpp,v 1.2 2001/03/06 17:38:34 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -159,6 +159,19 @@ boolean RecMutex::tryEnter( const Top * )
 	}
 }
 
+#if defined( LOCKS_INFO )
+/* XXX not done yet */
+const void *RecMutex::holds() const
+{
+  return ( void * ) 1;
+}
+
+const void *RecMutex::trying() const
+{
+  return ( void * ) 2;
+}
+#endif
+
 String  RecMutex::toString() const
 {
   String result;
@@ -197,6 +210,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: RecMutex.cpp,v $
+ * Revision 1.2  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:02  philogelos
  * stored sources into sourceforge.net CVS
  *

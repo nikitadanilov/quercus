@@ -33,7 +33,7 @@
 #ifndef __RECMUTEX_HPP__
 #define __RECMUTEX_HPP__
 
-/* $Id: RecMutex.hpp,v 1.1.1.1 2000/07/19 17:14:06 philogelos Exp $ */
+/* $Id: RecMutex.hpp,v 1.2 2001/03/06 17:38:34 philogelos Exp $ */
 
 #include "CondVar.hpp"
 #include "Object.hpp"
@@ -100,12 +100,19 @@ protected: CondVar *condVar;
 protected: Index count;
 protected: Thread *thread;
 protected: Mutex *guardian;
+#if defined( LOCKS_INFO )
+ public: virtual const void *holds() const;
+ public: virtual const void *trying() const;
+#endif
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: RecMutex.hpp,v $
+ * Revision 1.2  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 17:14:06  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __DEBUGDIALOGUE_HPP__
 #define __DEBUGDIALOGUE_HPP__
 
-/* $Id: DebugDialogue.hpp,v 1.1.1.1 2000/07/19 16:55:41 philogelos Exp $ */
+/* $Id: DebugDialogue.hpp,v 1.2 2001/03/06 17:38:34 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "defines.h"
@@ -53,7 +53,7 @@ class DebugDialogue : public Object,
 
 public: typedef enum { 
   cont = 1, exit, core, toss, threads, objects, chunks, back, debug, 
-  trace, config, modules, shell } Action;
+  trace, config, modules, locks, shell } Action;
   /**
    */
 public: DebugDialogue();
@@ -71,6 +71,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DebugDialogue.hpp,v $
+ * Revision 1.2  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 16:55:41  philogelos
  * stored sources into sourceforge.net CVS
  *

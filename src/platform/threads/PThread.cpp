@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.5 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.6 2001/03/06 17:38:34 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.5 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.6 2001/03/06 17:38:34 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -78,6 +78,12 @@ extern "C" int nanosleep( const struct timespec *rqtp,
   impossible_; \
   return true; \
 }
+
+#if defined( LOCKS_INFO )
+#define LI_EXP( E ) E
+#else
+#define LI_EXP( E )
+#endif
 
 BEGIN_QR_NAMESPACE
 
@@ -484,6 +490,8 @@ boolean PThread::tester( int ) const
 PMutex::PMutex() THROWS( Errno * )
 {
   PTHC( pthread_mutex_init( &core, NULL ) );
+  LI_EXP( isTrying = 0 );
+  LI_EXP( isHolds = 0 );
 }
 
 PMutex::PMutex( pthread_mutexattr_t *anAttribute ) THROWS( Errno * )
@@ -498,15 +506,29 @@ PMutex::~PMutex() THROWS( Errno * )
 
 void PMutex::enter( const Top * ) THROWS( Errno * )
 {
-  //   DLOGOBJECT( "PMutex::enter: %s", this );
+  LI_EXP( ++isTrying );
   PTHC( pthread_mutex_lock( &core ) );
+  LI_EXP( isTrying = 0 );
+  LI_EXP( ++isHolds );
 }
 
 void PMutex::leave( const Top * ) THROWS( Errno * )
 {
   PTHC( pthread_mutex_unlock( &core ) );
-  //   DLOGOBJECT( "PMutex::leave: %s", this );
+  LI_EXP( --isHolds );
 }
+
+#if defined( LOCKS_INFO )
+const void *PMutex::holds() const
+{
+  return( ( isHolds > 0 ) ? &core : NULL );
+}
+
+const void *PMutex::trying() const
+{
+  return( ( isTrying > 0 ) ? &core : NULL );
+}
+#endif
 
 boolean PMutex::tryEnter( const Top * ) THROWS( Errno * )
 {
@@ -540,7 +562,9 @@ Mutex *PCondVar::getMutex() const
 
 void PCondVar::wait() THROWS( Errno * )
 {
+  LI_EXP( --mutex -> isHolds );
   PTHC( pthread_cond_wait( &core, &( mutex -> core ) ) );
+  LI_EXP( ++mutex -> isHolds );
 }
 
 void PCondVar::signal() THROWS( Errno * )
@@ -599,7 +623,6 @@ boolean PSemaphore::tryDec() THROWS( Errno * )
   PTRYCALL( sem_trywait, &core, EAGAIN );
 }
 
-
 PRWLock::PRWLock() THROWS( Errno * )
 {
   PTHC( pthread_rwlock_init( &core, NULL ) );
@@ -647,6 +670,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.6  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.5  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: DebugDialogue.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: DebugDialogue.cpp,v 1.3 2001/03/06 17:38:34 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: DebugDialogue.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DebugDialogue.cpp,v 1.3 2001/03/06 17:38:34 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -78,6 +78,9 @@ void *DebugDialogue::run()
 #endif
 							   debug,   "DBGR", "Attach debugger",
 							   modules, "MODL", "List loaded modules",
+#if defined( LOCKS_INFO ) && defined( MEMORY_LEAK_TEST )
+							   locks,   "LOCK", "List locks info",
+#endif
 							   trace,   "TRCE", "Print stack trace",
 							   config,  "CNFG", "Print configuration",
 							   shell,   "SHLL", "Escape to OS shell",
@@ -119,6 +122,41 @@ void *DebugDialogue::run()
 		case modules:
 		  DLOG( "Not implemented yet." );
 		  break;
+#if defined( LOCKS_INFO ) && defined( MEMORY_LEAK_TEST )
+		case locks:
+		  {
+			Top *end;
+			Top *point;
+			Index count;
+  
+			test_( Top::topLock != NULL );
+			Top::topLock -> enter( Top::topLock );
+
+			end = Top::lastInAllocatedChain;
+			point = Top::firstInAllocatedChain;
+
+  
+			for( count = 0 ; ( point != nil ) && ( point != end ) ; 
+				 point = point -> nextInAllocatedChain, ++count )
+			  {
+				Top::topLock -> leave( Top::topLock );
+				{
+				  Mutex *mutex;
+
+				  mutex = DCAST( point, Mutex );
+				  if( mutex != NULL )
+					{
+					  DLOG( "Mutex: %p, locked: %p, trying: %p",
+							mutex, mutex -> holds(), mutex -> trying() );
+					}
+				}
+				Top::topLock -> enter( Top::topLock );
+			  }
+			Top::topLock -> leave( Top::topLock );
+			DLOG( "All locks" );
+		  }
+		  break;
+#endif
 		case trace:
 		  {
 			Backtrace backtrace;
@@ -161,6 +199,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DebugDialogue.cpp,v $
+ * Revision 1.3  2001/03/06 17:38:34  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
