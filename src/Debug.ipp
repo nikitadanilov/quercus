@@ -34,7 +34,7 @@
 #ifndef __DEBUG_IPP__
 #define __DEBUG_IPP__
 
-/* $Id: Debug.ipp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: Debug.ipp,v 1.4 2001/06/23 12:12:56 philogelos Exp $ */
 
 #include "Debug.hpp"
 #include "String.hpp"
@@ -286,7 +286,7 @@ BEGIN_QR_NAMESPACE
 Mutex *Debug::getMutex() const
 {
   /* Use pthread_once! XXX */
-  if( mutex == ( Mutex * ) NULL )
+  if( mutex == NULL )
 	{
 	  MUTATE_MEMBER( mutex, Debug ) = THR_SYSTEM -> recMutex();
 	  OREG( ( const Mutex * ) mutex );
@@ -302,6 +302,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.ipp,v $
+ * Revision 1.4  2001/06/23 12:12:56  philogelos
+ * casts of NULL removed
+ *
  * Revision 1.3  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *
