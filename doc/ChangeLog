@@ -1,0 +1,522 @@
+2000-05-25  Philogelos  <Philogelos@yahoo.com>
+
+	* IterableAdapter.hpp: typo in comment corrected
+
+2000-04-30  Philogelos  <Philogelos@yahoo.com>
+
+	* StringBuffer.cpp (getLength): getLength() and getAt() added
+
+2000-04-29  Philogelos  <Philogelos@yahoo.com>
+
+	* RWLock.hpp (RWLock): inherited from Protector
+
+	* Protector.cpp (enterRead,enterWrite): defaults to enter.
+
+	* Protector.hpp: Made more like rw-lock: enterRead/enterWrite added.
+
+	* PThread.cpp (PRWLock): implemented
+
+	* PThread.hpp (class PRWLock): added
+
+	* platform-specific.h: define _XOPEN_SOURCE on Linux
+
+	* RWLock.cpp: class added.
+
+2000-04-23  Philogelos  <Philogelos@yahoo.com>
+
+	* quercus.hpp.in (__QUERCUS_ALL_HPP__): macro names changed to avoid conflict
+	with Quercus.hpp
+
+	* PThread.cpp (createFromFunc): set/getUserThread and userThread field added
+	(PTHC): make use of #arg syntax of the preprecessor
+
+2000-04-22  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (getTimeStampString): implement USE_GETTIMEOFDAY and
+	time normalization (from EMACS systime.h)
+
+	* PThread.cpp (getSelf): create get PThread object and insert it into TSA
+	on demand
+
+2000-04-09  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (getTimeStampString): clock `calibration' fixed
+
+	* c++.el: CVS keywords escaped from expansion
+
+	* PThread.cpp (pthreadStartupTrampoline): typo in log message corrected
+	(getMainThread): call dontManage() on mainThread
+
+	* POSIXPlatform.cpp (_POSIX_SOURCE): _POSIX_SOURCE defined for kill in <signal.h>
+
+	* XqCommon.hpp: explicit prototype for memset ifdefed out for __linux__
+
+	* ANSICPlatform.cpp: explicit prototypes ifdefed out for __linux__
+
+	* MinimalPlatform.cpp: explicit declaration of errno commented out
+
+	* DebugDialogue.hpp: move /* in comments removed
+
+	* Object.ipp: move /* in comments removed
+
+	* MemoryAllocator.cpp: move /* in comments removed
+
+	* ObservationContext.hpp: move /* in comments removed
+
+	* Debug.hpp: move /* in comments removed
+
+	* Backtrace.cpp (demangle): call ::free() from global namespace
+
+	* Backtrace.hpp (getDescriptionFor): call ::demangle()
+
+2000-04-07  Philogelos  <Philogelos@yahoo.com>
+
+	* Object.ipp: namespace corrected
+
+2000-04-06  Philogelos  <Philogelos@yahoo.com>
+
+	* Xq.cpp: namespace closed properly
+
+	* EnumeratedValues.cpp: converted to CRefs<>
+
+	* EnumerationAlgorithms.cpp (getCardinality): memory leak detected
+
+	* FrozenValue.cpp (getString): handling of NULL value
+
+	* CRef.tpp (toString): handling of NULL value
+
+	* CRef.tpp (CRef): default constructor added
+
+	* CRef.tpp (operator *): added
+
+	* EnumerationAlgorithms.cpp: converted to CRefs
+
+	* ANSICPlatform.cpp (completer): case-insensitive completion
+
+2000-04-05  Philogelos  <Philogelos@yahoo.com>
+
+	* Quercus.hpp (class Quercus): ::platform() added
+
+	* SolarisDL.cpp (LOCK_DL_MUTEX): corrected
+
+	* Quercus.cpp (isAskUserUseReadlineOn): added
+
+	* POSIXPlatform.cpp (system): constness
+
+	* POSIXPlatform.cpp (system): added
+
+	* Quercus.cpp (isUseWqOn): added
+
+	* Quercus.cpp: #include headers!
+
+	* ANSICPlatform.cpp (askUser): askUser implemented.
+
+	* Platform.hpp (Top): askUser() added
+
+	* new-operator.ipp (dumpAllocatedByNew): printing of allocation chain
+	uncommented
+
+	* POSIXPlatform.cpp (panicHandler): print pid
+
+	* SolarisDL.cpp: loadMutex dynamically initialised and dontManage()ed
+
+	* CRef.hpp (CRef): assignment operator added
+
+	* Backtrace.cpp (getDescriptionFor): dlsym/dladdr-based reflection
+
+2000-04-04  Philogelos  <Philogelos@yahoo.com>
+
+	* DynamicModule.cpp (DynamicModule): loaded initialised
+
+	* ANSICPlatform.hpp (nullTerminatedVaListToArray): handling of stdarg
+	added.
+
+	* ANSICPlatform.hpp (nullTerminatedVaListToArray): added
+
+	* POSIXPlatform.cpp (vexeclp): converted to use ANSICPlatform::stdarg*
+	calls and macros.
+
+2000-04-03  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (mmap): getPid(), kill(), mmap(), munmap() added
+
+2000-04-03  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (tester): added
+
+2000-04-03  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp: fork and exec?? family of functions added.
+
+2000-04-02  Philogelos  <Philogelos@yahoo.com>
+
+	* Quercus.hpp (isUseClock): method added.
+
+2000-03-27  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.hpp (USE_CLOCK): added clock()-based time measurement.
+
+2000-03-27  Philogelos  <Philogelos@yahoo.com>
+
+	* POSIXPlatform.cpp (setSignalHandlerToPanic): moved to signal()
+ 	(from sigaction()) due to incorrigable problems with C++ namespace
+ 	clashes.
+
+2000-03-27  Philogelos  <Philogelos@yahoo.com>
+
+	* PThread.cpp (getMainThread): corrected invalid cast. (thanks to
+ 	ChangeLog!)
+
+2000-03-22  Philogelos  <Philogelos@yahoo.com>
+
+	* PThread.cpp (getMainThread): static mainThread converted to
+ 	proper singleton
+
+2000-02-22  Philogelos  <Philogelos@yahoo.com>
+
+	* Quercus.hpp (class Quercus): New class added.
+
+2000-02-22  Philogelos  <Philogelos@yahoo.com>
+
+	* Everything moved to the QR namespace (optionally, see USE_NAMESPACE). 
+
+2000-02-15  Philogelos  <Philogelos@yahoo.com>
+
+	* EnumerationAlgorithms.cpp (EnumerationOverIterator): convertor of Iterators to Enumerations (via separate thread).
+
+2000-02-15  Philogelos  <Philogelos@yahoo.com>
+
+	* Debug.ipp (logObject): handle null anObject pointer.
+
+2000-02-14  Philogelos  <Philogelos@yahoo.com>
+
+	* StringImplementation.hpp (class StringImplementation): booleans changed to bitfields.
+
+2000-01-24  Philogelos  <Philogelos@yahoo.com>
+
+	* DefTree.cpp: canRemove/removeSlot interface removed. Use RemovablePosition::remove() instead.
+
+1999-11-24  Philogelos  <Philogelos@yahoo.com>
+
+	* PassiveObserver.hpp (PassiveObserver): ::firePostAdded
+
+1999-11-22  Philogelos  <Philogelos@yahoo.com>
+
+	* USE_TYPEID added and default implementation of ::getClassName() added to Top
+
+1999-10-28  Philogelos  <Philogelos@yahoo.com>
+
+	* ModifiableContainer.cpp (add): method add() added & implemented
+
+1999-10-27  Philogelos  <Philogelos@yahoo.com>
+
+	* Queue.hpp (): class Queue added
+
+1999-09-27  Philogelos  <Philogelos@yahoo.com>
+
+	* Exception.hpp (class Exception): default constructor removed and calls to actual 
+	constructor added to all descendants (def. constructor cleared member fields)
+
+1999-09-21  Philogelos  <Philogelos@yahoo.com>
+
+	* UCSChar.cpp (toCChar): changed to return zero-terminated string (Char::asString() assumes this)
+
+1999-08-05  Philogelos  <Philogelos@yahoo.com>
+
+	* MinimalPlatform.cpp: #include "exceptions/OutOfMemory.hpp" added
+
+	* Stack.cpp (removeSlot): null -> NULL, consts added
+
+	* DictKeyPosition.cpp: #include "String.hpp" added
+
+	* LayeredPosition.cpp (equals): null -> NULL
+
+	* LayeredContainer.cpp (createFromBase): null -> NULL
+
+	* MutablePositionAdapter.cpp: #include "exceptions/InternalError.hpp", #include "String.hpp" added
+
+	* MutablePositionEnumeration.cpp: #include "String.hpp" added
+
+	* PositionEnumeration.cpp: #include "String.hpp" added
+
+	* ValuePosition.cpp: #include "String.hpp" added
+
+	* EnumeratedValues.cpp: #include "String.hpp" added
+
+	* ContainerAdapter.cpp: #include "LinkManager.hpp" added
+
+	* ESequence.cpp: #include "String.hpp" added
+
+	* TypedEnumeration.cpp: cvsid and __FILE__ removed (conflict with included .tpp)
+	#inclued removed
+
+	* ContextAdapter.cpp: #include "String.hpp" added
+
+1999-08-05  Philogelos  <Philogelos@yahoo.com>
+
+	* Debug.ipp: removed #include <unistd.h>
+
+1999-07-23  Philogelos  <Philogelos@yahoo.com>
+
+	* Debug.cpp ("C"): moved terminateHandler and unexcpectedHendler here from Throwable
+
+1999-07-21  Philogelos  <Philogelos@yahoo.com>
+
+	* LayeredContainer.cpp: OGuards added
+
+	* Debug.cpp: __pure_virtual() added
+
+1999-06-20  Philogelos  <Philogelos@yahoo.com>
+
+	* LayeredPosition.cpp (): added
+
+	* Stack.hpp (virtual): inheritance changed to virtual for all base-classes
+
+1999-06-19  Philogelos  <Philogelos@yahoo.com>
+
+	* Debug.cpp: static messages added
+
+	* Debug.hpp (class Debug): static messages added
+
+	* defines.h (postC_): use static strings in Debug in stead of char * literals
+
+1999-06-05  Philogelos  <Philogelos@yahoo.com>
+
+	* new-operator.ipp (operator delete): bug (call to MemoryMonitor::dec after deallocation) corrected
+
+	* defines.h (DEF_THROW): changed to RuntimeError * only
+
+	* DivideByZero.hpp (class DivideByZero): made sub-class of RuntimeError (not InternalError)
+
+	* InternalError.cpp (getDescription): getDescription changed to call super-class version
+
+	* RuntimeError.hpp: added.
+
+	* Exception.hpp (ObservableAdapter): comment wording changed
+
+1999-05-22  Philogelos  <Philogelos@yahoo.com>
+
+	* Throwable.cpp (terminateHandler): handlers to terminate and unexpected added
+
+	* Throwable.hpp (classInit): added class initialisation
+
+	* Stack.cpp (top): THROWS clauses added and this OGuarded
+
+	* ANSICPlatform.cpp (allocateMemory): throws getOutOfMemory() on malloc's failure.
+
+	* ANSICPlatform.hpp (ANSICPlatform): ::getOutOfMemory added
+
+	* OutOfMemory.cpp (class OutOfMemory): implemented
+
+	* OutOfMemory.hpp (class OutOfMemory): added
+
+	* defines.h (mutable): doc-string added
+
+	* README: license file changed to COPYING.LIB
+
+1999-04-19  Philogelos  <Philogelos@yahoo.com>
+
+	* defines.h: copyright plate added
+
+1999-04-19  Philogelos  <Philogelos@yahoo.com>
+
+	* ObjectFactory.hpp: class ObjectFactory created.
+
+1999-04-16  Philogelos  <Philogelos@yahoo.com>
+
+	* Object.hpp (equals): typo in comment corrected.
+
+1999-04-12  Philogelos  <Philogelos@yahoo.com>
+
+	* all calls to dynamic_cast changed to [DT]CAST macros.
+
+1999-04-11  Philogelos  <Philogelos@yahoo.com>
+
+	* EnumerationAlgorithms.hpp (getOneWaySum): added.
+
+Fri Apr  2 14:28:04 1999  Philogelos  <Philogelos@yahoo.com>
+
+	* NotImplemented.hpp: wrong macro name corrected
+	* all libc (save for malloc and free in new-operator.cpp) and
+ 	POSIX calls encapsulated into Platform interface.
+
+1999-03-03  Philogelos  <Philogelos@yahoo.com>
+
+	* Debug.hpp (class Debug): switched to va_list mechanics (will
+ 	have to test portability)
+
+	* Makefile: put sources under GNU Library License
+
+1999-02-28  Philogelos  <Philogelos@yahoo.com>
+
+	* EventAdapter.cpp: added
+
+	* Event.hpp (Event): added
+
+	* Throwable.hpp (Throwable): unused methods removed
+
+	* Condition.hpp (virtual): sub-classed from Observable
+
+	* Exception.hpp: sub-classed from ObservableAdapter
+
+	* UTF8Converter.cpp: excessive /./ in path-name removed
+
+	* ActiveObserver.hpp: typo corrected (ActiveObserver): ::fire()
+ 	moved to PassiveObserver
+
+	* Observer.hpp (Top): fit to 80 columns
+
+1999-02-27  Philogelos  <Philogelos@yahoo.com>
+
+	* List.cpp: some methods corrcted to throw EmptyContainer in stead
+ 	of InvalidArgument (should I create EmptyList exception?)
+
+1999-02-02  Philogelos  <Philogelos@yahoo.com>
+
+	* MutablePosition.hpp (MutablePosition): ``virtual'' qualifier
+ 	removed in inheritance specification
+
+	* Position.hpp (virtual): Position was (wrongly) inherited from
+ 	Object, corrected.
+
+	* Container.hpp (virtual): Container was (wrongly) inherited from
+ 	Object, corrected.
+
+1999-02-01  Philogelos  <Philogelos@yahoo.com>
+
+	* PuncturedContainer.hpp (Container): splitted into to methods:
+ 	``current punct'' and ``always to punct''.
+
+	* List.cpp (getCurrentPunct): updated to reflect changes in
+ 	PuncturedContainer
+
+	* Set.cpp (getAny): throw EmptyContainer if set is empty.
+
+1999-01-30  Philogelos  <Philogelos@yahoo.com>
+
+	* PrettyPrintIterable.cpp (tester): String += operator used
+
+1999-01-07  Philogelos  <Philogelos@yahoo.com>
+
+	* Char.cpp (getString): memory leak corrected
+
+	* StringEnumeration.cpp (getNextElement): modified to return Chars
+
+	* Object.cpp (dontManage): add referenece (for stack objects)
+
+	* EnumerationAlgorithms.cpp (findIndex): guard (and recycle
+ 	arguments)
+
+1998-12-19  Philogelos  <Philogelos@yahoo.com>
+
+	* Object.cpp (equals): guard (and recycle if ness.) right-side.
+  	(dontManage): rename ::auto() (I saw this keyword years ago last
+ 	time)
+
+	* StringImplementation.cpp (toString): duplicate output removed
+
+	* Object.hpp (virtual): ::auto() added
+
+	* DumbDictionary.cpp (getValueEnumeration): declare
+ 	getValueEnumeration() to return getValues()
+
+1998-12-11  Philogelos  <Philogelos@yahoo.com>
+
+	* EnumerationAlgorithms.cpp (contains): pre-condition ( anElement
+ 	!= nil ) lifted
+
+1998-12-10  Philogelos  <Philogelos@yahoo.com>
+
+	* List.hpp (class List): setCurrentAt, getCurrentIndex added
+
+	* EnumerationAlgorithms.hpp (Object): ::findIndex added
+
+	* RangedContainer.hpp (RangedContainer): ::findIndex added
+
+	* IndexableContainer.hpp (class PiMap): moved here
+
+	* RangedContainer.hpp (class PiMap): added
+
+	* DictKeyPosition.cpp (class DictKeyPosition): created
+
+	* DictKeyPosition.hpp (class DictKeyPosition): created
+
+1998-12-08  Philogelos  <Philogelos@yahoo.com>
+
+	* DumbDictionary.cpp: created
+
+	* DumbDictionary.hpp: created
+
+1998-12-06  Philogelos  <Philogelos@yahoo.com>
+
+	* Integer.hpp (class Integer): created
+
+	* Makefile (archive): archive name changes to quercus.
+
+	* Set.cpp (add): memory leak: recycle old value
+
+	* String.cpp (equals): recycle right-hand argument if neccessary
+
+	* ContainerAdapter.cpp (find): PGuard to position added (find):
+ 	scoping corrected (for GC)
+
+	* List.cpp (createListPosition): don't do ::insert at the end of
+ 	the list (createListPosition): move to last (from ``end''
+ 	position)
+
+	* ContainerAdapter.cpp (isValid): cast added
+
+	* Exception.cpp (getFullDescription): space added for readability
+
+	* Set.hpp (SetPosition class): added (class SetPositionMap): added
+
+1998-12-01  Philogelos  <Philogelos@yahoo.com>
+
+	* Set.cpp (clone): changed to produce ``more'' deep copy.
+  	(tester): testing added (getNew): guard added (getNew): another
+ 	guard added
+
+	* List.cpp (tester): wrong length test corrected (tester): test to
+ 	::setAt added (toFirst): post-condition added (toLast):
+ 	post-condition added
+
+	* Empty.cpp: minor include typo corrected
+
+	* Makefile (depend): tuned to work with separate .o tree
+
+	* List.cpp (getHighBound): corrected to return length()
+
+	* List.hpp (class List): methods commented
+
+1998-11-27  Philogelos  <Philogelos@yahoo.com>
+
+	* List.cpp (List): copy constructor added (equals): rewind other
+ 	list to head.  (List): locks this through PGuard
+
+1998-11-26  Philogelos  <Philogelos@yahoo.com>
+
+	* List.cpp (behead): lock retrieved head during method execution.
+  	(betail): lock retrieved tail during method execution.  (behead):
+ 	lock head trough PGuard (clearAll): memory leak corrected: recycle
+ 	heads.  (remove): lock result through PGuard (rather than OGuard)
+
+	* test.cpp (main): test only List class for time being.
+
+	* List.cpp (invariant): refined: getCurrent() have to be valid
+ 	only if we are not at the end.  (tester): new tests added.
+
+	* Makefile (CPP_INC): IdentityMap.?pp added (COPT): -dr removed
+
+	* IdentityMap.hpp (virtual): class IdentityMap added
+
+1998-11-25  Philogelos  <Philogelos@yahoo.com>
+
+	* (repository): directory ``all'' added to project
+
+	* Sources again put under CVS
+
+	* Robustus changed to Robusta everywhere (Quercus (f.) is an
+ 	exception!)
+	
+	* ChangeLog initiated.
+
