@@ -30,9 +30,9 @@
 
 
 
-/* $Id: ANSICPlatform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: ANSICPlatform.cpp,v 1.4 2002/03/09 15:26:08 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.4 2002/03/09 15:26:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -237,7 +237,7 @@ static Index maxOffset;
 static Mutex *readlineSerializer = NULL;
 static char *labels[ ASK_USER_MAX_CHOICES ];
 static Index offset;
-static char *completer( char *text, int state )
+static char *completer( const char *text, int state )
 {
   if( state == 0 )
 	{
@@ -308,13 +308,13 @@ Index ANSICPlatform::askUser( const char *caption,
 		MGuard _( readlineSerializer, this );
 		char *line;
 
-		Function *oldCompleter;
+		char * ( * oldCompleter )( const char *, int );
 		int oldAppendChar;
 
 		oldCompleter = rl_completion_entry_function;
 		oldAppendChar = rl_completion_append_character;
 
-		rl_completion_entry_function = ( Function * ) completer;
+		rl_completion_entry_function = completer;
 		rl_completion_append_character = 0;
 		do
 		  {
@@ -605,6 +605,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ANSICPlatform.cpp,v $
+ * Revision 1.4  2002/03/09 15:26:08  philogelos
+ * fight bit rot
+ *
  * Revision 1.3  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *

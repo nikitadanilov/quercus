@@ -30,14 +30,15 @@
 
 
 
-/* $Id: Aq.cpp,v 1.1.1.1 2000/07/19 16:52:31 philogelos Exp $ */
+/* $Id: Aq.cpp,v 1.2 2002/03/09 15:26:08 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Aq.cpp,v 1.1.1.1 2000/07/19 16:52:31 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Aq.cpp,v 1.2 2002/03/09 15:26:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
 #include "ui/aq/Aq.hpp"
 #include "Debug.hpp"
+#include "iter/enumerations/TypedEnumeration.hpp"
 
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x510)
 extern "C" double sqrt( double );
@@ -559,6 +560,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Aq.cpp,v $
+ * Revision 1.2  2002/03/09 15:26:08  philogelos
+ * fight bit rot
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:31  philogelos
  * stored sources into sourceforge.net CVS
  *

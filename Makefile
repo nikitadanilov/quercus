@@ -1,6 +1,9 @@
 # Makefile for Quercus Robusta project
-# $Id: Makefile,v 1.15 2001/07/03 12:46:25 philogelos Exp $
+# $Id: Makefile,v 1.16 2002/03/09 15:26:08 philogelos Exp $
 # $Log: Makefile,v $
+# Revision 1.16  2002/03/09 15:26:08  philogelos
+# fight bit rot
+#
 # Revision 1.15  2001/07/03 12:46:25  philogelos
 #  . switch to immediate assignment
 #  . align code
@@ -164,7 +167,7 @@ DEFINES      = -D_REENTRANT
 # -D_THREAD_SAFE -D__USE_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 
 COPT         = -frepo \
                -fno-vtable-thunks
-PROFOPT      = -g #-pg
+PROFOPT      = -g -pg
 LIBS         = -L/usr/X11/lib \
                -lbfd \
                -liberty \

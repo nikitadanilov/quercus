@@ -30,9 +30,9 @@
 
 
 
-/* $Id: POSIXPlatform.cpp,v 1.5 2001/03/06 17:44:14 philogelos Exp $ */
+/* $Id: POSIXPlatform.cpp,v 1.6 2002/03/09 15:26:08 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.5 2001/03/06 17:44:14 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.6 2002/03/09 15:26:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -436,6 +436,8 @@ typedef struct
   Index  nanDelay;
 } ProfileTask;
 
+extern int profil( unsigned short int *, size_t, size_t, unsigned int );
+
 static void *profileThread( void *aTask )
 {
   preC_( aTask != NULL );
@@ -465,11 +467,9 @@ static void *profileThread( void *aTask )
 	  int fd;
   
 	  buffer = new unsigned short[ bufSize + 1 ];
-	  ::profil( buffer, bufSize, startAddress - ( unsigned short * ) NULL, 
-				scale );
+	  profil( buffer, bufSize, startAddress - ( unsigned short * ) NULL, scale );
 	  THR_SYSTEM -> sleep( task -> secDelay, task -> nanDelay );
-	  ::profil( buffer, 0, startAddress - ( unsigned short * ) NULL, 
-				0 );
+	  profil( buffer, 0, startAddress - ( unsigned short * ) NULL, 0 );
 	  
 	  fileName = task -> outFileTemplate.format( 1, tick ).getChars();
 	  DLOG( "Profiling: writing tick %li to `%s'", tick, fileName );
@@ -573,7 +573,6 @@ const char *POSIXPlatform::getImageName() const
 char *POSIXPlatform::getTimeStampString()
 {
 #if defined( USE_GETTIMEOFDAY )
-  struct timezone dummy;
   struct timeval timeValue;
 #else
   time_t instant;
@@ -598,7 +597,7 @@ char *POSIXPlatform::getTimeStampString()
   static char buffer[ 40 ];
 
 #if defined( USE_GETTIMEOFDAY )
-  if( gettimeofday( &timeValue, &dummy ) == -1 )
+  if( gettimeofday( &timeValue, NULL ) == -1 )
 #else
   if( ( time( &instant ) == -1 )
 #if defined( USE_CLOCK_GETTIME )
@@ -801,6 +800,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.cpp,v $
+ * Revision 1.6  2002/03/09 15:26:08  philogelos
+ * fight bit rot
+ *
  * Revision 1.5  2001/03/06 17:44:14  philogelos
  * correct namespace handling for main()
  *
