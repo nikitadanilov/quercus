@@ -30,10 +30,10 @@
 
 
 
-#ifndef __RECONGNIZER_HPP__
-#define __RECONGNIZER_HPP__
+#ifndef __RECOGNIZER_HPP__
+#define __RECOGNIZER_HPP__
 
-/* $Id: Recognizer.hpp,v 1.1 2000/09/21 18:20:31 philogelos Exp $ */
+/* $Id: Recognizer.hpp,v 1.2 2000/10/11 19:48:58 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
@@ -45,7 +45,7 @@ BEGIN_QR_NAMESPACE
    @author Philogelos
    @created Tue Sep 12 16:55:23 2000
 */
-interface Recongnizer : public virtual Top
+interface Recognizer : public virtual Top
 {
  public: virtual boolean accepts( const Top *const anObject ) const = 0;
 };
@@ -54,10 +54,13 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Recognizer.hpp,v $
+ * Revision 1.2  2000/10/11 19:48:58  philogelos
+ * Typo in macro name corrected
+ *
  * Revision 1.1  2000/09/21 18:20:31  philogelos
  * Interface used (currently only) by Lexer
  *
  */
 
-/* __RECONGNIZER_HPP__ */
+/* __RECOGNIZER_HPP__ */
 #endif
