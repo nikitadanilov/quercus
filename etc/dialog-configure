@@ -23,13 +23,22 @@ function trunc()
 	resultOfTrunc=`echo $1 | cut -c 1-$2`
 }
 
+lastIndex=0
+resultOfIndexVar=''
+function indexVar()
+{
+	resultOfIndexVar=`printf '%3.3i' $(($lastIndex + 1))`
+	lastIndex=$(($lastIndex + 1))
+}
+
 resultOfInitVar=''
 function initVar()
 {
 	local truncatedVarName
 
-	trunc $1 $VARNAME_MAX_LEN
-	truncatedVarName=$resultOfTrunc
+	indexVar $1
+#	trunc $1 $VARNAME_MAX_LEN
+	truncatedVarName=$resultOfIndexVar
 	eval "fullName_$truncatedVarName=$1"
 	resultOfInitVar=$truncatedVarName
 }
@@ -52,8 +61,8 @@ function getDefValue()
 		resultOfgetDefValue=`( echo '#include "quercus.hpp"' ; echo "#if defined( $1 )" ; echo on ; echo "#else" ; echo off ; echo "#endif" ) | cc -I. -Iinc -Isrc -E - 2>/dev/null | tail -4`
 		echo Def value found for $1: $resultOfgetDefValue
 	else
-		echo Using factory setting for $1
 		resultOfgetDefValue=$2
+		echo Using factory setting for $1: $resultOfgetDefValue
 	fi
 }
 
@@ -132,7 +141,7 @@ DIALOG=$2
 
 if test ! -x $DIALOG
 then
-	echo "$DIALOG doens' exist or is not executable to me?!"
+	echo "$DIALOG doesn't exist or is not executable to me?!"
 	exit
 fi
 
@@ -142,7 +151,7 @@ case $STYLE in
 		HEIGHT=${LINES:-24}
 		LIST_HEIGHT=$(($HEIGHT-7))
 		VARNAME_MAX_LEN=23
-		DESC_MAX_LEN=40
+		DESC_MAX_LEN=$(($WIDTH-10))
 		;;
 	"kdialog")
 		WIDTH=270 #$((`xwininfo -root | egrep Width | awk '{ print $2 }'`/2))
@@ -223,6 +232,7 @@ fi
 if test x$flag_USE_THREADS = xyes
 then
 	clearVariables
+	declareVar LOCKS_INFO  on  "Gather information about locks held"
 	declareVar USE_PTHREADS  on  "Compile support for POSIX-based threads"
 	declareVar USE_WIN32THREADS  off  "Compile support for Win32-based threads"
 	askVariables "Thread systems to support"
