@@ -31,9 +31,9 @@
 
 
 
-/* $Id: DumbDictionary.cpp,v 1.1.1.1 2000/07/19 16:46:21 philogelos Exp $ */
+/* $Id: DumbDictionary.cpp,v 1.2 2001/04/16 10:40:41 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: DumbDictionary.cpp,v 1.1.1.1 2000/07/19 16:46:21 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DumbDictionary.cpp,v 1.2 2001/04/16 10:40:41 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -124,9 +124,10 @@ Top *DumbDictionary::removeKey( const DictKey *aKey )
   Top *oldValue;
 
   oldValue = getValueAtKey( aKey );
+  PGuard _old( oldValue, this );
   keyIndex = getIndexOf( aKey );
   getConses() -> setCurrentAt( keyIndex );
-  getConses() -> remove();
+  OGuard _del( getConses() -> remove(), this );
   return oldValue;
 }
 
@@ -202,7 +203,7 @@ Pair *DumbDictionary::getConsAt( const Index anIndex ) const
   Top *cons;
 
   cons = getConses() -> getAt( anIndex );
-  test_( DCAST( cons, Pair ) != ( Pair * ) NIL );
+  test_( DCAST( cons, Pair ) != NIL );
   return DCAST( cons, Pair );
 }
 
@@ -246,7 +247,7 @@ DictPositionMap::~DictPositionMap()
 
 Top *DictPositionMap::apply( Top *anArg )
 {
-  preC_( dict != ( Dictionary * ) NIL );
+  preC_( dict != NIL );
   preC_( anArg != ( Top * ) nil );
 
   DictKeyPosition *wrapper;
@@ -445,6 +446,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DumbDictionary.cpp,v $
+ * Revision 1.2  2001/04/16 10:40:41  philogelos
+ * Memory leak on key/value removeal corrected
+ *
  * Revision 1.1.1.1  2000/07/19 16:46:21  philogelos
  * stored sources into sourceforge.net CVS
  *
