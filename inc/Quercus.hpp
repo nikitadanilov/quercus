@@ -33,7 +33,7 @@
 #ifndef __QUERCUS_HPP__
 #define __QUERCUS_HPP__
 
-/* $Id: Quercus.hpp,v 1.1.1.1 2000/07/19 16:57:18 philogelos Exp $ */
+/* $Id: Quercus.hpp,v 1.2 2001/03/06 17:52:50 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "defines.h"
@@ -116,6 +116,8 @@ public: static boolean isHasBFDOn();
 public: static boolean isHasLibertyOn();
 public: static boolean isUseDladdrDlsymForBacktraceOn();
 public: static boolean isUseMethodMapOn();
+
+public: static boolean isLocksInfoOn();
 public: static boolean isUsePThreadsOn();
 public: static boolean isUseWin32On();
 public: static boolean isUseWin32ThreadsOn();
@@ -133,6 +135,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Quercus.hpp,v $
+ * Revision 1.2  2001/03/06 17:52:50  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 16:57:18  philogelos
  * stored sources into sourceforge.net CVS
  *

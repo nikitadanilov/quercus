@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Quercus.cpp,v 1.1.1.1 2000/07/19 16:42:05 philogelos Exp $ */
+/* $Id: Quercus.cpp,v 1.2 2001/03/06 17:53:51 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Quercus.cpp,v 1.1.1.1 2000/07/19 16:42:05 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Quercus.cpp,v 1.2 2001/03/06 17:53:51 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -199,6 +199,8 @@ String  Quercus::configInfo()
 
 			"USE_METHOD_MAP: %B\n"
 				 
+			"LOCKS_INFO: %B\n"
+
 			"USE_PTHREADS: %B\n"
 
 			"USE_WIN32: %B\n"
@@ -269,6 +271,7 @@ String  Quercus::configInfo()
 
 			isUseMethodMapOn(),
 
+			isLocksInfoOn(),
 			isUsePThreadsOn(),
 
 			isUseWin32On(),
@@ -646,6 +649,15 @@ boolean Quercus::isUseMethodMapOn()
 #endif
 }
 
+boolean Quercus::isLocksInfoOn()
+{
+#if defined( LOCKS_INFO )
+  return true;
+#else
+  return false;
+#endif
+}
+
 boolean Quercus::isUsePThreadsOn()
 {
 #if defined( USE_PTHREADS )
@@ -724,6 +736,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Quercus.cpp,v $
+ * Revision 1.2  2001/03/06 17:53:51  philogelos
+ * Support for LOCKS_INFO
+ *
  * Revision 1.1.1.1  2000/07/19 16:42:05  philogelos
  * stored sources into sourceforge.net CVS
  *
