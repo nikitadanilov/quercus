@@ -30,9 +30,9 @@
 
 
 
-/* $Id: TreePath.cpp,v 1.1.1.1 2000/07/19 16:48:51 philogelos Exp $ */
+/* $Id: TreePath.cpp,v 1.2 2001/04/16 10:45:39 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: TreePath.cpp,v 1.1.1.1 2000/07/19 16:48:51 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: TreePath.cpp,v 1.2 2001/04/16 10:45:39 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -40,6 +40,7 @@ static char debugFileId[] = __FILE__;
 #include "containers/EmptyContainer.hpp"
 #include "containers/lists/List.hpp"
 #include "containers/trees/TreePath.hpp"
+#include "Equivalence.hpp"
 #include "PGuard.hpp"
 #include "Debug.hpp"
 
@@ -64,7 +65,7 @@ void TreePath::push( TreeNode *aNode )
   preC_( aNode != ( TreeNode * ) NIL );
   
   if( ! EAlg::get() -> 
-	  contains( top() -> getChildren(), aNode, true ) )
+	  contains( top() -> getChildren(), aNode, DeltaRelation::getDelta() ) )
 	{
 	  throw new InternalError( "TreePath::push(): cannot append to path", null );
 	}
@@ -93,7 +94,7 @@ void TreePath::prepend( TreeNode *aNode )
   preC_( aNode != ( TreeNode * ) NIL );
   
   if( ! EAlg::get() -> 
-	  contains( aNode -> getChildren(), top(), true ) )
+	  contains( aNode -> getChildren(), top(), DeltaRelation::getDelta() ) )
 	{
 	  throw new InternalError( "TreePath::prepend(): cannot prepend to path", null );
 	}
@@ -113,7 +114,8 @@ boolean TreePath::isValid() const
 	  TreeNode *nextNode;
 
 	  nextNode = TCAST( nodes -> getCurrentValue(), TreeNode );
-	  if( ! EAlg::get() -> contains( scan -> getChildren(), nextNode, true ) )
+	  if( ! EAlg::get() -> contains( scan -> getChildren(), nextNode, 
+									 DeltaRelation::getDelta() ) )
 		{
 		  return false;
 		}
@@ -169,6 +171,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TreePath.cpp,v $
+ * Revision 1.2  2001/04/16 10:45:39  philogelos
+ * adapted to new interface of EnumerationAlgorithms::contains()
+ *
  * Revision 1.1.1.1  2000/07/19 16:48:51  philogelos
  * stored sources into sourceforge.net CVS
  *
