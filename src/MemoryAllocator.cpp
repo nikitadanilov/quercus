@@ -30,9 +30,9 @@
 
 
 
-/* $Id: MemoryAllocator.cpp,v 1.1.1.1 2000/07/19 16:41:06 philogelos Exp $ */
+/* $Id: MemoryAllocator.cpp,v 1.2 2000/09/21 18:03:49 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: MemoryAllocator.cpp,v 1.1.1.1 2000/07/19 16:41:06 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: MemoryAllocator.cpp,v 1.2 2000/09/21 18:03:49 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -76,7 +76,7 @@ void MemoryAllocator::addToDump( const MemoryAllocator *anElement )
   dumpList -> append( ( Top * ) anElement );
 }
 
-List *MemoryAllocator::dumpList = ( List * ) NIL;
+List *MemoryAllocator::dumpList = NIL;
 
 #endif
 
@@ -89,6 +89,9 @@ END_QR_NAMESPACE
 
 /* 
  * $Log: MemoryAllocator.cpp,v $
+ * Revision 1.2  2000/09/21 18:03:49  philogelos
+ * redundant cast removed
+ *
  * Revision 1.1.1.1  2000/07/19 16:41:06  philogelos
  * stored sources into sourceforge.net CVS
  *
