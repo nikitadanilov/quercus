@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: Object.cpp,v 1.1.1.1 2000/07/19 16:41:43 philogelos Exp $ */
+/* $Id: Object.cpp,v 1.2 2001/06/23 12:17:37 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Object.cpp,v 1.1.1.1 2000/07/19 16:41:43 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Object.cpp,v 1.2 2001/06/23 12:17:37 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -44,8 +44,8 @@ static char debugFileId[] = __FILE__;
 #include "Debug.hpp"
 #include "MemoryMonitor.hpp"
 #include "LinkManager.hpp"
-#include "LifeTimeController.hpp"
 #include "AeternalLifeController.hpp"
+#include "LifeTimeController.hpp"
 
 #include "exceptions/ShouldBeOverriden.hpp"
 
@@ -94,8 +94,7 @@ Object::~Object()
 const Object *Object::dontManage() const
 {
   addRef();
-  ( ( Object * ) this ) -> 
-	setLifeTimeController( new AeternalLifeController() );
+  setLifeTimeController( AELIFE );
   return this;
 }
 
@@ -142,7 +141,7 @@ LifeTimeController *Object::getLifeTimeController() const
   return ltController;
 }
 
-void Object::setLifeTimeController( LifeTimeController *aController )
+void Object::setLifeTimeController( LifeTimeController *aController ) const
 {
   FMOVE( ltController, aController );
 }
@@ -188,7 +187,7 @@ Protector *Object::getProtector() const
   return protector;
 }
 
-void Object::setProtector( Protector *aProtector )
+void Object::setProtector( Protector *aProtector ) const
 {
   FMOVE( protector, aProtector );
 }
@@ -263,6 +262,11 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Object.cpp,v $
+ * Revision 1.2  2001/06/23 12:17:37  philogelos
+ *  . ::setProtector(), ::setLifeTimeController() made const
+ *  . ::protector, ::ltController made mutable
+ *  . ::beingDeleted is no longer bit-field
+ *
  * Revision 1.1.1.1  2000/07/19 16:41:43  philogelos
  * stored sources into sourceforge.net CVS
  *

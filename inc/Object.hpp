@@ -33,7 +33,7 @@
 #ifndef __OBJECT_HPP__
 
 #define __OBJECT_HPP__
-/* $Id: Object.hpp,v 1.1.1.1 2000/07/19 16:57:02 philogelos Exp $ */
+/* $Id: Object.hpp,v 1.2 2001/06/23 12:17:37 philogelos Exp $ */
 
 #include "defines.h"
 #include "Top.hpp"
@@ -162,7 +162,7 @@ public:  virtual Protector *getProtector() const;
 
      @see protector
   */
-public:  virtual void setProtector( Protector *aProtector );
+public:  virtual void setProtector( Protector *aProtector ) const;
 
 
   /**
@@ -211,7 +211,7 @@ public:  virtual void lockRead( const Top *anOwner ) const;
      @see #getLifeTimeController
      @see #ltController
   */
-public:  virtual void setLifeTimeController( LifeTimeController *aController );
+public:  virtual void setLifeTimeController( LifeTimeController *aController ) const;
   /**
      Returns life-time controller for this object or nil if
      no controller were registered through 
@@ -322,7 +322,7 @@ protected: mutable Index refCount;
      @see #lock
      @see #unlock
   */
-protected: Protector *protector;
+protected: mutable Protector *protector;
 
   /**
      Object controlling this object life span.
@@ -330,7 +330,7 @@ protected: Protector *protector;
      @see getLifeTimeController
      @see setLifeTimeController
   */
-protected: LifeTimeController *ltController;
+protected: mutable LifeTimeController *ltController;
 
   /**
      True iff object is currently being deleted.
@@ -339,7 +339,7 @@ protected: LifeTimeController *ltController;
      @see #setBeingDeleted
      @see #isBeingDeleted
   */
-protected: mutable boolean beingDeleted :1;
+protected: mutable boolean beingDeleted;
 
 #if defined( USE_PER_CLASS_NEW )
 public: void *operator new( size_t size );
@@ -350,6 +350,11 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Object.hpp,v $
+ * Revision 1.2  2001/06/23 12:17:37  philogelos
+ *  . ::setProtector(), ::setLifeTimeController() made const
+ *  . ::protector, ::ltController made mutable
+ *  . ::beingDeleted is no longer bit-field
+ *
  * Revision 1.1.1.1  2000/07/19 16:57:02  philogelos
  * stored sources into sourceforge.net CVS
  *
