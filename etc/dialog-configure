@@ -43,11 +43,26 @@ function getFullName()
 	resultOfGetFullName=$fullName
 }
 
+resultOfgetDefValue=''
+function getDefValue()
+{
+	# getDefValue varName factoryDef
+	if test -r inc/quercus.hpp
+	then
+		resultOfgetDefValue=`( echo '#include "quercus.hpp"' ; echo "#if defined( $1 )" ; echo on ; echo "#else" ; echo off ; echo "#endif" ) | cc -I. -Iinc -Isrc -E - 2>/dev/null | tail -4`
+		echo Def value found for $1: $resultOfgetDefValue
+	else
+		echo Using factory setting for $1
+		resultOfgetDefValue=$2
+	fi
+}
+
 function declareVar()
 {
 	# declareVar varName on/off comment
 	initVar $1
-	checkListArgs="$checkListArgs $resultOfInitVar '`echo $3 | cut -c 1-$DESC_MAX_LEN`' $2"
+	getDefValue $1 $2
+	checkListArgs="$checkListArgs $resultOfInitVar '`echo $3 | cut -c 1-$DESC_MAX_LEN`' $resultOfgetDefValue"
 	UNDEF="$UNDEF $1"
 }
 
