@@ -33,7 +33,7 @@
 #ifndef __DYNAMICMODULE_HPP__
 #define __DYNAMICMODULE_HPP__
 
-/* $Id: DynamicModule.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: DynamicModule.hpp,v 1.2 2001/06/23 19:02:50 philogelos Exp $ */
 
 #include "String.hpp"
 #include "Top.hpp"
@@ -78,6 +78,8 @@ public: virtual String convertPortableToPlatform( String aName ) const = 0;
 public: virtual void platformLoad() THROWS( Errno * ) = 0;
 public: virtual void platformUnload() THROWS( Errno * ) = 0;
 
+public:  virtual String  getString() const;
+
 protected: boolean loaded;
 protected: Index   moduleRefCount;
 protected: String  portableName;
@@ -90,6 +92,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DynamicModule.hpp,v $
+ * Revision 1.2  2001/06/23 19:02:50  philogelos
+ * ::getString() added for DynamicModule and SolarisDL
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *

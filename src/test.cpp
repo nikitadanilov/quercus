@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.7 2001/06/09 14:47:49 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.8 2001/06/23 19:02:50 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -108,7 +108,10 @@ int QRMain( List * )
 	  {
 		GrammarNode::testerGrammarNode( 0 );
 	  }
-
+	  {
+		CRef< SolarisDL > test = new SolarisDL( "dummy" );
+		test -> tester( 0 );
+	  }
 /* unused tests */
 #if 0
 	  {
@@ -178,10 +181,7 @@ int QRMain( List * )
 		listy -> append( new String( "foo" ) );
 		DLOGOBJECT( "listy+foo: %s", &listy );
 	  }
-	  {
-		//		CRef< SolarisDL > test = new SolarisDL( "dummy" );
-		//		test -> tester( 0 );
-	  }
+
 	  {
 		Backtrace *trace;
 			

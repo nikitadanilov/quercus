@@ -33,7 +33,7 @@
 #ifndef __SOLARISDL_HPP__
 #define __SOLARISDL_HPP__
 
-/* $Id: SolarisDL.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
+/* $Id: SolarisDL.hpp,v 1.3 2001/06/23 19:02:50 philogelos Exp $ */
 
 #include "DynamicModule.hpp"
 #include "defines.h"
@@ -67,6 +67,7 @@ public: virtual void platformUnload() THROWS( Errno * );
   /**
    */
 public:  virtual String  getClassName() const;
+public:  virtual String  getString() const;
 
 protected: void *handle;
 
@@ -82,6 +83,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: SolarisDL.hpp,v $
+ * Revision 1.3  2001/06/23 19:02:50  philogelos
+ * ::getString() added for DynamicModule and SolarisDL
+ *
  * Revision 1.2  2000/10/20 20:29:19  philogelos
  * Simplifications through using of NopThreads
  *
