@@ -1,0 +1,83 @@
+DEBUG
+PURE_PANICS						inc/debug-macros.hpp
+PURE_THROWS						inc/debug-macros.hpp
+DROP_CORE_ON_PANIC				inc/debug-macros.hpp
+ASSERTION_FAILS_ARE_FATAL		inc/debug-macros.hpp
+ATTACH_DEBUGGER_ON_ERROR		inc/debug-macros.hpp
+INLINE_GETLOGGER				inc/debug-macros.hpp
+ENTER_MONITOR_ON_EXCEPTION		inc/debug-macros.hpp
+
+TESTING							inc/defines.h
+_INLINE							inc/defines.h
+USE_PER_CLASS_NEW				inc/defines.h
+PROFILE_MEM_ALLOC				inc/defines.h
+INCLUDE_TEMPLATES				inc/defines.h
+USE_STL							inc/defines.h
+USE_TYPEID						inc/defines.h
+USE_THREADS						inc/defines.h
+RET_AFTER_THROW					inc/defines.h
+mutable							inc/defines.h
+USE_NAMESPACE					inc/defines.h
+
+MEMORY_LEAK_TEST				inc/Top.hpp
+TRACK_BACKPOINTERS				inc/Top.hpp
+BACKPOINTERS_LIST_LEN			inc/Top.hpp
+
+GUARD_ADDREF					inc/Object.hpp
+
+USE_BOEHM_GC					inc/platform/ANSICPlatform.hpp
+ASK_USER_MAX_CHOICES			inc/platform/ANSICPlatform.hpp
+ASK_USER_USE_READLINE			inc/platform/ANSICPlatform.hpp
+
+USE_POSIX						inc/platform/POSIXPlatform.hpp
+DEBUGGER_COMMAND				inc/platform/POSIXPlatform.hpp
+IMAGE_NAME						inc/platform/POSIXPlatform.hpp
+USE_CLOCK_GETTIME				inc/platform/POSIXPlatform.hpp
+USE_CLOCK						inc/platform/POSIXPlatform.hpp
+SHARE_SIGNAL_COUNTER			inc/platform/POSIXPlatform.hpp
+USE_GETTIMEOFDAY				inc/platform/POSIXPlatform.hpp
+
+PLATFORM						inc/platform/Platform.hpp
+WRAP_MAIN						inc/platform/Platform.hpp
+
+CHECK_DELETES					inc/new-operator.hpp
+USE_ALLOC_CHAIN					inc/new-operator.hpp
+DECORATE_ALLOCATIONS			inc/new-operator.hpp
+
+DEBUG_THREADS					inc/platform/threads/Thread.hpp
+
+USE_XQ							inc/ui/xq/Xq.hpp
+XQ_USE_X11_MUTEX				inc/ui/xq/Xq.hpp
+XQ_USE_XINITTHREADS				inc/ui/xq/Xq.hpp
+XQ_XCHECKEVENT_HACK				inc/ui/xq/Xq.hpp
+XQ_XCHECKEVENT_HACK_TIMEOUT		inc/ui/xq/Xq.hpp
+USE_XPM							inc/ui/xq/Xq.hpp
+
+USE_WQ							inc/ui/wq/Wq.hpp
+
+SOLARIS_MGUARD_BUG				inc/platform/threads/RecMutex.hpp
+
+HAS_BFD							inc/Backtrace.hpp
+HAS_LIBERTY						inc/Backtrace.hpp
+USE_DLADDR_DLSYM_FOR_BACKTRACE	inc/Backtrace.hpp
+
+USE_METHOD_MAP					inc/MethodMap.hpp
+
+USE_PTHREADS					inc/platform/threads/PThread.hpp
+
+DEF_THREAD_FACTORY				inc/platform/threads/ThreadFactory.hpp
+
+USE_WIN32						inc/platform/Win32Platform.hpp
+MODULE_NAME_LENGTH				inc/platform/Win32Platform.hpp
+ERROR_MESSAGE_LENGTH			inc/platform/Win32Platform.hpp
+SYSTEM_CMD_LENGTH				inc/platform/Win32Platform.hpp
+DEBUGGER_COMMAND				inc/platform/Win32Platform.hpp
+LOG_BUFFER_SIZE					inc/platform/Win32Platform.hpp
+
+USE_WIN32THREADS				inc/platform/threads/Win32Thread.hpp
+
+LIGHTWEIGHT_GUARD				inc/Guard.hpp
+
+USE_CQ							inc/ui/cq/Cq.hpp
+
+SHOW_COPYRIGHT_ON_STARTUP		inc/Quercus.hpp

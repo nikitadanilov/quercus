@@ -1,0 +1,388 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO8859-1">
+	<meta name="Author" content="A. Philogelos">
+	<meta name="GENERATOR" content="Hand crafted in XEMACS">
+	<meta name="Description" content="A. Philogelos Home Page">
+	<meta name="KeyWords" content="C++, Reusable libraries, coding, quercus robusta, containers, inheritance">
+	<title>A. Philogelos Home Page</title>
+	<link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+	<center>
+	  <table border=0 cellspacing=0 cellpadding=0 width="90%" bgcolor="#ffffff" nosave>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+			<p class="fine-print">
+			  This page requires <a href="http://www.w3.org/TR/WD-CSS2-971104">HTML style sheets</a> 
+			  (today only IExplorer 5+, Netscape 4.7+ and Mozilla seems to support style sheets in 
+			  predictable manner).
+			</p>
+			<br>&nbsp;<br>
+		  </td>
+		</tr>
+		<tr>
+		  <td width="10%">&nbsp;</td>
+		  <td>
+			<h2>
+			  <a href="mailto:Philogelos@yahoo.com">A. Philogelos</a>
+			</h2>
+		  </td>
+		  
+		  <td WIDTH="10%">&nbsp;</td>
+		</tr>
+		
+		<tr>
+		  <td>&nbsp;</td>
+		  
+		  <td>
+			<a href="#qr">Quercus Robusta</a> (<em>NEW:</em> version <a href="#qr:0.0.3">0.0.3</a> released)
+			<br>Summa contra C++
+			<br>
+			<hr size=1 noshade width="100%">
+		  </td>
+		  
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td>&nbsp;</td>
+
+		  <td>
+			<a name="qr"><h2>Quercus Robusta</h2></a>
+			<table border="0" cellpadding="0" cellspacing="0">
+			  <tr>
+				<td colspan="2"><img src="" alt="" width="1" height="8" align="bottom" border="0"></td>
+				<td rowspan="3">&nbsp;&nbsp;<b>Content:</b>&nbsp;&nbsp;</td>
+				<td colspan="2"> </td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc" colspan="2"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td bgcolor="#cccccc" colspan="2"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="5" align="bottom" border="0"></td>
+				<td><img src="" alt="" width="40" height="1" align="bottom" border="0"></td>
+				<td><img src="" alt="" width="300" height="1" align="bottom" border="0"></td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="5" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td colspan="3">
+				</td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td colspan="3">
+				  <table>
+					<tr>
+					  <td>
+						<a href="#qr:overview">Overview</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#qr:0.0.3">Changes in version 0.0.3</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#qr:sources">Sources</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#qr:name">The name of the game</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#qr:rationale">Rationale</a>
+					  </td>
+					</tr>
+				  </table>
+				</td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td colspan="5" bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			</table>
+			
+			<a name="qr:overview"><h3>Overview</h3></a>
+			<p>
+			  Quercus Robusta is (a name of) reusable opensource C++ library I am developing.
+			  Among its main features are:
+			</p>
+			<p class="marked">
+			  <img src="red-triangle.gif" alt="o">It should work on majority of UN*X 
+			  flavors and compilers. Some features
+				(e.g., stack back-trace)	are only available under GNU environment.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Extensive use of 
+			  garbage collector based on reference counting.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Library is built
+			  around separate implementation and interface
+			  hierarchies (both are implemented through C++ inheritance). Root
+			  of interface hierarchy is 
+			  <span class="ClassName">Top</span> abstract class and root of
+			  implementation hierarchy is <span class="ClassName">Object</span>
+			</p>
+			<hr size=1 noshade width="100%">
+			<p>
+			  <span class="fine-print">
+				(As posteriori note it was clearly unwise to call it Object
+				because this identifier is somewhat reserved by other libraries
+				(CORBA being first to come to my mind). Hopefully it will be possible
+				to resolve this through namespaces, which doesn't work in the
+				current state of GNUart.).
+			  </span>
+			</p>
+			<hr size=1 noshade width="100%">
+			<p>
+			  Separation of sub-classing and sub-typing dictates use of virtual inheritance
+			  virtually everywhere.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Utility classes and interfaces: 
+			  <span class="ClassName">Enumeration</span>,
+			  <span class="ClassName">Iterator</span>,
+			  <span class="ClassName">Iterable</span>,
+			  <span class="ClassName">AbstractFactory</span>,
+			  <span class="ClassName">Map</span> etc.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Implementation of 
+			  various container-like data structures: 
+			  <span class="ClassName">List</span>, <span class="ClassName">Array</span>, 
+			  <span class="ClassName">Stack</span>, <span class="ClassName">Set</span> etc.
+			  Containers are arranged into implementation and interface hierarchies.
+			  Base type of all containers classes is <span class="ClassName">Container</span>.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Containers are 
+			  thought of as collections of slots. To each slot a value can be assigned
+			  (subject to container-specific constraints). An address of slot within the container
+			  is called <span class="ClassName">Position</span> (due to historical reasons).
+			  In other words, <span class="ClassName">Position</span> is a way to describe
+			  slot within the container. For example in <span class="ClassName">Array</span>
+			  there are: first slot, last slot, n-th slot etc. Appropriately, there are
+			  <span class="ClassName">Position</span>s, denoting first, last and n-th slot in 
+			  the <span class="ClassName">Array</span>. Depending on the configuration of
+			  the <span class="ClassName">Array</span> some or all of them may point to the
+			  same slot or be invalid (e.g., if n is beyond the range of valid indices).
+			</p><p class="marked"><img src="red-triangle.gif" alt="o"><span class="ClassName">Position</span>s 
+			  are primary interface to 
+			  <span class="ClassName">Container</span>s. <span class="ClassName">Container</span>
+			  interface contains methods to enumerate all positions in the container,
+			  that can be used to scan container for value, pretty-print it etc.
+			</p>
+			<hr size=1 noshade width="100%">
+			<p>
+			  <span class="fine-print">
+				<span class="ClassName">Position</span> is somewhat similar to 
+				<a href="http://www.cygnus.com/misc/wp/dec96pub/lib-intro.html">STL</a>
+				Iterators, but there are important differences:
+				<span class="ClassName">Position</span> is first class abstract class
+				so to speak, not a ``Concept'' as STL Iterator.
+			  </span>
+			</p>
+			<hr size=1 noshade width="100%">
+			<p class="marked"><img src="red-triangle.gif" alt="o">Fast 
+			  <span class="ClassName">String</span> class with UNICODE support.
+			  Strings are stored in two-byte UCS2 encoding and can be converted to and fro
+			  UTF8 and some 8-bit encodings.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">All 
+			  erroneous conditions are reported through exception mechanism.
+			</p>
+			<!--hr size=1 noshade width="100%">
+			<p>
+			  <span class="fine-print">
+				Current incarnation of GCC has incurable problems with throwing
+				exceptions from shared library. Technically, only
+			  </span>
+			</p>
+			<pre>
+ catch( ... )
+			</pre>
+			<p>
+			  <span class="fine-print">
+				can handle exceptions, thrown from .so.
+				So, don't try to link against
+				shared library or don't try to catch exceptions or use
+				proprietary compiler (SUN Workshop on Solaris is fine).
+			  </span>
+			</p>
+			<hr size=1 noshade width="100%"-->
+			<p class="marked"><img src="red-triangle.gif" alt="o">Debugging 
+			  features: optional pre-conditions and post-condition testing,
+			  C++ exceptions are thrown if run-time assertions fail. Debugger
+			  of choice can be attached to process on the fly or stack back-trace can be
+			  produced.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Distributed 
+			  under GNU <a href="COPYING.TXT">License</a>. Drop 
+			  <a href="mailto:Philogelos@yahoo.com">me</a> a message if you
+			  managed to compile it :).
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">For further information see
+			  <a href="overview.html">here</a>.
+			</p>
+			<a name="qr:sources"><h3>Sources</h3></a>
+			<p>
+			  Last tarball available at
+			  <span class="fileName"><a href="quercus-0-0-3.tgz">quercus-0.0.3.tgz</a></span>
+			  (224k --- it is smaller than before because <span class="fileName">doc/html</span> 
+			  is no longer here). It doesn't use autoconf or alike, sorry.
+			</p><p>
+			  Then look into <span class="fileName">doc/tuning-macros.txt</span> for the list of
+			  preprocessor symbols affecting build process. Edit Makefile and do
+			</p>
+			<p class="monospaced">
+make makedirs clean depend build
+			</p>
+			<p>
+			  This will leave <span class="fileName">test</span> executable in top-level directory.
+			</p>
+			<p>
+			  Previous version:
+			  <span class="fileName"><a href="quercus-0-0-2.tgz">quercus-0.0.2.tgz</a></span> (283k).
+			</p>
+			<a name="qr:0.0.3"><h3>Changes in version 0.0.3</h3></a>
+			<p class="marked"><img src="red-triangle.gif" alt="o">Platform-independent graphics
+			  capabilities added. Member classes of class (namespace surrogate) 
+			  <span class="ClassName">Aq</span> define interfaces to graphic primitives like windows
+			  and graphic contexts. There are three implementations currently:
+			  <span class="ClassName">Xq</span> on top of <em>X Window System</em>,
+			  <span class="ClassName">Wq</span> on top of <em>Win32</em> interface and
+			  <span class="ClassName">Cq</span> on top of beloved (n)curses!
+			</p>
+			<p class="marked">
+			  <img src="red-triangle.gif" alt="o">Multi-threading added: new interfaces
+			    <span class="ClassName">ThreadFactory</span>, <span class="ClassName">ThreadSystem</span>,
+			  <span class="ClassName">Thread</span>, <span class="ClassName">Mutex</span>,
+			  <span class="ClassName">CondVar</span>, <span class="ClassName">Semaphore</span>. Threads
+			  can be created with either <em>pthread</em> (starting from given C function) or <em>JDK</em>
+			  style (executing method <span class="method">Runnable::run()</span>). 
+			  <span class="ClassName">MGuard</span> allows automatic mutex locking/unlocking on block
+			  entering/leaving.
+			</p><p>
+			  Basic classes were updated to synchronize properly.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Win32 platform is 
+			  now almost fully supported (with multithreading).
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">New preprocessor 
+			  macros added. Now it is possible to turn individual
+			  setting on/off without touching code. (Briefly, for each "<em>boolean</em>" parameter X
+			  described in <span class="fileName">doc/tuning-macros.txt</span> there are two macros:
+			  WANT_X and UNWANT_X to switch X on and off respectively. This allows to compile the
+			  same sources on the different platforms.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o"><span class="ClassName">Tree</span>
+			  container interface (and default implementation) added (it is rather ugly though).
+			</p>
+			<a name="qr:name"><h3>The name of the game</h3></a>
+			<p>
+			  <em>Quercus</em> is Latin for oak (Quercus is official <em>genus</em> name).
+			  <em>Robusta</em> (to which word robust obviously stems) means having strength and vigor,
+			  tough, dependable 
+			  and ... oaken i.e. made of oak. None the less robusta is standard epithet of quercus
+			  in Latin poetry. Another point is that quercus is of feminine gender, contrary
+			  to explicit masculine ending!
+			</p>
+			<a name="qr:rationale"><h3>Rationale</h3></a>
+			<p>
+			  First I shall try to enumerate, what this library was and is <em>not</em>:
+			<p class="marked"><img src="red-triangle.gif" alt="o">fast. Whenever there was
+			  a possibility to choose particular design or implementation, it was chosen
+			  to reuse existing parts of library, to be extensible and clean rather than efficient.
+			  Yet overall performance is satisfactory (there <em>are</em> some especially brain
+			  damaged and slow implementations, e.g., <span class="ClassName">DumbDictionary</span> as
+			  its name supposes, but they will be replaced by more elaborated as time will pass by).
+			  Moreover, considerable amount of time in default configuration is spend in pre-post-conditions
+			  checking and other debugging activities (allocation tracing etc.). You can switch them
+			  off by playing with defines in <span class="fileName">inc/defines.h</span>. Also GC
+			  can be made optional in future versions.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Familiar. This library doesn't
+			  mimic any particular framework, although some parts of it may reminiscent you of
+			  Smalltalk containers, MVC and JDK (not STL The Horrible). The definitive source
+			  of inspiration is <a href="nosuch://I-have-no-URL-handy,-sorry.">Patterns Book</a>.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Simple. It is not that simple
+			  just to use QR and there is a number of reasons to that. First, C++ is not simple language.
+			  Second, C++ has no garbage collection and if you need it, you have to implement it manually,
+			  everywhere. Third, this library still has no client interface proper. What it has
+			  is some reusability framework. There should be more concrete classes directly usable
+			  by user, with simplified interfaces etc.
+			</p><p>
+			  Main point of QR is re-usability. There is the single method 
+			  <span class="method">ContainerAdapter::print</span> that pretty-print any container 
+			  whatsoever, methods <span class="method">ContainerAdapter::find</span>, 
+			  <span class="method">ContainerAdapter::equals</span> and so on are defined in base class,
+			  so implementor only needs to define one method 
+			  <span class="method">ContainerAdapter::getEnumeration</span> to get fully
+			  functionable container. Of course, default implementations can be inefficient and
+			  can be overridden if needed.
+			</p><p>
+			  <span class="ClassName">Position</span>s made it possible to write generic algorithms 
+			  to search, copy and perform set-theoretic-like operations (union, intersection, 
+			  Cartesian product, power set etc.) on containers.
+			</p><p>
+			  There should be something important I forgot to mention.
+			</p>
+		  </td>
+		  
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+		  </td>
+		</tr>
+		<tr>
+		  <td>&nbsp;
+			<!-- Start of TheCounter.com Code -->
+			<SCRIPT><!--
+			  s="na";c="na";j="na";f=""+escape(document.referrer)
+			  //--></SCRIPT>
+			<SCRIPT language="javascript1.2"><!--
+			  s=screen.width;v=navigator.appName
+			  if (v != "Netscape") {c=screen.colorDepth}
+			  else {c=screen.pixelDepth}
+			  j=navigator.javaEnabled()
+			  //--></SCRIPT>
+			<SCRIPT><!--
+			  function pr(n) {document.write(n,"\n");}
+			  NS2Ch=0
+			  if (navigator.appName == "Netscape" &&
+			  navigator.appVersion.charAt(0) == "2") {NS2Ch=1}
+			  if (NS2Ch == 0) {
+			  r="&size="+s+"&colors="+c+"&referer="+f+"&java="+j+""
+			  pr("<A HREF=\"http://www.TheCounter.com\" TARGET=\"_top\"><IMG")
+			  pr("BORDER=0 ALT='TheCounter' SRC=\"http://c1.thecounter.com/id=168094"+r+"\"></A>")}
+			  //--></SCRIPT>
+			<NOSCRIPT><A HREF="http://www.TheCounter.com" TARGET="_top"><IMG
+				  SRC="http://c1.thecounter.com/id=168094" ALT='TheCounter' BORDER=0></A>
+			</NOSCRIPT>
+			<!-- End of TheCounter.com Code -->
+			<br>&nbsp;<br>
+		  </td>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+			<p class="fine-print">
+			  This page requires <a href="http://www.w3.org/TR/WD-CSS2-971104">HTML style sheets</a> 
+			  (today only IExplorer 5+, Netscape 4.7+ and Mozilla seems to support style sheets in 
+			  predictable manner).
+			</p>
+			<p class="fine-print">
+			  <!-- hhmts start -->
+Last modified: Fri Jan 14 20:48:30 2000
+<!-- hhmts end -->
+			</p>
+			<br>&nbsp;<br>
+		  </td>
+		</tr>
+	  </table>
+	</center>
+  </body>
+</html>
+<!--
+History:
+Fri Jan 14 20:44:50 2000: new millennium: version 0.0.3 added: changes, tarball. Netscape 4.7 supports style-sheets enough to view this file.
+Tue Oct 26 18:49:43 1999: timestamp added, tarball size added, <font> replaced on <span>
+Fri Oct 29 11:06:16 1999: STL reference set up to Cygnus site.
+-->

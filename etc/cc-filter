@@ -1,0 +1,17 @@
+#!/usr/local/bin/bash
+
+set -v
+set -x
+
+LANG=C date -u >> doc/cc-out.log
+for dummy in one
+	do
+		$* 2>&1
+		RET_CODE=$?
+		if [ x$RET_CODE != x0 ]
+		then
+			echo $RET_CODE
+			exit $RET_CODE
+		fi
+	done | if [ x$RET_CODE = x0 ] ;then tee -a doc/cc-out.log ;fi ; exit $RET_CODE
+

@@ -1,0 +1,334 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO8859-1">
+	<meta name="Author" content="A. Philogelos">
+	<meta name="GENERATOR" content="Hand crafted in XEMACS">
+	<meta name="Description" content="Overview of Quercus Robusta Library">
+	<meta name="KeyWords" content="C++, Reusable libraries, coding, quercus robusta, containers, inheritance">
+	<title>Overview of Quercus Robusta Library</title>
+	<link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+	<center>
+	  <table border=0 cellspacing=0 cellpadding=0 width="90%" bgcolor="#ffffff" nosave>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+			<p class="fine-print">
+			  This page requires <a href="http://www.w3.org/TR/WD-CSS2-971104">HTML style sheets</a> 
+			  (today only IExplorer 5+, Netscape 4.7+ and Mozilla seems to support style sheets in 
+			  predictable manner).
+			</p>
+			<br>&nbsp;<br>
+		  </td>
+		</tr>
+		<tr>
+		  <td width="10%">&nbsp;</td>
+		  <td>
+			<p class="fine-print">
+			  Back to the <a href="index.html">top page</a>
+			</p>
+		  </td>
+		  
+		  <td WIDTH="10%">&nbsp;</td>
+		</tr>
+		
+		<tr>
+		  <td>&nbsp;</td>
+
+		  <td>
+			<a name="top"><h2>Overview of Quercus Robusta Library</h2></a>
+			<table border="0" cellpadding="0" cellspacing="0">
+			  <tr>
+				<td colspan="2"><img src="" alt="" width="1" height="8" align="bottom" border="0"></td>
+				<td rowspan="3">&nbsp;&nbsp;<b>Content:</b>&nbsp;&nbsp;</td>
+				<td colspan="2"> </td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc" colspan="2"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td bgcolor="#cccccc" colspan="2"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="5" align="bottom" border="0"></td>
+				<td><img src="" alt="" width="40" height="1" align="bottom" border="0"></td>
+				<td><img src="" alt="" width="300" height="1" align="bottom" border="0"></td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="5" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td colspan="3">
+				</td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+				<td colspan="3">
+				  <table>
+					<tr>
+					  <td>
+						<a href="#inheritance">Inheritance and sub-typing</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#containers">Containers</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#iterators">Iterators</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#algorithms">Algorithms</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#gc">Garbage Collection</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#mt">Multi-threading</a>
+					  </td>
+					</tr>
+					<tr>
+					  <td>
+						<a href="#gui">GUI</a>
+					  </td>
+					</tr>
+				  </table>
+				</td>
+				<td bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			  <tr>
+				<td colspan="5" bgcolor="#cccccc"><img src="" alt="" width="1" height="1" align="bottom" border="0"></td>
+			  </tr>
+			</table>
+			
+			<a name="inheritance"><h3>Overview</h3></a>
+			<p class="fine-print">There are many various versions of notations and definitions
+			  of the terms described below. Before reading please understand that while it is
+			  perfectly valid to motivate one's definitions it is useless and counter-productive
+			  to claim that some definition is <em>incorrect</em> (because it is definition
+			  not statement). After all realists lost the battle to nominalists centuries ago.
+			</p><p>
+			  While in many OO programming languages (e.g., C++, Java, Eiffel) inheritance 
+			  and sub-typing are lumped together, they are quite different things. To understand
+			  this difference it is necessary to introduce some definitions:
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">There are some fundamental notions:
+			  <em>object</em>, <em>state</em>, <em>behavior</em>, <em>message</em>, <em>method</em> and
+			  <em>value</em>.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Object is <em>identified sequence of values</em>.
+			  That is object is pair <code>(id, seq)</code> where <code>id</code> is some identity (not further specified)
+			  unique among all objects and <code>seq</code> is mapping from ``instants of time'' to the
+			  pairs of form <code>(m,s)</code> where <code>m</code> is the methods suit and <code>s</code>
+			  is object's hidden internal state (which is in turn object?). That is <code>seq:T -> M x O</code>
+			</p><p>
+			  Methods suite is mapping from language-dependent ``signatures'' to the methods (what is the method?).
+			</p><p><span class="fine-print">In traditional languages there are two parts of the signature: one
+			  that is used during method lookup (name, types and names of parameters and results etc.) and another
+			  that is not: exceptions thrown, pre-post-conditions, concurrent access specifiers etc. This ``unused''
+			  part is actually used but through separate language mechanisms: e.g., Java requires try/catch method
+			  calls in accordance with their specification etc. It would be nice to unify.</span>
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Object has some hidden state and behavior
+			  associated with this state. The only way to exhibit object's behavior is through sending 
+			  messages to it. Object maps messages to methods i.e., pieces of code acting over their
+			  arguments and object's state. State of the object can change during object existence.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Value is object with it's state fixed.
+			  That is value is a pair <code>(o,s)</code> where <code>o</code> is an object and <code>s</code>
+			  is some possible state of the object <code>o</code>. Then one can look at the object as a collection
+			  of values sharing the same identity. (Does identity belong to the state?) There should be
+			  some structure imposed on this collection but in general (in the multi-threaded setting) there is no
+			  <em>absolute time</em> so I am not sure that this structure should be one of the linear ordering.
+			  For each object there is <em>space</em> of all possible values for this object (i.e., of all its 
+			  possible states) determined for example by its class and object itself is just some kind of
+			  trajectory in this space.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Type system is some covering of the 
+			  class of all values. That is, the type system partitions all values into possibly overlapping
+			  subsets called types. Power of the typing (i.e., existence of some type system built into the
+			  language) is evident in languages with the static type-checking. In any conventional
+			  language expressions produce values and are recursively built from simpler expressions.
+			  In the statically typed languages most basic expressions (variables, constants etc.) have
+			  types known at the compile time attached to them. Also, the statically typed language
+			  enforces some restrictions on possible ways of forming expressions such that once
+			  types of basic expressions are set, you can assign type to every valid expression 
+			  (It is not that easy in practice because there are recursive types etc., so type-checker 
+			  will probably need to employ some smart algorithm to check validness of some expressions 
+			  but the general idea is clear.) such that every evaluation of this expression will
+			  produce value of that type. Now you can reason about the run-time behavior of the program
+			  using the information about types of values produced by expressions.
+			</p><p>
+			  If your type-system becomes more fine-grained, that is the more types you introduce, then
+			  you get more information about run-time properties of programs; on the other hand
+			  typing will be more complex, hard to understand and programs will be harder to change.
+			  So it is necessary to make decision between complexity of type system and amount
+			  of run-time information it catches.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">As it was noted earlier objects perform
+			  computations in response to the message sends. But it would be inconvenient if not impossible to
+			  build objects that can response to the each and every possible message. As a matter of fact in
+			  untyped language it is quite possible for object to receive message it doesn't understand. This
+			  doesn't necessarily mean that program will crash, to the contrary some systems 
+			  (e.g., P.&nbsp;Curtis's <a href="telnet://lambda.moo.mud.org:8888">LambdaMOO</a>)
+			  make smart use of such situations to implement otherwise impossible behavior. But in general,
+			  to sensibly response to message you should understand it. Languages like Smalltalk rely on
+			  programmer discipline, documentation and external checking tools (soft-typing) to guarantee
+			  that every message send will be successfully resolved at run-time. But when building complex 
+			  software with code created by multiple developers scattered around space and time one feels
+			  desire to get more robust mechanism to assert that execution will not end up with infamous
+			</p>
+			<hr size=1 noshade width="100%">
+			  <code>Concord.OilPressureSensor: message isSuitable:with: not understood</code>
+			<hr size=1 noshade width="100%">
+			<p><span class="fine-print">Especially when one happens to fly in this very Concord</span>
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">The question naturally arises: can
+			  we use type systems described above to guarantee that every message send will be resolved
+			  to the method? The answer is yes. And the type-system required is remarkably clean and simple. To build
+			  it we need the notion of the <em>interface</em>.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Interface is a collection of message
+			  signatures. Message signature is language-dependent data that can be used to distinguish
+			  various messages. That is given some object <code>o</code> information in the signature <code>S</code>
+			  make it possible to predict the result of the lookup of any message  of the form and message <code>o.m</code> 
+			  where message <code>m</code> has (or conforming to) signature <code>S</code>. In the simplest
+			  case signature consists only of message name (selector). When language already enjoys some type 
+			  system signature may include types of arguments and return values, exceptions possibly thrown
+			  during execution of method bound to this message, concurrency restrictions etc.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">There is type <code>TI</code> naturally 
+			  associated with any interface <code>I</code>: value <code>(o,s)</code> belongs to <code>TI</code>
+			  iff for every signature <code>S</code> in <code>I</code> and for every message <code>m</code>
+			  conforming to <code>S</code> any message send <code>o.m( ... )</code> will result in successful
+			  lookup, that is iff object <code>o</code> can respond to all messages with signatures in 
+			  <code>I</code>. This doesn't imply that messages with signatures in <code>I</code> are the only
+			  messages <code>o</code> can respond to.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Now if expression <code>e</code> has type
+			  <code>TI</code> than any message send in the form <code>e.m( ... )</code> where <code>m</code>
+			  conforms to signature from <code>I</code> will be successfully resolved at run-time. And if
+			  moreover such ``type-safe'' sends are the only sends allowed by language than <em>any</em>
+			  message send in valid program will be successfully resolved and all messages will
+			  be understood.
+			</p><p>Of course this doesn't mean that message send have to be the only operation and types
+			  of the form <code>TI</code> have to be the only types defined by the language.
+			</p><p>If we limit ourselves to the language where the set of messages understood by the 
+			  object doesn't
+			  depend on its state and is constant during object life-time (if for example method
+			  lookup is really implicit and is not controlled by the user) than it is obvious that we can
+			  lift interface-based typing from values to objects. That is we can assign types to the
+			  objects themselves.
+			</p><p class="fine-print">In languages with types like <code>[ 0 .. 9 ]</code> an object
+			  may belong or not belong to such types depending on its state.
+			</p><p class="fine-print">That is we have two separate but interconnected structures in the
+			  language: typing and operations. One of the purposes of typing is to assure correctness
+			  of operations. But operations themselves may be defined in terms of types. Of course
+			  it is possible to construct type-system such that any expression will execute correctly
+			  iff it is well-typed (it is enough to take all possible execution paths as types or 
+			  some-such), but such type system will be patently undecidable (it will be impossible
+			  to build static type-checker).
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Type-system based on interfaces
+			  guarantees that operations of some kind (implicit operation of the method lookup during the 
+			  message send) will always succeed. But it also get us for free another valuable property:
+			  <em>polymorphism by inclusion</em>.
+			</p><p class="fine-print">Method lookup during message send is implicit operation and
+			  array indexing is explicit. Interfaces give us type system expressible enough to assert the
+			  correctness of the method lookup. One can imagine type system to assert the correctness of the
+			  array indexing. It will be probably equivalent to some kind of the integer linear 
+			  programming. On the other hand there are issues like concurrent access to the shared state
+			  which are much harder (?) to express as operations and to envisage a type system to
+			  deal with them.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o"><em>Polymorphism</em> is the property of 
+			  parametrized code to work with parameters of different types. Polymorphism is divided
+			  (by Cardelly and Wagner(sp?)) into two main classes: universal and ad hoc. Examples
+			  of universal polymorphism are genericity (templates), virtual types and polymorphism by
+			  inclusion. Examples of ad hoc polymorphism are coercion and overloading. Polymorphism is 
+			  the main mechanism for the code re-use (after cut-n-paste :-). And successful re-use is
+			  what makes possible creation of large libraries and frameworks which are the foundation
+			  of the large-scale software development.
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">As have been mentioned above types
+			  can overlap. Type <code>A</code> is <em>subtype</em> of type <code>B</code> if <code>A</code>
+			  is subset of <code>B</code> that is every value of type <code>A</code> is also
+			  value of type <code>B</code>. Note that sub-typing is defined as <em>relation</em> on types
+			  (not operation).
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">Suppose now, that message send is the only
+			  operation in our language with interface types assigned to the objects and we have 
+			  code <code>p(e:TI)</code> parametrized over parameter <code>e</code> where <code>e</code> is
+			  required to be an object of type <code>TI</code>. If we have an expression of the form
+			  <code>p(a)</code> (This of course contradicts supposition that message send is the only 
+			  operation because <code>p(a)</code> is manifestly not message send; what we mean is message
+			  send of the form <code>x.f(a)</code> where message <code>f</code> will be resolved to the method
+			  <code>p</code>.) where the argument <code>a</code> is of type <code>TI</code>; then well-typedness
+			  of <code>p</code> means that for every message send of the form <code>e.m( ... )</code> in 
+			  <code>p</code> message send <code>a.m( ... )</code> will be successfully resolved. That is
+			  if we call <code>p</code> with argument <code>a</code> conforming to the interface 
+			  <code>I</code> no message lookup will fail. But suppose we have object <code>b</code>
+			  conforming to the interface <code>I'</code> where <code>I'</code> is <code>I</code> plus
+			  some additional signatures. Then <code>b</code> evidently conforms to <code>I</code> and
+			  therefore belongs to <code>TI</code> and during call <code>p(b)</code> no message
+			  send will fail. That is code designed to work with parameter of type <code>TI</code>
+			  will work with argument of type <code>TI'</code> where <code>I'</code> is 
+			  <em>surinterface</em> of interface <code>I</code> and <code>TI'</code> is
+			  subtype of type <code>TI</code>. Great! We get mechanism to re-use code.
+			</p><p class="fine-print">Concrete type system provides for re-use of code using only
+			  operations that type system guarantees correctness of. For example interface-based 
+			  type system will not guarantee you that index will not fall out the end of array
+			  or integer operations will not overflow. But different type system can. And you can
+			  use all of them in the same time.
+			</p><p class="fine-print">It is very important to understand that inclusion 
+			  polymorphism allows for re-use of <em>client-side</em> code: code that 
+			  is re-used is using code (methods) of object that is changed. This is to be
+			  opposed to inheritance where code that is re-used is code of object that 
+			  is changed. Inheritance is for the server-side re-use.
+
+			<hr size=1 noshade width="100%">
+			<p>
+			  <span class="fine-print">
+			  </span>
+			</p>
+			<hr size=1 noshade width="100%">
+			<p class="marked"><img src="red-triangle.gif" alt="o">Fast 
+			</p><p class="marked"><img src="red-triangle.gif" alt="o">All 
+			</p>
+		  </td>
+		  
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+		  </td>
+		</tr>
+		<tr>
+		  <td>&nbsp;
+			<br>&nbsp;<br>
+		  </td>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td colspan=3>
+			&nbsp;<br>
+			<p class="fine-print">
+			  This page requires <a href="http://www.w3.org/TR/WD-CSS2-971104">HTML style sheets</a> 
+			  (today only IExplorer 5+, Netscape 4.7+ and Mozilla seems to support style sheets in 
+			  predictable manner).
+			</p>
+			<p class="fine-print">
+			  <!-- hhmts start -->
+Last modified: Thu Mar  9 20:43:09 2000
+<!-- hhmts end -->
+			</p>
+			<br>&nbsp;<br>
+		  </td>
+		</tr>
+	  </table>
+	</center>
+  </body>
+</html>
+<!--
+History:
+Fri Jan 14 20:44:50 2000: new millennium: version 0.0.3 added: changes, tarball. Netscape 4.7 supports style-sheets enough to view this file.
+Tue Oct 26 18:49:43 1999: timestamp added, tarball size added, <font> replaced on <span>
+Fri Oct 29 11:06:16 1999: STL reference set up to Cygnus site.
+-->
+

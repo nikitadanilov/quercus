@@ -1,0 +1,175 @@
+/* Base style sheet */
+BODY {
+	font-size: 10pt;
+	color: #665E70;
+	background-color: #000000;
+	text-align: justify; 
+	margin-left:3em;
+	margin-right:3em;
+	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; 
+}
+
+.indented {
+	text-indent: 3em;
+}
+
+
+CAPTION {
+	font-weight: bold;
+	color: black;
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+}
+
+P {
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+	margin-left:3em;
+	margin-right:3em;
+	text-align: justify; 
+	font-size: 10pt;
+/*	border: thin solid red; */
+}
+
+.standard {
+	text-align: justify; 
+	margin-left:3em;
+	margin-right:3em;
+	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; 
+}
+
+P.indented {
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+	margin-left:3em;
+	margin-right:3em;
+	text-align: justify; 
+	text-indent: 3em;
+	font-size: 10pt;
+}
+
+.fine-print {
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+	font-size: 8pt;
+	margin-left:4em;
+	margin-right:4em;
+	text-align: justify; 
+}
+
+P:first-line {
+	background-color: #BEBEBE;
+}
+
+P:first-letter {
+	font-size: 200%;
+	font-weight: bold;
+}
+
+
+DD, DT, TD, DIV.TEXT {
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+	font-size: 10pt;
+}
+
+.centered {
+	margin-left:4em;
+	margin-right:4em;
+	alignment: center;
+}
+
+H1 { 
+	 text-align:left;
+	}
+
+H2 { font-size: 12pt; 
+	 color: #000066; 
+	 text-align:left;
+	}
+
+
+UL {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+A { text-decoration: none; /* font-weight: bold */ }
+
+A:link {
+	color: #3333FF; /* #33CCFF; */
+}
+
+A:visited { 
+	color: red; 
+}
+
+A:active { 
+	color: #FF0000; 
+}
+
+A:hover { 
+	color: #007700; 
+}
+
+.ClassName { 
+	font-family: monospace;
+	color: blue; 
+}
+
+.method { 
+	font-family: monospace;
+	color: green; 
+}
+
+.fileName {
+	font-weight: bold;
+	color: brown; 
+}
+
+PRE { 
+	font-family: monospace;
+}
+
+.monospaced {
+	font-family: monospace;
+	font-weight: bold;
+}
+
+PRE.layout-only { 
+/*	font-family: Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; */
+}
+
+/* Particular cases */
+
+
+TD.SH {	text-align:center;
+	font-size:8pt;
+}
+
+TD.SH {	text-align:center;
+	vertical-align:middle;
+}
+
+
+TD.footer {font-size:8pt;}
+TD.footer A:link, TD.footer A:visited, TD.footer { color: #6B6B6B; }
+TD.footer A:hover { color: #0000FF; }
+TD.footer A:active { color: black; }
+
+BODY.book {
+	color: #665E70;
+	background-image: url(/~god/background.gif);
+	background-color: #EBEFFB;
+	text-align: justify; 
+	margin-left:3em;
+	margin-right:3em;
+	font-family: "Book Antiqua", Verdana, "Comic Sans MS", Tahoma, Arial, sansserif; 
+}
+
+.highlight {
+	background-color: #CCCCCC;
+}
+
+P.marked {
+	text-indent: -1em;
+}
+
+UL { list-style-image: url(red-triangle.gif); text-align: justify; }
+OL { list-style-image: url(red-triangle.gif); text-align: justify; }
+

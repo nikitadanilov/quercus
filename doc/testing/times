@@ -1,0 +1,177 @@
+Linux Pentinum 100, 16M
+
+	#define USE_PER_CLASS_NEW
+	#define PROFILE_MEM_ALLOC
+	#define CHECK_DELETES
+
+		82.76user 0.04system 1:27.04elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (377major+112minor)pagefaults 0swaps
+
+		82.91user 0.14system 1:29.76elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (558major+112minor)pagefaults 0swaps
+
+		82.69user 0.05system 1:27.73elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (393major+112minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	#define PROFILE_MEM_ALLOC
+	#define CHECK_DELETES
+
+		84.05user 0.09system 1:28.12elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (354major+110minor)pagefaults 0swaps
+
+		84.18user 0.06system 1:28.09elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (354major+110minor)pagefaults 0swaps
+
+		84.28user 0.08system 1:28.26elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (354major+110minor)pagefaults 0swaps
+
+		84.05user 0.08system 1:27.97elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (354major+110minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	#define CHECK_DELETES
+		
+		83.07user 0.08system 1:27.62elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (432major+111minor)pagefaults 0swaps
+
+		83.10user 0.05system 1:27.03elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		83.13user 0.04system 1:26.96elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		83.09user 0.04system 1:27.21elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		82.95user 0.07system 1:27.25elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+/* #define USE_PER_CLASS_NEW */
+/* #define PROFILE_MEM_ALLOC */
+/* #define CHECK_DELETES */
+
+		84.15user 0.05system 1:28.62elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (349major+111minor)pagefaults 0swaps
+		
+		83.97user 0.03system 1:29.32elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		84.21user 0.01system 1:29.40elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		83.87user 0.08system 1:29.21elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+		84.04user 0.06system 1:29.28elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (347major+111minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	/* #define CHECK_DELETES */
+	/* #define DEBUG */
+
+		46.88user 0.07system 0:51.34elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (446major+112minor)pagefaults 0swaps
+
+		46.76user 0.04system 0:49.76elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (340major+112minor)pagefaults 0swaps
+
+		46.76user 0.07system 0:49.62elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (340major+112minor)pagefaults 0swaps
+
+		46.83user 0.04system 0:49.80elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (340major+112minor)pagefaults 0swaps
+
+		46.77user 0.06system 0:49.83elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (340major+112minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	/* #define CHECK_DELETES */
+	/* #define DEBUG */
+	/* #define MEMORY_LEAK_TEST */
+
+		45.70user 0.07system 0:48.82elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (455major+110minor)pagefaults 0swaps
+
+		45.56user 0.05system 0:47.76elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (339major+110minor)pagefaults 0swaps
+
+		45.98user 0.04system 0:48.20elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (339major+110minor)pagefaults 0swaps
+
+		45.85user 0.05system 0:48.07elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (339major+110minor)pagefaults 0swaps
+
+		45.60user 0.04system 0:47.68elapsed 95%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (339major+110minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	/* #define CHECK_DELETES */
+	/* #define DEBUG */
+	/* #define MEMORY_LEAK_TEST */
+	#define _INLINE
+
+		44.93user 0.05system 0:48.80elapsed 92%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (411major+112minor)pagefaults 0swaps
+
+		44.73user 0.03system 0:47.63elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (345major+112minor)pagefaults 0swaps
+
+		44.62user 0.08system 0:47.44elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (345major+112minor)pagefaults 0swaps
+
+		44.77user 0.03system 0:47.69elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (345major+112minor)pagefaults 0swaps
+
+		44.78user 0.03system 0:47.56elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (345major+112minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	/* #define CHECK_DELETES */
+	/* #define DEBUG */
+	/* #define MEMORY_LEAK_TEST */
+	/* #define _INLINE */
+	-O3
+
+		33.05user 0.05system 0:36.21elapsed 91%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (395major+111minor)pagefaults 0swaps
+
+		32.97user 0.04system 0:35.11elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (324major+111minor)pagefaults 0swaps
+
+		32.94user 0.04system 0:34.95elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (324major+111minor)pagefaults 0swaps
+
+		32.98user 0.05system 0:35.14elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (324major+111minor)pagefaults 0swaps
+
+		33.05user 0.04system 0:35.17elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (324major+111minor)pagefaults 0swaps
+
+	/* #define USE_PER_CLASS_NEW */
+	/* #define PROFILE_MEM_ALLOC */
+	/* #define CHECK_DELETES */
+	/* #define DEBUG */
+	/* #define MEMORY_LEAK_TEST */
+	#define _INLINE
+	-O3
+
+		32.70user 0.06system 0:36.41elapsed 89%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (470major+111minor)pagefaults 0swaps
+
+		32.64user 0.08system 0:34.95elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (343major+111minor)pagefaults 0swaps
+
+		32.53user 0.07system 0:34.61elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (343major+111minor)pagefaults 0swaps
+
+		32.58user 0.05system 0:34.67elapsed 94%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (343major+111minor)pagefaults 0swaps
+
+		32.54user 0.03system 0:34.80elapsed 93%CPU (0avgtext+0avgdata 0maxresident)k
+		0inputs+0outputs (343major+111minor)pagefaults 0swaps

@@ -1,0 +1,269 @@
+#! /bin/sh
+
+checkListArgs=''
+DEF=''
+UNDEF=''
+VAL=''
+TMP_DEF=/tmp/$0-tmp-def.$$
+CONFIG_IN=../inc/config.h.in
+CONFIG_OUT=../inc/config.h
+CONFIG_TMP=/tmp/$0-config.$$
+DIALOG=dialog
+WIDTH=${COLUMNS:-80}
+HEIGHT=${LINES:-24}
+LIST_HEIGHT=$(($HEIGHT-7))
+
+trap "rm -f $TMP_DEF $CONFIG_TMP" 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+
+VARNAME_MAX_LEN=23
+DESC_MAX_LEN=40
+
+function usage()
+{
+	echo "$0 [dialog|lxdialog|back-dialog|dumb] <path-to-executable> <path-to-config-template> <path-to-config-file>"
+}
+
+resultOfTrunc=''
+function trunc()
+{
+	resultOfTrunc=`echo $1 | cut -c 1-$2`
+}
+
+resultOfInitVar=''
+function initVar()
+{
+	local truncatedVarName
+
+	trunc $1 $VARNAME_MAX_LEN
+	truncatedVarName=$resultOfTrunc
+	eval "fullName_$truncatedVarName=$1"
+	resultOfInitVar=$truncatedVarName
+}
+
+resultOfGetFullName=''
+function getFullName()
+{
+	local fullName
+
+	eval "fullName=\$fullName_$1"
+	resultOfGetFullName=$fullName
+}
+
+function declareVar()
+{
+	# declareVar varName on/off comment
+	initVar $1
+	checkListArgs="$checkListArgs $resultOfInitVar '`echo $3 | cut -c 1-$DESC_MAX_LEN`' $2"
+	UNDEF="$UNDEF $1"
+}
+
+function setVal()
+{
+	# setVal var val
+	VAL="$VAL $1"
+	eval "value_$1=$2"
+}
+
+function declareVal()
+{
+	# declareVal title var init
+	eval "$DIALOG --separate-output --inputbox '$1: $2' 10 $WIDTH $3 2> $TMP_DEF"
+	setVal $2 `cat $TMP_DEF`
+}
+
+function clearVariables
+{
+	checkListArgs=''
+}
+
+function runDialog()
+{
+	local fullName
+
+	eval "$DIALOG --separate-output $* 2>$TMP_DEF"
+	for var in `cat $TMP_DEF`
+	do
+		getFullName $var
+		fullName=$resultOfGetFullName
+		DEF="$DEF $fullName"
+		eval "flag_$fullName=yes"
+	done
+}
+
+function askVariables()
+{
+	runDialog --checklist \'$1\' $HEIGHT $WIDTH $LIST_HEIGHT $checkListArgs
+}
+
+function askOptions()
+{
+	local radioArgs=''
+	local caption=$1
+
+	shift
+	while test x$1 != x
+	do
+		initVar $1
+		radioArgs="$radioArgs $resultOfInitVar '$2' $3"
+		shift 3
+	done
+	runDialog --radiolist \'$caption\' $HEIGHT $WIDTH $LIST_HEIGHT $radioArgs
+}
+
+if test x$# != x4
+then
+	usage
+	exit
+fi
+
+STYLE=$1
+CONFIG_IN=$3
+CONFIG_OUT=$4
+DIALOG=$2
+
+if test ! -x $DIALOG
+then
+	echo "$DIALOG doens' exist or is not executable to me?!"
+	exit
+fi
+
+declareVar DEBUG                   on  "Compile-in debugging support"
+declareVar DROP_CORE_ON_PANIC      on  "Drop core on call to panic"
+declareVar ATTACH_DEBUGGER_ON_ERROR on "Attach debugger on error"
+declareVar INLINE_GETLOGGER        off "Inline calls to Debug::getLogger()"
+declareVar ENTER_MONITOR_ON_EXCEPTION on "Enter simple monitor on error"
+declareVar TESTING                 on  "Compile-in testing methods ::tester(int)"
+declareVar _INLINE                 off "Compile some functions inline"
+declareVar USE_PER_CLASS_NEW       off "Declare ::operator new() in some classes"
+declareVar PROFILE_MEM_ALLOC       on  "Log all memory (de)allocations to MemoryMonitor"
+declareVar INCLUDE_TEMPLATES       on  "Include implementation of templates"
+declareVar USE_STL                 off "Use STL classes and functions"
+declareVar USE_TYPEID              on  "Use typeid to obtain class names"
+declareVar USE_THREADS             on  "Use threads"
+declareVar RET_AFTER_THROW         off "Compiler requires return even after throw"
+declareVar USE_NAMESPACE           on  "Declare everything inside QR namespace"
+declareVar MEMORY_LEAK_TEST        on  "Chain all allocated objects into global list"
+declareVar TRACK_BACKPOINTERS      on  "Track who points to the given object"
+declareVar GUARD_ADDREF            off "Guard Object::refCount manipulations by mutex"
+declareVar USE_BOEHM_GC            off "Use conservative garbage collector"
+declareVar WRAP_MAIN               on  "Declare wrapper main(), calling QRMain"
+declareVar CHECK_DELETES           on  "Check for duplicate or invalid deletes"
+declareVar USE_ALLOC_CHAIN         on  "Chain allocated memory chunks in global list"
+declareVar DECORATE_ALLOCATIONS    on  "Put some headers around every allocated block"
+declareVar DEBUG_THREADS           on  "Print log on thread startup-termination"
+declareVar SOLARIS_MGUARD_BUG      on  "Work around some elusive bug on Solaris"
+declareVar HAS_BFD                 on  "Has libbfd"
+declareVar HAS_LIBERTY             on  "Has libiberty"
+declareVar USE_DLADDR_DLSYM_FOR_BACKTRACE off "Use dl API to get stack backtrace"
+declareVar USE_METHOD_MAP          on  "Compile MethodMap template"
+declareVar LIGHTWEIGHT_GUARD       on  "Make Guard class lightweight"
+declareVar SHOW_COPYRIGHT          off "Show copyright message on startup"
+
+$DIALOG --clear
+$DIALOG --msgbox "Configuring of Quercus Robusta Library
+
+WARNING: just selecting options on the following screens 
+         doesn't guarantees you will obtain working 
+         configuration. This simple script doesn't check
+         consistensy of options you choose or 
+         availability of external libraries you use" 17 60
+$DIALOG --textbox ../doc/COPYING.LIB $HEIGHT $WIDTH
+askVariables "Main variables"
+
+askOptions "Pure virtual calls" PURE_PANICS "Call to pure virtual panics" on PURE_THROWS "Call to pure virtual throws exception" off
+
+askOptions "Platform" USE_POSIX "POSIX-compliant system" on USE_WIN32 "System with Win32 API" off
+
+if test x$flag_USE_POSIX = xyes
+then
+	askOptions "Time measurement" USE_CLOCK_GETTIME "Use clock_gettime()" off USE_CLOCK "Use clock()" off USE_GETTIMEOFDAY "Use gettimeofday()" on
+	declareVal "Debugger to attach on crash" DEBUGGER_COMMAND "gdb" 
+	declareVal "Default image name" IMAGE_NAME "test" 
+	clearVariables
+	declareVar SHARE_SIGNAL_COUNTER    off "Use system-visible semaphore to count signals"
+	askVariables "POSIX-specific variables"
+elif test x$flag_USE_WIN32 = xyes
+then
+	echo Win32? Hehe
+	declareVal "Maximum module name length" MODULE_NAME_LENGTH	255
+	declareVal "Maximum error message length" ERROR_MESSAGE_LENGTH	1024
+	declareVal "Maximum length or the command used to attach debugger" SYSTEM_CMD_LENGTH 1024
+	declareVal "Debugger of choice under WIN32" DEBUGGER_COMMAND	"MSDEV -p "
+# LOG_BUFFER_SIZE					inc/platform/Win32Platform.hpp ---> obsolete!
+else
+	echo No POSIX?! Poor soul...
+fi
+
+if test x$flag_USE_THREADS = xyes
+then
+	clearVariables
+	declareVar USE_PTHREADS  on  "Compile support for POSIX-based threads"
+	declareVar USE_WIN32THREADS  off  "Compile support for Win32-based threads"
+	askVariables "Thread systems to support"
+	while true
+	do
+		askOptions "Default thread factory" POSIX "Use pthreads" on WIN32 "Use Win32 API" off
+		if test x$flag_POSIX = xyes
+		then
+			setVal DEF_THREAD_FACTORY PThreadFactory
+			break
+		elif test x$flag_WIN32 = xyes
+		then
+			setVal DEF_THREAD_FACTORY Win32ThreadFactory
+			break
+		else
+			$DIALOG --msgbox "You have to select default thread factory!" 10 70
+		fi
+	done
+fi
+
+askOptions "UI system" USE_XQ "X11-based" on USE_WQ "Win32-based" off USE_CQ "curses-based" off
+
+if test x$flag_USE_XQ = xyes
+then
+	clearVariables
+	declareVar XQ_USE_X11_MUTEX     on  "Serialise all Xlib calls"
+	declareVar XQ_USE_XINITTHREADS	on  "Call XInitThreads()"
+	declareVar XQ_XCHECKEVENT_HACK  on	"Hack to work-around broken	XInitThreads()"
+	declareVar USE_XPM				on  "Use libXpm image library"
+	askVariables "Xq-specific variables"
+	if test x$flag_XQ_XCHECKEVENT_HACK = xyes
+	then
+		declareVal "Timeout of select-hack" XQ_XCHECKEVENT_HACK_TIMEOUT	10000000
+	fi
+fi
+
+CLINES=`cat $CONFIG_IN | wc -l`
+cat $CONFIG_IN | head -n $(($CLINES-2)) > $CONFIG_TMP
+echo >> $CONFIG_TMP
+echo "/* This file was automatically generated by $0 $*" >> $CONFIG_TMP
+echo "   from $CONFIG_IN" >> $CONFIG_TMP
+echo "   at " `LANG=C ; date` " */" >> $CONFIG_TMP
+echo >> $CONFIG_TMP
+echo "/* First all unwanted */" >> $CONFIG_TMP
+for var in $UNDEF
+do
+	echo "#define UNWANT_$var" >> $CONFIG_TMP
+done
+echo >> $CONFIG_TMP
+echo "/* Then all wanted */" >> $CONFIG_TMP
+for var in $DEF
+do
+	echo "#define WANT_$var" >> $CONFIG_TMP
+done
+echo >> $CONFIG_TMP
+echo "/* At last values */" >> $CONFIG_TMP
+for var in $VAL
+do
+	eval "varValue=\$value_$var"
+	echo "#define WANT_$var $varValue" >> $CONFIG_TMP
+done
+echo >> $CONFIG_TMP
+cat $CONFIG_IN | tail -n 2 >> $CONFIG_TMP
+$DIALOG --textbox $CONFIG_TMP $HEIGHT $WIDTH
+$DIALOG --yesno "Do you want to save this as $CONFIG_OUT" 10 $WIDTH
+if test x$? = x0
+then
+	mv $CONFIG_TMP $CONFIG_OUT
+fi
+echo Done.
