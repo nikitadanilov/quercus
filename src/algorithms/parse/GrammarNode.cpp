@@ -30,9 +30,9 @@
 
 
 
-/* $Id: GrammarNode.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: GrammarNode.cpp,v 1.2 2000/10/12 21:33:07 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.2 2000/10/12 21:33:07 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -74,6 +74,7 @@ END_QR_NAMESPACE
 #include "algorithms/parse/Whitespace.hpp"
 #include "algorithms/parse/Identifier.hpp"
 #include "algorithms/parse/Constant.hpp"
+#include "algorithms/parse/Comment.hpp"
 #include "algorithms/parse/NumericLiteral.hpp"
 #include "StringEnumeration.hpp"
 #include "ObjectWrapper.hpp"
@@ -91,8 +92,10 @@ boolean GrammarNode::testerGrammarNode( int )
 	CRef< LookAheadEnumeration > lae;
 	
 	lexer = new StockLexer
-	  ( new ParseStream( new StringEnumeration( "({i1,i2,i3},{j1})" ) ) );
+	  ( new ParseStream( new StringEnumeration( "({(* afsdklj (* kljasd *) *).(*sdfklj*).(*(**)*)},{(*fl;(*sdk*)f(*;*)})" ) ) );
 	
+	lexer -> getCommentToken() -> setStart( "(*" );
+	lexer -> getCommentToken() -> setEnd( "*)" );
 	fooOrBar = new Alternative
 	  ( "fooOrBar", new List
 		( 1, 
@@ -111,8 +114,8 @@ boolean GrammarNode::testerGrammarNode( int )
 						  new ListOf( "innerlist",
 									  false,
 									  lexer -> getLBrace(),
-									  lexer -> getId(),
-									  lexer -> getComma(),
+									  lexer -> getComment(),
+									  lexer -> getDot(),
 									  lexer -> getRBrace() ),
 						  lexer -> getComma(),
 						  lexer -> getRParen() ) ),
@@ -150,6 +153,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: GrammarNode.cpp,v $
+ * Revision 1.2  2000/10/12 21:33:07  philogelos
+ * Tests updated
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *
