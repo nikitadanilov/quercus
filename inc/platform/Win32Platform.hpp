@@ -33,7 +33,7 @@
 #ifndef __WIN32PLATFORM_HPP__
 #define __WIN32PLATFORM_HPP__
 
-/* $Id: Win32Platform.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: Win32Platform.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 /* #define USE_WIN32 */
 
@@ -150,7 +150,7 @@ public: Win32Object( HANDLE handle );
   /**
 	 If handle is not null call CloseHandle() on it.
   */
-public: virtual ~Win32Object();
+public: virtual ~Win32Object() THROWS( Errno * );
 
 
   /**
@@ -250,6 +250,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Win32Platform.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *

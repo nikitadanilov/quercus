@@ -33,7 +33,7 @@
 #ifndef __POSIXPLATFORM_HPP__
 #define __POSIXPLATFORM_HPP__
 
-/* $Id: POSIXPlatform.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: POSIXPlatform.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #define USE_POSIX
 
@@ -84,10 +84,12 @@
 #define SHARE_SIGNAL_COUNTER false
 
 #if defined( WANT_DEBUGGER_COMMAND )
+#undef DEBUGGER_COMMAND
 #define DEBUGGER_COMMAND WANT_DEBUGGER_COMMAND
 #endif
 
 #if defined( WANT_IMAGE_NAME )
+#undef IMAGE_NAME
 #define IMAGE_NAME WANT_IMAGE_NAME
 #endif
 
@@ -116,15 +118,18 @@
 #endif
 
 #if defined( WANT_SHARE_SIGNAL_COUNTER )
-#if defined( SHARE_SIGNAL_COUNTER )
 #undef SHARE_SIGNAL_COUNTER
+#define SHARE_SIGNAL_COUNTER true
 #endif
-#define SHARE_SIGNAL_COUNTER WANT_SHARE_SIGNAL_COUNTER
+#if defined( UNWANT_SHARE_SIGNAL_COUNTER )
+#undef SHARE_SIGNAL_COUNTER
+#define SHARE_SIGNAL_COUNTER false
 #endif
 
 
 BEGIN_QR_NAMESPACE
 
+class Errno;
 #if defined( USE_THREADS )
 class PSemaphore;
 #endif
@@ -153,40 +158,42 @@ public: virtual ~POSIXPlatform();
   /**
 	 Fork. See man fork.
   */
-public: virtual int fork();
+public: virtual int fork() THROWS( Errno * );
 
   /**
 	 Exec. Family of exec() functions.
   */
-public: virtual void execl( const char *path, ... );
+public: virtual void execl( const char *path, ... ) THROWS( Errno * );
 public: virtual void vexecl( const char *path, 
 							 va_list nullTerminatedArgvs,
-							 Index aLength );
-public: virtual void execv( const char *path, char *const argv[] );
-public: virtual void execle( const char *path, ... );
+							 Index aLength ) THROWS( Errno * );
+public: virtual void execv( const char *path, char *const argv[] )
+  THROWS( Errno * );
+public: virtual void execle( const char *path, ... ) THROWS( Errno * );
 public: virtual void vexecle( const char *path, 
 							  va_list nullTerminatedArgvsAndEnvp,
-							  Index aLength );
+							  Index aLength ) THROWS( Errno * );
 public: virtual void execve( const char *path, 
 							char *const argv[], 
-							char *const envp[] );
-public: virtual void execlp( const char *file, ... );
+							char *const envp[] ) THROWS( Errno * );
+public: virtual void execlp( const char *file, ... ) THROWS( Errno * );
 public: virtual void vexeclp( const char *path, va_list nullTerminatedArgvs,
-							  Index aLength );
-public: virtual void execvp( const char *file, char *const argv[] );
+							  Index aLength ) THROWS( Errno * );
+public: virtual void execvp( const char *file, char *const argv[] ) 
+  THROWS( Errno * );
 
-public: virtual void system( const char *aCmd );
+public: virtual void system( const char *aCmd ) THROWS( Errno * );
 
   /**
 	 Returns the pid of the caller process.
   */
-public: virtual pid_t getPid();
+public: virtual pid_t getPid() THROWS( Errno * );
 
   /**
 	 Sends given signal to the process with given pid.
 	 See kill(2) for details.
   */
-public: virtual void kill( pid_t aPid, int aSig );
+public: virtual void kill( pid_t aPid, int aSig ) THROWS( Errno * );
 
 
   /**
@@ -195,12 +202,12 @@ public: virtual void kill( pid_t aPid, int aSig );
   */
 public: virtual void *mmap( void *addr, size_t len, 
 							int prot, int flags,
-							int fildes, off_t off );
+							int fildes, off_t off ) THROWS( Errno * );
 
   /**
 	 Unmaps memory pages. See unmap(2) for details.
   */
-public: virtual void munmap( void *addr, size_t len );
+public: virtual void munmap( void *addr, size_t len ) THROWS( Errno * );
 
 #if defined( USE_THREADS )
 public: virtual void startProfilingThread( String anOutFilesTemplate );
@@ -297,6 +304,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *

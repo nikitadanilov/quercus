@@ -31,9 +31,9 @@
 
 
 
-/* $Id: Debug.cpp,v 1.1.1.1 2000/07/19 16:40:35 philogelos Exp $ */
+/* $Id: Debug.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Debug.cpp,v 1.1.1.1 2000/07/19 16:40:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Debug.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -100,7 +100,7 @@ extern "C"
   {
 #if defined( PURE_PANICS )
 	Debug::getLogger() -> panic( pureMethodMessage );
-#elif( PURE_THROWS )
+#elif defined( PURE_THROWS )
 	throw new RuntimeError( pureMethodMessage, null );
 #endif
   }
@@ -130,6 +130,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.cpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:35  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: DefTree.cpp,v 1.1.1.1 2000/07/19 16:48:51 philogelos Exp $ */
+/* $Id: DefTree.cpp,v 1.2 2000/08/30 12:20:36 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: DefTree.cpp,v 1.1.1.1 2000/07/19 16:48:51 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DefTree.cpp,v 1.2 2000/08/30 12:20:36 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -54,22 +54,20 @@ BEGIN_QR_NAMESPACE
 
 DefTree::DefTree()
 {
-  FINIT( root, new DefTreeNode() );
+  root = new DefTreeNode();
 }
 
 DefTree::DefTree( MutableTreeNode *aRootNode )
 {
-  FNNINIT( root, aRootNode );
+  root = aRootNode;
 }
 
 DefTree::~DefTree()
-{
-  FDONE( root );
-}
+{}
 
 MutableTreeNode *DefTree::getMutableRoot() const THROWS( EmptyContainer * )
 {
-  return root;
+  return *root;
 }
 
 MutablePositionEnumeration *DefTree::getMutableEnumeration() const
@@ -100,22 +98,19 @@ MutablePositionEnumeration *DefTree::getValuesLast() const
 
 TypedEnumeration< Tree > *DefTree::getSubtrees() const
 {
-  List *subtrees;
-  TypedEnumeration< MutableTreeNode > *children;
+  CRef< List > subtrees;
+  CRef< TypedEnumeration< MutableTreeNode > > children;
   
   subtrees = new List();
-  PGuard _subtrees( subtrees, this );
   
   children = getMutableRoot() -> getMutableChildren();
-  OGuard _children( children, this );
   while( children -> hasMoreElements() )
 	{
-	  MutableTreeNode *child;
+	  CRef< MutableTreeNode > child;
 	  
 	  child = children -> getNextTypedElement();
-	  OGuard _child( child, this );
 
-	  subtrees -> append( new DefTree( ( MutableTreeNode * ) child ) );
+	  subtrees -> append( new DefTree( ( MutableTreeNode * ) *child ) );
 	}
   return TypedEnumeration< Tree >::upcast( subtrees -> getValueEnumeration() );
 }
@@ -139,7 +134,7 @@ PositionFactory *DefTree::getDefaultPositionFactory() const
 PositionFactory *DefTree::getPositionFactoryAt( MutableTreeNode *aRoot, 
 												boolean goDepth ) const
 {
-  preC_( aRoot != ( MutableTreeNode * ) NIL );
+  preC_( aRoot != NIL );
   
   return new TreePositionFactory
 	( new MutableTreePath( ( DefTree * ) this, aRoot ), 
@@ -155,38 +150,34 @@ TreePositionFactory::TreePositionFactory( MutableTreePath *aRoot,
 										  MutableTreeNodeFactory *aFactory,
 										  boolean goDepth )
 {
-  FNNINIT( root, aRoot );
-  FNNINIT( factory, aFactory );
+  root = aRoot;
+  factory = aFactory;
   toDepth = goDepth;
 }
 
 TreePositionFactory::~TreePositionFactory()
-{
-  FDONE( root );
-  FDONE( factory );
-}
+{}
 
 MutablePosition *TreePositionFactory::createPosition()
 {
-  MutableTreeNode *freshNode;
-  MutableTreePath *result;
+  CRef< MutableTreeNode > freshNode;
+  CRef< MutableTreePath > result( NULL, true, false, false );
     
   freshNode = factory -> createNode();
-  OGuard _fresh( freshNode, this );
   
-  root -> topMutable() -> getMutableChildrenHome() -> defAdd( freshNode );
+  root -> topMutable() -> getMutableChildrenHome() -> defAdd( *freshNode );
 
   if( toDepth )
 	{
-	  root -> pushMutable( freshNode );
+	  root -> pushMutable( *freshNode );
 	  result = TCAST( root -> clone(), MutableTreePath );
 	}
   else
 	{
 	  result = TCAST( root -> clone(), MutableTreePath );
-	  result -> pushMutable( freshNode );
+	  result -> pushMutable( *freshNode );
 	}
-  return result;
+  return *result;
 }
 
 
@@ -197,33 +188,30 @@ MutablePosition *TreePositionFactory::createPosition()
 DefTreeNode::DefTreeNode()
 {
   setValue( nil );
-  FINIT( children, new List() );
+  children = new List();
 }
 
 DefTreeNode::DefTreeNode( ModifiableContainer *aStorage )
 {
   setValue( nil );
-  FNNINIT( children, aStorage );
+  children = aStorage;
 }
 
 
 DefTreeNode::~DefTreeNode()
-{
-  FCDONE( value );
-  FDONE( children );
-}
+{}
 
 Top *DefTreeNode::getValue() const
 {
-  return value;
+  return *value;
 }
 
 Top *DefTreeNode::setValue( Top *aValue )
 {
   Top *prevValue;
   
-  prevValue = value;
-  FMOVE( value, aValue );
+  prevValue = *value;
+  value = aValue;
   return prevValue;
 }
 
@@ -235,7 +223,7 @@ TypedEnumeration< MutableTreeNode > *DefTreeNode::getMutableChildren() const
 
 ModifiableContainer *DefTreeNode::getMutableChildrenHome() const
 {
-  return children;
+  return *children;
 }
 
 boolean DefTreeNode::isLeaf()
@@ -245,31 +233,28 @@ boolean DefTreeNode::isLeaf()
 
 Top *DefTreeNode::clone() const
 {
-  DefTreeNode *result;
+  CRef< DefTreeNode > result( NULL, true, false, false );
   
   result = new DefTreeNode
 	( TCAST( getMutableChildrenHome() -> clone(), 
 			 ModifiableContainer ) );
-  PGuard _result( result, this );
   result -> setValue( getValue() );
-  return result;
+  return *result;
 }
 
 
 
 DefTreeNodeFactory::DefTreeNodeFactory( MutableTreeNode *aNode )
 {
-  FNNINIT( node, aNode );
+  node = aNode;
 }
 
 DefTreeNodeFactory::~DefTreeNodeFactory()
-{
-  FDONE( node );
-}
+{}
   
 MutableTreeNode *DefTreeNodeFactory::createNode()
 {
-  return TCAST( node -> clone(), MutableTreeNode );
+  return TCAST( ( *node ) -> clone(), MutableTreeNode );
 }
 
 #if defined( TESTING )
@@ -384,6 +369,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DefTree.cpp,v $
+ * Revision 1.2  2000/08/30 12:20:36  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:48:51  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Parser.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
+/* $Id: Parser.cpp,v 1.3 2000/08/30 12:20:36 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Parser.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Parser.cpp,v 1.3 2000/08/30 12:20:36 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -65,7 +65,7 @@ void Parser::add( TokenFactory *aFactory )
   factory -> append( aFactory );
 }
 
-Token *Parser::getNextToken()
+Token *Parser::getNextToken() THROWS( ParseError * )
 {
   CRef< TokenFactory > school;
   Index acceptedLength;
@@ -192,6 +192,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Parser.cpp,v $
+ * Revision 1.3  2000/08/30 12:20:36  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.2  2000/08/26 13:26:55  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

@@ -33,7 +33,7 @@
 #ifndef __ENUMERATIONALGORITHMS_HPP__
 #define __ENUMERATIONALGORITHMS_HPP__
 
-/* $Id: EnumerationAlgorithms.hpp,v 1.1.1.1 2000/07/19 16:58:29 philogelos Exp $ */
+/* $Id: EnumerationAlgorithms.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "algorithms/AlgorithmPackage.hpp"
@@ -63,6 +63,8 @@ interface ModifiableContainer;
 interface PositionFactory;
 interface Iterator;
 
+class NoEntity;
+
 /**
    Enumeration algorithms.
 
@@ -75,7 +77,8 @@ class EnumerationAlgorithms : public virtual AlgorithmPackage,
 
 public: virtual Index findIndex( Enumeration *anEnum, 
 								 const Top *anObject, 
-								 const Index aMaxSearch ) const;
+								 const Index aMaxSearch ) const 
+  THROWS( NoEntity * );
 public: virtual  Index getCardinality( Enumeration *anEnum );
 
   /**
@@ -324,6 +327,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: EnumerationAlgorithms.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:29  philogelos
  * stored sources into sourceforge.net CVS
  *

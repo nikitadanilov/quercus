@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: EnumerationAlgorithms.cpp,v 1.1.1.1 2000/07/19 16:44:04 philogelos Exp $ */
+/* $Id: EnumerationAlgorithms.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.1.1.1 2000/07/19 16:44:04 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -69,6 +69,7 @@ EnumerationAlgorithms::~EnumerationAlgorithms()
 Index EnumerationAlgorithms::findIndex( Enumeration *anEnum, 
 										const Top *anObject, 
 										const Index aMaxSearch ) const
+  THROWS( NoEntity * )
 {
   OGuard _enum( anEnum, ( Top * ) this );
   OGuard _object( anObject, ( Top * ) this );
@@ -950,6 +951,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: EnumerationAlgorithms.cpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:04  philogelos
  * stored sources into sourceforge.net CVS
  *

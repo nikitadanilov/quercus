@@ -33,7 +33,7 @@
 #ifndef __PTHREAD_HPP__
 #define __PTHREAD_HPP__
 
-/* $Id: PThread.hpp,v 1.1.1.1 2000/07/19 17:14:06 philogelos Exp $ */
+/* $Id: PThread.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #define USE_PTHREADS
 
@@ -73,6 +73,8 @@ class PThreadsSystem;
 class PCondVar;
 class PMutex;
 class PSemaphore;
+
+class Errno;
 
 /**
    Factory class for POSIX threads.
@@ -139,7 +141,7 @@ public: virtual void onceFunc( void ( *aFunct )() );
 
 	 @see PMutex
   */
-public: virtual Mutex *mutex();
+public: virtual Mutex *mutex() THROWS( Errno * );
 
   /**
 	 Returns new recursive mutex. On LINUX
@@ -150,23 +152,23 @@ public: virtual Mutex *mutex();
 	 @see PMutex
 	 @see RecMutex
   */
-public: virtual Mutex *recMutex();
+public: virtual Mutex *recMutex() THROWS( Errno * );
 
   /**
 	 Returns new POSIX conditional variable.
 
 	 @see PCondVar
   */
-public: virtual CondVar *condition();
+public: virtual CondVar *condition() THROWS( Errno * );
 
   /**
 	 Returns new POSIX semaphore.
 
 	 @see PSemaphore
   */
-public: virtual Semaphore *semaphore( Index anInitialCount );
+public: virtual Semaphore *semaphore( Index anInitialCount ) THROWS( Errno * );
 
-public: virtual RWLock *rwLock();
+public: virtual RWLock *rwLock() THROWS( Errno * );
   
   /**
 	 Returns object corresponding to the calling thread.
@@ -176,12 +178,12 @@ public: virtual Thread *getSelf();
   /**
 	 Cancels given thread. Wrapper around pthread_cancel.
   */
-public: virtual void cancel( Thread *aVictim );
+public: virtual void cancel( Thread *aVictim ) THROWS( Errno * );
 
   /**
 	 Suspends execution of the calling thread.
   */
-public: virtual void sleep( Index aSecond, Index aNanoseconds );
+public: virtual void sleep( Index aSecond, Index aNanoseconds ) THROWS( Errno * );
 
   /**
 	 Finishes calling thread.
@@ -192,7 +194,7 @@ public: virtual void exitCurrent( void *aStatus );
   /**
 	 Helper method.
   */
-public: static int pthrCall( const char *callName, int retCode );
+public: static int pthrCall( const char *callName, int retCode ) THROWS( Errno * );
 
   /**
 	 Searches thread with given id.
@@ -258,7 +260,7 @@ public: boolean isUserThread() const;
 	 Blocks calling thread until this thread completes
 	 execution. Wrapper around pthread_join.
   */
-public: virtual void join();
+public: virtual void join() THROWS( Errno * );
 
 public:  virtual String  toString() const;
 public:  virtual String  getClassName() const;
@@ -297,38 +299,38 @@ class PMutex : public virtual Mutex,
   /**
 	 Creates default mutex. Wrapper around pthread_mutex_init.
   */
-public: PMutex();
+public: PMutex() THROWS( Errno * );
 
   /**
 	 Creates mutex with given attribute. 
 	 Wrapper around pthread_mutex_init.
   */
-public: PMutex( pthread_mutexattr_t *anAttribute );
+public: PMutex( pthread_mutexattr_t *anAttribute ) THROWS( Errno * );
 
   /**
 	 Destroys this mutex.
 	 Wrapper around pthread_mutex_destroy.
   */
-public: virtual ~PMutex();
+public: virtual ~PMutex() THROWS( Errno * );
 
 
   /**
 	 Locks this mutex.
 	 Wrapper around pthread_mutex_lock.
   */
-public: virtual void enter( const Top * = null );
+public: virtual void enter( const Top * = null ) THROWS( Errno * );
 
   /**
 	 Unlocks this mutex.
 	 Wrapper around pthread_mutex_unlock.
   */
-public: virtual void leave( const Top * = null );
+public: virtual void leave( const Top * = null ) THROWS( Errno * );
 
   /**
 	 Tries to lock this mutex.
 	 Wrapper around pthread_mutex_trylock.
   */
-public: virtual boolean tryEnter( const Top * = null );
+public: virtual boolean tryEnter( const Top * = null ) THROWS( Errno * );
 
 public:  virtual String  toString() const;
 
@@ -358,13 +360,13 @@ typedef struct
 class PCondVar : public virtual CondVar,
 				 public virtual Object
 {
-public: PCondVar( PMutex *aMutex );
-public: virtual ~PCondVar();
+public: PCondVar( PMutex *aMutex ) THROWS( Errno * );
+public: virtual ~PCondVar() THROWS( Errno * );
 
 public: virtual Mutex *getMutex() const;
-public: virtual void wait();
-public: virtual void signal();
-public: virtual void broadcast();
+public: virtual void wait() THROWS( Errno * );
+public: virtual void signal() THROWS( Errno * );
+public: virtual void broadcast() THROWS( Errno * );
 
 public:  virtual String  toString() const;
 
@@ -388,12 +390,12 @@ protected: pthread_cond_t core;
 class PSemaphore : public virtual Semaphore,
 				   public virtual Object
 {
-public: PSemaphore( boolean aShared, Index anInitialCount );
-public: virtual ~PSemaphore();
+public: PSemaphore( boolean aShared, Index anInitialCount ) THROWS( Errno * );
+public: virtual ~PSemaphore() THROWS( Errno * );
 
-public: void inc();
-public: void dec();
-public: boolean tryDec();
+public: void inc() THROWS( Errno * );
+public: void dec() THROWS( Errno * );
+public: boolean tryDec() THROWS( Errno * );
 
 protected: sem_t core;
 };
@@ -417,14 +419,14 @@ protected: sem_t core;
 class PRWLock : public virtual RWLock,
 				public virtual Object
 {
-public: PRWLock();
-public: virtual ~PRWLock();
+public: PRWLock() THROWS( Errno * );
+public: virtual ~PRWLock() THROWS( Errno * );
 
-public: virtual void enterRead( const Top * = null );
-public: virtual void enterWrite( const Top * = null );
-public: virtual void leave( const Top * = null );
-public: virtual boolean tryEnterRead();
-public: virtual boolean tryEnterWrite();
+public: virtual void enterRead( const Top * = null ) THROWS( Errno * );
+public: virtual void enterWrite( const Top * = null ) THROWS( Errno * );
+public: virtual void leave( const Top * = null ) THROWS( Errno * );
+public: virtual boolean tryEnterRead() THROWS( Errno * );
+public: virtual boolean tryEnterWrite() THROWS( Errno * );
 
 protected: pthread_rwlock_t core;
 };
@@ -436,6 +438,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:14:06  philogelos
  * stored sources into sourceforge.net CVS
  *

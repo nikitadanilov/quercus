@@ -33,7 +33,7 @@
 #ifndef __WIN32Thread_HPP__
 #define __WIN32Thread_HPP__
 
-/* $Id: Win32Thread.hpp,v 1.1.1.1 2000/07/19 17:14:40 philogelos Exp $ */
+/* $Id: Win32Thread.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 /* #define USE_WIN32THREADS */
 
@@ -92,7 +92,7 @@ protected: Win32ThreadsSystem *threadsSystem;
 
 public: static Index backRefKey;
 
-public: static void reportError( String aMessage );
+public: static void reportError( String aMessage ) THROWS( Errno * );
 
 protected: static void initClass();
 protected: static boolean initClassOnce;
@@ -334,6 +334,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Win32Thread.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:14:40  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __COLOR_HPP__
 #define __COLOR_HPP__
 
-/* $Id: Color.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: Color.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -50,8 +50,10 @@ public: virtual ~Color();
 public: XColor *getData() const;
 public: void setData( XColor *aData );
 
-public: static Xq::Color *create( Display *aDisplay, String aName );
-public: static Xq::Color *create( Display *aDisplay, unsigned long aPixel );
+public: static Xq::Color *create( Display *aDisplay, String aName ) 
+  THROWS( XException * );
+public: static Xq::Color *create( Display *aDisplay, unsigned long aPixel )
+  THROWS( XException * );
 
 protected: XColor x11Data;
 };
@@ -60,6 +62,9 @@ protected: XColor x11Data;
 
 /*
  * $Log: Color.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *

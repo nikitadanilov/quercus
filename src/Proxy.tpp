@@ -30,7 +30,7 @@
 
 
 
-/* $Id: Proxy.tpp,v 1.1 2000/08/29 17:48:08 philogelos Exp $ */
+/* $Id: Proxy.tpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "Proxy.hpp"
 #include "Debug.hpp"
@@ -143,7 +143,12 @@ END_QR_NAMESPACE
 #endif
 
 
-/* $Log: Proxy.tpp,v $
-/* Revision 1.1  2000/08/29 17:48:08  philogelos
-/* Proxy class for lazy object creation added.
-/* */
+/* 
+ * $Log: Proxy.tpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
+ * Revision 1.1  2000/08/29 17:48:08  philogelos
+ * Proxy class for lazy object creation added.
+ * 
+ */

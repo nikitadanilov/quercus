@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.1.1.1 2000/07/19 16:43:57 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -74,6 +74,8 @@ static char debugFileId[] = __FILE__;
 #include "containers/trees/DefTree.hpp"
 
 #include "CRef.hpp"
+#include "Proxy.hpp"
+#include "ObjectFactory.hpp"
 
 #include "platform/dl/SolarisDL.hpp"
 
@@ -96,13 +98,28 @@ int QRMain( List * )
   for( int i = 0 ; i < 1000 ; ++i )
 	{
 	  //          test_( false );
+
+	  {
+		DefTree *quercus;
+
+		quercus = new DefTree();
+		OGuard _quercus( quercus, quercus );
+		quercus -> tester( 0 );
+	  }
+/* untested tests */
+#if 0
+	  {
+		CRef< Proxy< Top > > proxy;
+
+		proxy = new Proxy< Top >( new ObjectFactory( new Object() ) );
+		proxy -> tester( 0 );
+	  }
 	  {  
 		CRef< Parser > parser;
 
 		parser = new Parser( new ParseStream( new StringEnumeration( "" ) ) );
 		parser -> tester( 0 );
 	  }
-#if 0
 	  {  
 		EALG -> tester( 0 );
 	  }
@@ -151,13 +168,7 @@ int QRMain( List * )
 #endif
 		/* GC test */
 	  }
-	  {
-		DefTree *quercus;
 
-		quercus = new DefTree();
-		OGuard _quercus( quercus, quercus );
-		quercus -> tester( 0 );
-	  }
 	  {
 		Queue *line;
 
@@ -271,21 +282,22 @@ int QRMain( List * )
 		Xq::tester( 0 );
 #endif
 	  }
+	  {
+#if defined( USE_CQ )
+		Cq::tester( 0 );
+#endif
+	  }
 #if defined( USE_POSIX )
 	  {
 		TCAST( PLAF, POSIXPlatform ) -> tester( 0 );
 	  }
 #endif
 	  {
-#if defined( USE_CQ )
-		Cq::tester( 0 );
-#endif
-	  }
-	  {
-#if 0 && defined( USE_THREADS )
+#if defined( USE_THREADS )
 		TCAST( THR_SYSTEM -> getSelf(), Object ) -> tester( 0 );
 #endif
 	  }
+/* end of tests */
 #endif
 	  DLOG( "------------------------------------" );
 #if defined( PROFILE_MEM_ALLOC )

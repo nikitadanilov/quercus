@@ -33,9 +33,10 @@
 #ifndef __DEFTREE_HPP__
 #define __DEFTREE_HPP__
 
-/* $Id: DefTree.hpp,v 1.1.1.1 2000/07/19 17:00:40 philogelos Exp $ */
+/* $Id: DefTree.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "containers/PositionFactory.hpp"
+#include "CRef.hpp"
 #include "Object.hpp"
 #include "MutableTree.hpp"
 #include "MutableTreeNode.hpp"
@@ -92,7 +93,7 @@ public: virtual PositionFactory *getDefaultPositionFactory() const;
    */
 public:  virtual String  getClassName() const;
 
-protected: MutableTreeNode *root;
+protected: CRef< MutableTreeNode > root;
   
 #if defined( TESTING )
 public: boolean tester( int ) const;
@@ -111,8 +112,8 @@ public: virtual ~TreePositionFactory();
 
 public: virtual MutablePosition *createPosition();
 
-protected: MutableTreePath *root;
-protected: MutableTreeNodeFactory *factory;
+protected: CRef< MutableTreePath > root;
+protected: CRef< MutableTreeNodeFactory > factory;
 protected: boolean toDepth;
 };
 
@@ -133,8 +134,8 @@ public: virtual boolean isLeaf();
 
 public: virtual Top *clone() const;
 
-protected: Top *value;
-protected: ModifiableContainer *children;
+protected: CRef< Top > value;
+protected: CRef< ModifiableContainer > children;
 };
 
 class DefTreeNodeFactory : public virtual MutableTreeNodeFactory,
@@ -145,7 +146,7 @@ public: virtual ~DefTreeNodeFactory();
   
 public: virtual MutableTreeNode *createNode();
 
-protected:  MutableTreeNode *node;
+protected: CRef< MutableTreeNode > node;
 };
 
 
@@ -153,6 +154,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DefTree.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:00:40  philogelos
  * stored sources into sourceforge.net CVS
  *

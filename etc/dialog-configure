@@ -68,7 +68,7 @@ function declareVal()
 {
 	# declareVal title var init
 	eval "$DIALOG --separate-output --inputbox '$1: $2' 10 $WIDTH $3 2> $TMP_DEF"
-	setVal $2 `cat $TMP_DEF`
+	setVal $2 "'"`cat $TMP_DEF`"'"
 }
 
 function clearVariables
@@ -177,8 +177,8 @@ askOptions "Platform" USE_POSIX "POSIX-compliant system" on USE_WIN32 "System wi
 if test x$flag_USE_POSIX = xyes
 then
 	askOptions "Time measurement" USE_CLOCK_GETTIME "Use clock_gettime()" off USE_CLOCK "Use clock()" off USE_GETTIMEOFDAY "Use gettimeofday()" on
-	declareVal "Debugger to attach on crash" DEBUGGER_COMMAND "gdb" 
-	declareVal "Default image name" IMAGE_NAME "test" 
+	declareVal "Debugger to attach on crash" DEBUGGER_COMMAND '\"gdb\"'
+	declareVal "Default image name" IMAGE_NAME '\"test\"'
 	clearVariables
 	declareVar SHARE_SIGNAL_COUNTER    off "Use system-visible semaphore to count signals"
 	askVariables "POSIX-specific variables"
@@ -217,7 +217,11 @@ then
 	done
 fi
 
-askOptions "UI system" USE_XQ "X11-based" on USE_WQ "Win32-based" off USE_CQ "curses-based" off
+clearVariables
+declareVar USE_XQ    on    "X11-based"
+declareVar USE_WQ    off   "Win32-based"
+declareVar USE_CQ    on    "curses-based"
+askVariables "UI system"
 
 if test x$flag_USE_XQ = xyes
 then

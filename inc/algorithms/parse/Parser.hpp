@@ -33,7 +33,7 @@
 #ifndef __PARSER_HPP__
 #define __PARSER_HPP__
 
-/* $Id: Parser.hpp,v 1.1.1.1 2000/07/19 16:58:45 philogelos Exp $ */
+/* $Id: Parser.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "CRef.hpp"
@@ -47,6 +47,8 @@ class ParseStream;
 class TokenCradle;
 class TokenFactory;
 class Token;
+
+class ParseError;
 
 /**
 
@@ -67,7 +69,7 @@ public: virtual ~Parser();
 
 public: virtual void add( TokenFactory *aFactory );
 
-public: virtual Token *getNextToken();
+public: virtual Token *getNextToken() THROWS( ParseError * );
 public: virtual Token *getNextTypedElement();
 public: virtual boolean hasMoreElements();
 
@@ -87,6 +89,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Parser.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:45  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __XQ_HPP__
 #define __XQ_HPP__
 
-/* $Id: Xq.hpp,v 1.1.1.1 2000/07/19 17:16:06 philogelos Exp $ */
+/* $Id: Xq.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #define USE_XQ
 
@@ -96,14 +96,7 @@
 #endif
 
 #if defined( WANT_XQ_XCHECKEVENT_HACK_TIMEOUT )
-#define XQ_XCHECKEVENT_HACK_TIMEOUT
-#elif defined( UNWANT_XQ_XCHECKEVENT_HACK_TIMEOUT )
-#if defined( XQ_XCHECKEVENT_HACK_TIMEOUT )
 #undef XQ_XCHECKEVENT_HACK_TIMEOUT
-#endif
-#endif
-
-#if defined( WANT_XQ_XCHECKEVENT_HACK_TIMEOUT )
 #define XQ_XCHECKEVENT_HACK_TIMEOUT WANT_XQ_XCHECKEVENT_HACK_TIMEOUT
 #endif
 
@@ -237,6 +230,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Xq.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:16:06  philogelos
  * stored sources into sourceforge.net CVS
  *

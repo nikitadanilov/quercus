@@ -33,7 +33,7 @@
 #ifndef __PROXY_HPP__
 #define __PROXY_HPP__
 
-/* $Id: Proxy.hpp,v 1.1 2000/08/29 17:48:07 philogelos Exp $ */
+/* $Id: Proxy.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "CRef.hpp"
@@ -99,10 +99,15 @@ END_QR_NAMESPACE
 #include "src/Proxy.tpp"
 #endif
 
-/* $Log: Proxy.hpp,v $
-/* Revision 1.1  2000/08/29 17:48:07  philogelos
-/* Proxy class for lazy object creation added.
-/* */
+/*
+ * $Log: Proxy.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
+ * Revision 1.1  2000/08/29 17:48:07  philogelos
+ * Proxy class for lazy object creation added.
+ *
+ */
 
 /* __PROXY_HPP__ */
 #endif

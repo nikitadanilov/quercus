@@ -32,7 +32,7 @@
 #ifndef __ANSICPLATFORM_HPP__
 #define __ANSICPLATFORM_HPP__
 
-/* $Id: ANSICPlatform.hpp,v 1.1.1.1 2000/07/19 17:12:57 philogelos Exp $ */
+/* $Id: ANSICPlatform.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "platform/Platform.hpp"
 #include "defines.h"
@@ -218,7 +218,7 @@ public: virtual void *memset( void *s, int c, Index n );
 	 @see USE_BOEHM_GC
 	 @see #deallocateMemory
   */
-public: virtual void *allocateMemory( Index aSize );
+public: virtual void *allocateMemory( Index aSize ) THROWS( OutOfMemory * );
 
   /**
 	 Calls ANSIC free() function or GC_free()
@@ -299,6 +299,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ANSICPlatform.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:12:57  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __PIXMAP_HPP__
 #define __PIXMAP_HPP__
 
-/* $Id: Pixmap.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: Pixmap.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -67,7 +67,8 @@ public: static Pixmap *createFromXPM( Xq::Drawable *aDrawable,
 									  String aFileName,
 									  Xq::Pixmap **aMask );
 public: void writeToXPMFile( String aFileName );
-public: static void handleXPMError( int aCode, String aMessage );
+public: static void handleXPMError( int aCode, String aMessage ) 
+  THROWS( XException * );
 #endif
 
 public: static Pixmap *create( Xq::Drawable *aDrawable, 
@@ -84,6 +85,9 @@ protected: int yHot;
 
 /*
  * $Log: Pixmap.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *

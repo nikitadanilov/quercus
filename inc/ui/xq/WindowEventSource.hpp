@@ -33,7 +33,7 @@
 #ifndef __XQ_WINDOWEVENTSOURCE_HPP__
 #define __XQ_WINDOWEVENTSOURCE_HPP__
 
-/* $Id: WindowEventSource.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: WindowEventSource.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -49,7 +49,7 @@ public: virtual ~WindowEventSource();
 
 public: Xq::Window *getWindow() const;
 
-public: virtual Aq::AqEvent *getNextTypedElement();
+public: virtual Aq::AqEvent *getNextTypedElement() THROWS( Errno * );
 
 public: virtual String getClassName() const;
 
@@ -58,6 +58,9 @@ protected: const Xq::Window *window;
 
 /*
  * $Log: WindowEventSource.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __FONT_HPP__
 #define __FONT_HPP__
 
-/* $Id: Font.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: Font.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -54,8 +54,8 @@ public: Aq::Size getWidth() const;
 public: Aq::Size getHeight() const;
 public: Aq::Size getAscent() const;
 
-public: static Xq::Font *createFixed( Display *aDisplay );
-public: static Xq::Font *create( Display *aDisplay, String aName );
+public: static Xq::Font *createFixed( Display *aDisplay ) THROWS( XException * );
+public: static Xq::Font *create( Display *aDisplay, String aName ) THROWS( XException * );
 
 protected: XFontStruct *x11Data;
 };
@@ -64,6 +64,9 @@ protected: XFontStruct *x11Data;
 
 /*
  * $Log: Font.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *

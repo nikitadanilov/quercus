@@ -33,7 +33,7 @@
 #ifndef __DISPLAY_HPP__
 #define __DISPLAY_HPP__
 
-/* $Id: Display.hpp,v 1.1.1.1 2000/07/19 17:15:23 philogelos Exp $ */
+/* $Id: Display.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -60,8 +60,8 @@ public: Visual *defaultVisual( int aScreen ) const;
 public: Coord getWidth() const;
 public: Coord getHeight() const;
 
-public: static Display *open();
-public: static Display *open( const char *aName );
+public: static Display *open() THROWS( XException * );
+public: static Display *open( const char *aName ) THROWS( XException * );
 
 public: void setData( struct _XDisplay *aDisplay );
 public: struct _XDisplay *getData() const;
@@ -83,6 +83,9 @@ protected: Mutex *x11Serializer;
 
 /*
  * $Log: Display.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 17:15:23  philogelos
  * stored sources into sourceforge.net CVS
  *

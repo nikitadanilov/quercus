@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Proxy.cpp,v 1.1 2000/08/29 17:48:08 philogelos Exp $ */
+/* $Id: Proxy.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Proxy.cpp,v 1.1 2000/08/29 17:48:08 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Proxy.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -50,7 +50,12 @@ static char debugFileId[] = __FILE__;
 #endif
 
 
-/* $Log: Proxy.cpp,v $
-/* Revision 1.1  2000/08/29 17:48:08  philogelos
-/* Proxy class for lazy object creation added.
-/* */
+/* 
+ * $Log: Proxy.cpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
+ * Revision 1.1  2000/08/29 17:48:08  philogelos
+ * Proxy class for lazy object creation added.
+ *
+ */

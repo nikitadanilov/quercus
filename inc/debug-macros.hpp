@@ -33,7 +33,7 @@
 #ifndef __DEBUGMACROS_HPP__
 #define __DEBUGMACROS_HPP__
 
-/* $Id: debug-macros.hpp,v 1.1.1.1 2000/07/19 16:58:13 philogelos Exp $ */
+/* $Id: debug-macros.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 /** Defined if compiling in debug mode 
 	(with pre-post-condition checking etc. */
@@ -72,35 +72,45 @@
 
 #if defined( WANT_PURE_PANICS )
 #define PURE_PANICS
+#undef PURE_THROWS
 #elif defined( UNWANT_PURE_PANICS )
 #if defined( PURE_PANICS )
+#define PURE_THROWS
 #undef PURE_PANICS
 #endif
 #endif
 
 #if defined( WANT_PURE_THROWS )
 #define PURE_THROWS
+#undef PURE_PANICS
 #elif defined( UNWANT_PURE_THROWS )
 #if defined( PURE_THROWS )
 #undef PURE_THROWS
+#define PURE_PANICS
 #endif
 #endif
 
 #if defined( WANT_DROP_CORE_ON_PANIC )
+#undef DROP_CORE_ON_PANIC
 #define DROP_CORE_ON_PANIC true
 #elif defined( UNWANT_DROP_CORE_ON_PANIC )
+#undef DROP_CORE_ON_PANIC
 #define DROP_CORE_ON_PANIC false
 #endif
 
 #if defined( WANT_ASSERTION_FAILS_ARE_FATAL )
+#undef ASSERTION_FAILS_ARE_FATAL
 #define ASSERTION_FAILS_ARE_FATAL true
 #elif defined( UNWANT_ASSERTION_FAILS_ARE_FATAL )
+#undef ASSERTION_FAILS_ARE_FATAL
 #define ASSERTION_FAILS_ARE_FATAL false
 #endif
 
 #if defined( WANT_ATTACH_DEBUGGER_ON_ERROR )
+#undef ATTACH_DEBUGGER_ON_ERROR
 #define ATTACH_DEBUGGER_ON_ERROR true
 #elif defined( UNWANT_ATTACH_DEBUGGER_ON_ERROR )
+#undef ATTACH_DEBUGGER_ON_ERROR
 #define ATTACH_DEBUGGER_ON_ERROR false
 #endif
 
@@ -190,6 +200,10 @@
 #define DLOG       Debug::getLogger() -> log
 #define DLOGSTRING Debug::getLogger() -> logString
 #define DLOGOBJECT Debug::getLogger() -> logObject
+
+#define TRACE( arg ) Debug::getLogger() -> 								\
+                       log( "%s (%s:%i): %s",							\
+							__functionName, __FILE__, __LINE__, arg )
 
 /* __DEBUGMACROS_HPP__ */
 #endif

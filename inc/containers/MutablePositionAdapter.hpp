@@ -33,7 +33,7 @@
 #ifndef __MUTABLEPOSITIONADAPTER_HPP__
 #define __MUTABLEPOSITIONADAPTER_HPP__
 
-/* $Id: MutablePositionAdapter.hpp,v 1.1.1.1 2000/07/19 16:59:37 philogelos Exp $ */
+/* $Id: MutablePositionAdapter.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 
 #include "PositionAdapter.hpp"
 #include "MutableContainer.hpp"
@@ -64,7 +64,7 @@ public: MutablePositionAdapter( MutableContainer *aHost );
   /** 
 	  Installs new value into mutable container.
 	  
-	  @throw IllegalUpdate
+	  @throw IllegalUpdate XXX TODO.
   */
 public: virtual Top *setValue( Top *aNewValue );
 
@@ -82,6 +82,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: MutablePositionAdapter.hpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:59:37  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #define __DEFINES_H__
 
 #include "platform/platform-specific.h"
-
+#include "config.h"
 #include "build.h"
 
 /** If defined, some classes define <em>int tester( int )</em> or

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: DebugDialogue.cpp,v 1.1.1.1 2000/07/19 16:40:41 philogelos Exp $ */
+/* $Id: DebugDialogue.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: DebugDialogue.cpp,v 1.1.1.1 2000/07/19 16:40:41 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DebugDialogue.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -132,7 +132,8 @@ void *DebugDialogue::run()
 		  break;
 		case shell:
 #if defined( USE_POSIX )
-		  DLOG( "Our pid: %li", TCAST( PLAF, POSIXPlatform ) -> getPid() );
+		  DLOG( "Our pid: %li", 
+				( long ) TCAST( PLAF, POSIXPlatform ) -> getPid() );
 		  DLOG( "Exit shell to return\n" );
 		  TCAST( PLAF, POSIXPlatform ) -> system( "sh -i" );
 		  DLOG( "Welcome back" );
@@ -160,6 +161,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DebugDialogue.cpp,v $
+ * Revision 1.2  2000/08/30 12:20:35  philogelos
+ * THROWS clauses updates to correspond to the real throws.
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:41  philogelos
  * stored sources into sourceforge.net CVS
  *
