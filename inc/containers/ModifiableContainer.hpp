@@ -33,7 +33,7 @@
 #ifndef __MODIFIABLECONTAINER_HPP__
 #define __MODIFIABLECONTAINER_HPP__
 
-/* $Id: ModifiableContainer.hpp,v 1.1.1.1 2000/07/19 16:59:29 philogelos Exp $ */
+/* $Id: ModifiableContainer.hpp,v 1.2 2001/06/23 12:27:43 philogelos Exp $ */
 
 #include "iter/enumerations/TypedEnumeration.hpp"
 #include "containers/RemovablePosition.hpp"
@@ -52,10 +52,17 @@ interface PositionFactory;
 */
 abstract class ModifiableContainer : public virtual Container
 {
+  /**
+	 Returns default factory for creation of new slots in this container. 
+	 
+	 @see PositionFactory
+  */
 public: virtual PositionFactory *getDefaultPositionFactory() const = 0;
 
   /**
 	 Returns sequence containing all removable slots.
+
+	 @see RemovablePosition
   */
 public: virtual TypedEnumeration< RemovablePosition > *getRemovable() const = 0;
 
@@ -66,6 +73,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ModifiableContainer.hpp,v $
+ * Revision 1.2  2001/06/23 12:27:43  philogelos
+ * class and methods commented
+ *
  * Revision 1.1.1.1  2000/07/19 16:59:29  philogelos
  * stored sources into sourceforge.net CVS
  *

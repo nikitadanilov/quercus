@@ -33,7 +33,7 @@
 #ifndef __POSITIONFACTORY_HPP__
 #define __POSITIONFACTORY_HPP__
 
-/* $Id: PositionFactory.hpp,v 1.1.1.1 2000/07/19 16:59:47 philogelos Exp $ */
+/* $Id: PositionFactory.hpp,v 1.2 2001/06/23 12:27:43 philogelos Exp $ */
 
 #include "AbstractFactory.hpp"
 #include "defines.h"
@@ -43,13 +43,22 @@ BEGIN_QR_NAMESPACE
 interface MutablePosition;
 
 /**
+   Factory object for creation of new slots in containers.
 
    @author Philogelos
    @created Срд 30 Сен 1998 13:57:45
 */
 interface PositionFactory : public AbstractFactory
 {
+
+  /** Creates and returns new slot in some container.
+	  Returned position addresses this slot. */
  public: virtual MutablePosition *createPosition() = 0;
+ /** 
+	 Calls ::createPosition().
+
+	 @see ::createPosition
+ */
  public: virtual Top *create();
 };
 
@@ -57,6 +66,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PositionFactory.hpp,v $
+ * Revision 1.2  2001/06/23 12:27:43  philogelos
+ * class and methods commented
+ *
  * Revision 1.1.1.1  2000/07/19 16:59:47  philogelos
  * stored sources into sourceforge.net CVS
  *

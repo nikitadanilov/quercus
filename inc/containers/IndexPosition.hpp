@@ -33,7 +33,7 @@
 #ifndef __INDEXPOSITION_HPP__
 #define __INDEXPOSITION_HPP__
 
-/* $Id: IndexPosition.hpp,v 1.1.1.1 2000/07/19 16:59:22 philogelos Exp $ */
+/* $Id: IndexPosition.hpp,v 1.2 2001/06/23 12:26:33 philogelos Exp $ */
 
 #include "MutablePositionAdapter.hpp"
 #include "defines.h"
@@ -43,7 +43,11 @@ BEGIN_QR_NAMESPACE
 interface IndexableContainer;
 
 /**
-   Position within IndexableContainer.
+   Position within IndexableContainer. This position addresses slot
+   just by indicating its index within IndexableContainer.
+
+
+   @see IndexableContainer
 
    @author Philogelos
    @created ¡‡‘ 24 ∏Ó› 1998 13:49:38
@@ -55,11 +59,17 @@ class IndexPosition : public MutablePositionAdapter,
 /**
    Creates position pointing to slot
    with given index.
+
+   @param anIndex index of slot addressed by this position.
+   @param aHost container within which slot is located.
 */
 public: IndexPosition( const Index anIndex, 
 					   IndexableContainer *aHost );
 public: virtual ~IndexPosition();
 
+  /** 
+	  Returns index of slot addressed by this position.
+  */
 public: virtual Index getIndex() const;
 
 public: virtual boolean   isValid () const;
@@ -89,6 +99,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: IndexPosition.hpp,v $
+ * Revision 1.2  2001/06/23 12:26:33  philogelos
+ * class and methods commented
+ *
  * Revision 1.1.1.1  2000/07/19 16:59:22  philogelos
  * stored sources into sourceforge.net CVS
  *
