@@ -33,16 +33,18 @@
 #ifndef __STOCKLEXER_HPP__
 #define __STOCKLEXER_HPP__
 
-/* $Id: StockLexer.hpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
+/* $Id: StockLexer.hpp,v 1.2 2000/10/12 21:28:17 philogelos Exp $ */
 
 #include "Lexer.hpp"
 #include "defines.h"
+#include "CRef.hpp"
 
 BEGIN_QR_NAMESPACE
 
 class Terminal;
 class NumericalLiteral;
 class Identifier;
+class Comment;
 
 /**
 
@@ -74,6 +76,9 @@ public: virtual Terminal *getRBracket() const;   /* ] */
 public: virtual Terminal *getId() const;
 public: virtual Terminal *getNumber() const;
 
+public: virtual Terminal *getComment() const;
+public: virtual Comment  *getCommentToken() const;
+
   /**
    */
 public: virtual ~StockLexer();
@@ -82,25 +87,29 @@ public: virtual ~StockLexer();
    */
 public:  virtual String  getClassName() const;
 
-protected: static boolean   init;
-protected: static Terminal *comma;
-protected: static Terminal *dot;
-protected: static Terminal *colon;
-protected: static Terminal *semicolon;
-protected: static Terminal *lparen;
-protected: static Terminal *rparen;
-protected: static Terminal *lbrace;
-protected: static Terminal *rbrace;
-protected: static Terminal *lbracket;
-protected: static Terminal *rbracket;
-protected: static Terminal *id;
-protected: static Terminal *number;
+protected: CRef< Terminal > comma;
+protected: CRef< Terminal > dot;
+protected: CRef< Terminal > colon;
+protected: CRef< Terminal > semicolon;
+protected: CRef< Terminal > lparen;
+protected: CRef< Terminal > rparen;
+protected: CRef< Terminal > lbrace;
+protected: CRef< Terminal > rbrace;
+protected: CRef< Terminal > lbracket;
+protected: CRef< Terminal > rbracket;
+protected: CRef< Terminal > id;
+protected: CRef< Terminal > number;
+protected: CRef< Terminal > comment;
+protected: CRef< Comment >  commentToken;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: StockLexer.hpp,v $
+ * Revision 1.2  2000/10/12 21:28:17  philogelos
+ * Comment token added
+ *
  * Revision 1.1  2000/09/19 18:20:08  philogelos
  * Lexer and parser redone.
  *
