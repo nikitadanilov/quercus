@@ -1,3 +1,9 @@
+2001-04-13  Philogelos  <Philogelos@yahoo.com>
+
+	* Equivalence.hpp: interface and classes for equivalence
+	relation added. EnumerationAlgorithms::contains() changed
+	appropriately.
+
 2000-10-03  Philogelos  <Philogelos@yahoo.com>
 
 	* Display.cpp (getNextTypedElement): changed to use
@@ -5,7 +11,7 @@
 
 2000-10-02  Philogelos  <Philogelos@yahoo.com>
 
-	* PThread.cpp (PSemaphore): sem_* return -1 ans set errno.
+	* PThread.cpp (PSemaphore): sem_* returns -1 and sets errno.
 
 2000-09-26  Philogelos  <Philogelos@yahoo.com>
 
