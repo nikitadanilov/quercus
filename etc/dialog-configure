@@ -4,10 +4,10 @@ checkListArgs=''
 DEF=''
 UNDEF=''
 VAL=''
-TMP_DEF=/tmp/$0-tmp-def.$$
+TMP_DEF=/tmp/`basename $0`-tmp-def.$$
 CONFIG_IN=../inc/config.h.in
 CONFIG_OUT=../inc/config.h
-CONFIG_TMP=/tmp/$0-config.$$
+CONFIG_TMP=/tmp/`basename $0`-config.$$
 DIALOG=dialog
 WIDTH=${COLUMNS:-80}
 HEIGHT=${LINES:-24}
@@ -167,7 +167,7 @@ WARNING: just selecting options on the following screens
          configuration. This simple script doesn't check
          consistensy of options you choose or 
          availability of external libraries you use" 17 60
-$DIALOG --textbox ../doc/COPYING.LIB $HEIGHT $WIDTH
+$DIALOG --textbox doc/COPYING.LIB $HEIGHT $WIDTH
 askVariables "Main variables"
 
 askOptions "Pure virtual calls" PURE_PANICS "Call to pure virtual panics" on PURE_THROWS "Call to pure virtual throws exception" off
