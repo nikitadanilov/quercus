@@ -30,9 +30,9 @@
 
 
 
-/* $Id: POSIXPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $ */
+/* $Id: POSIXPlatform.cpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -385,6 +385,37 @@ void POSIXPlatform::munmap( void *addr, size_t len ) THROWS( Errno * )
   if( ::munmap( ( MMAP_ADDRESS_TYPE ) addr, len ) == -1 )
 	{
 	  throw new Errno( "munmap", null );
+	}
+}
+
+String POSIXPlatform::getCWD() THROWS( Errno * )
+{
+  char *buffer;
+  Index length;
+
+  ++callsNum;
+  for( buffer = NULL, length = 60 ; ; length *= 2 )
+	{
+	  if( buffer != NULL )
+		{
+		  delete []buffer;
+		}
+	  buffer = new char[ length ];
+	  if( getcwd( buffer, length ) == NULL )
+		{
+		  if( errno == ERANGE )
+			{
+			  continue;
+			}
+		  else
+			{
+			  throw new Errno( "getcwd", null );
+			}
+		}
+	  else
+		{
+		  return buffer;
+		}
 	}
 }
 
@@ -768,6 +799,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.cpp,v $
+ * Revision 1.3  2000/09/21 18:01:28  philogelos
+ * getCWD() added
+ *
  * Revision 1.2  2000/08/30 12:33:22  philogelos
  * update THROWS to correspond to the actual throws
  *

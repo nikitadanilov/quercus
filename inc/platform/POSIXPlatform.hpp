@@ -33,7 +33,7 @@
 #ifndef __POSIXPLATFORM_HPP__
 #define __POSIXPLATFORM_HPP__
 
-/* $Id: POSIXPlatform.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: POSIXPlatform.hpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $ */
 
 #define USE_POSIX
 
@@ -209,6 +209,11 @@ public: virtual void *mmap( void *addr, size_t len,
   */
 public: virtual void munmap( void *addr, size_t len ) THROWS( Errno * );
 
+  /**
+	 Returns absolute path to the current working directory.
+  */
+public: virtual String getCWD() THROWS( Errno * );
+
 #if defined( USE_THREADS )
 public: virtual void startProfilingThread( String anOutFilesTemplate );
 #endif
@@ -304,6 +309,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.hpp,v $
+ * Revision 1.3  2000/09/21 18:01:28  philogelos
+ * getCWD() added
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
