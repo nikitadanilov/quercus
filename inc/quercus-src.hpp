@@ -40,6 +40,7 @@
 #include <Recognizer.cpp>
 #include <Relation.cpp>
 #include <BinaryRelation.cpp>
+#include <UnaryRelation.cpp>
 #include <Equivalence.cpp>
 #include <Quercus.cpp>
 #include <exceptions/Throwable.cpp>
