@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Window.cpp,v 1.1.1.1 2000/07/19 16:54:35 philogelos Exp $ */
+/* $Id: Window.cpp,v 1.2 2000/10/12 21:36:30 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Window.cpp,v 1.1.1.1 2000/07/19 16:54:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Window.cpp,v 1.2 2000/10/12 21:36:30 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -166,9 +166,9 @@ Aq::EventSource *Xq::Window::getEventSource() const
   return getXEventSource();
 }
 
-Xq::WindowEventSource *Xq::Window::getXEventSource() const
+Xq::WindowEventSource *Xq::Window::getXEventSource( boolean allEvents ) const
 {
-  return new Xq::WindowEventSource( this );
+  return new Xq::WindowEventSource( this, allEvents );
 }
 
 Xq::Window *Xq::Window::createSimple( Xq::Display *aDisplay,
@@ -220,6 +220,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Window.cpp,v $
+ * Revision 1.2  2000/10/12 21:36:30  philogelos
+ * Support for option to get all events
+ *
  * Revision 1.1.1.1  2000/07/19 16:54:35  philogelos
  * stored sources into sourceforge.net CVS
  *

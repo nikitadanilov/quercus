@@ -30,9 +30,9 @@
 
 
 
-/* $Id: WindowEventSource.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
+/* $Id: WindowEventSource.cpp,v 1.3 2000/10/12 21:36:30 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: WindowEventSource.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: WindowEventSource.cpp,v 1.3 2000/10/12 21:36:30 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -43,11 +43,13 @@ static char debugFileId[] = __FILE__;
 
 BEGIN_QR_NAMESPACE
 
-Xq::WindowEventSource::WindowEventSource( const Xq::Window *aWindow ) :
+Xq::WindowEventSource::WindowEventSource( const Xq::Window *aWindow,
+										  boolean allEvents) :
   window( aWindow )
 {
   preC_( window != ( Xq::Window * ) NULL );
   OREG( window );
+  all = allEvents;
 }
 
 Xq::WindowEventSource::~WindowEventSource()
@@ -66,6 +68,7 @@ Aq::AqEvent *Xq::WindowEventSource::getNextTypedElement() THROWS( Errno * )
   while( true )
 	{
 	  XEvent event;
+	  boolean gotEvent;
 
 #if defined( XQ_XCHECKEVENT_HACK )
 
@@ -97,23 +100,32 @@ Aq::AqEvent *Xq::WindowEventSource::getNextTypedElement() THROWS( Errno * )
 			( "Xq::WindowEventSource::getNextTypedElement(): select()", null );
 		}
 #endif	  
-	  LOCK_X11_DISPLAY( getWindow() -> getDisplay() );
-	  if( ::XCheckWindowEvent
-		  ( getWindow() -> getDisplay() -> getData(), 
-			getWindow() -> getId(),
-			ExposureMask | KeyPressMask | ButtonPressMask | 
-			StructureNotifyMask |
-			KeyReleaseMask | ButtonReleaseMask | EnterWindowMask | 
-			LeaveWindowMask |  PointerMotionMask | 
-			/* PointerMotionHintMask | */ 
-			Button1MotionMask | Button2MotionMask |Button3MotionMask | 
-			Button4MotionMask | Button5MotionMask | ButtonMotionMask | 
-			KeymapStateMask | ExposureMask |
-			VisibilityChangeMask | ResizeRedirectMask | 
-			SubstructureNotifyMask |
-			SubstructureRedirectMask | FocusChangeMask | 
-			PropertyChangeMask |
-			ColormapChangeMask | OwnerGrabButtonMask, &event ) )
+	  if( all )
+		{
+		  gotEvent = ::XNextEvent
+			( getWindow() -> getDisplay() -> getData(), &event );
+		}
+	  else
+		{
+		  LOCK_X11_DISPLAY( getWindow() -> getDisplay() );
+		  gotEvent = ::XCheckWindowEvent
+			  ( getWindow() -> getDisplay() -> getData(), 
+				getWindow() -> getId(),
+				ExposureMask | KeyPressMask | ButtonPressMask | 
+				StructureNotifyMask |
+				KeyReleaseMask | ButtonReleaseMask | EnterWindowMask | 
+				LeaveWindowMask |  PointerMotionMask | 
+				/* PointerMotionHintMask | */ 
+				Button1MotionMask | Button2MotionMask |Button3MotionMask | 
+				Button4MotionMask | Button5MotionMask | ButtonMotionMask | 
+				KeymapStateMask | ExposureMask |
+				VisibilityChangeMask | ResizeRedirectMask | 
+				SubstructureNotifyMask |
+				SubstructureRedirectMask | FocusChangeMask | 
+				PropertyChangeMask |
+				ColormapChangeMask | OwnerGrabButtonMask, &event );
+		}
+	  if( gotEvent );
 		{
 #if defined( XQ_XCHECKEVENT_HACK )
 		  sched_yield();
@@ -145,6 +157,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: WindowEventSource.cpp,v $
+ * Revision 1.3  2000/10/12 21:36:30  philogelos
+ * Support for option to get all events
+ *
  * Revision 1.2  2000/08/30 12:33:23  philogelos
  * update THROWS to correspond to the actual throws
  *
