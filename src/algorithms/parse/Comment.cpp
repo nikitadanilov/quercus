@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Comment.cpp,v 1.1 2000/09/21 18:34:02 philogelos Exp $ */
+/* $Id: Comment.cpp,v 1.2 2000/10/11 19:51:11 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Comment.cpp,v 1.1 2000/09/21 18:34:02 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Comment.cpp,v 1.2 2000/10/11 19:51:11 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -48,9 +48,9 @@ BEGIN_QR_NAMESPACE
 
 Comment::Comment( String aStart, String anEnd, boolean canNest )
 {
-  start = aStart;
-  end   = anEnd;
-  nest  = canNest;
+  setStart( aStart );
+  setEnd( anEnd );
+  setNest( canNest );
 }
 
 Comment::~Comment()
@@ -66,23 +66,27 @@ Index Comment::accept( TokenCradle *aCradle ) const
 	  Index i;
 
 	  depth = 1;
-	  for( i = start.length() ; depth > 0 ; ++i )
+	  for( i = getStart().length() ; depth > 0 ; )
 		{
 		  if( !aCradle -> hasAt( i ) )
 			{
 			  return -1;
 			}
-		  if( nest && startsHere( aCradle, i ) )
+		  if( getNest() && startsHere( aCradle, i ) )
 			{
 			  ++depth;
-			  i += start.length();
+			  i += getStart().length();
+			  continue;
 			}
 		  if( endsHere( aCradle, i ) )
 			{
 			  --depth;
-			  i += end.length();
+			  i += getEnd().length();
+			  continue;
 			}
+		  ++i;
 		}
+	  // DLOG( "Comment::accept: %li", i );
 	  return i;
 	}
   else
@@ -91,12 +95,42 @@ Index Comment::accept( TokenCradle *aCradle ) const
 	}
 }
 
+void Comment::setStart( String aStart )
+{
+  start = aStart;
+}
+
+void Comment::setEnd( String anEnd )
+{
+  end = anEnd;
+}
+
+void Comment::setNest( boolean canNest )
+{
+  nest = canNest;
+}
+
+String  Comment::getStart() const
+{
+  return start;
+}
+
+String  Comment::getEnd() const
+{
+  return end;
+}
+
+boolean Comment::getNest() const
+{
+  return nest;
+}
+
 boolean Comment::startsHere( TokenCradle *aCradle, Index aPos ) const
 {
   preC_( aCradle != NULL );
   preC_( aPos >= 0 );
 
-  return startsWith( aCradle, aPos, start );
+  return startsWith( aCradle, aPos, getStart() );
 }
 
 boolean Comment::endsHere( TokenCradle *aCradle, Index aPos ) const
@@ -104,7 +138,7 @@ boolean Comment::endsHere( TokenCradle *aCradle, Index aPos ) const
   preC_( aCradle != NULL );
   preC_( aPos >= 0 );
 
-  return startsWith( aCradle, aPos, end );
+  return startsWith( aCradle, aPos, getEnd() );
 }
 
 boolean Comment::startsWith( TokenCradle *aCradle, 
@@ -115,7 +149,8 @@ boolean Comment::startsWith( TokenCradle *aCradle,
 
   for( Index i = 0 ; i < aString.length() ; ++i )
 	{
-	  if( aCradle -> getAt( aPos + i ) != aString.getUNIChars()[ i ] )
+	  if( ! aCradle -> hasAt( aPos + i ) ||
+		  ( aCradle -> getAt( aPos + i ) != aString.getUNIChars()[ i ] ) )
 		{
 		  return false;
 		}
@@ -138,6 +173,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Comment.cpp,v $
+ * Revision 1.2  2000/10/11 19:51:11  philogelos
+ * set/get methods added
+ *
  * Revision 1.1  2000/09/21 18:34:02  philogelos
  * minor changes.
  *

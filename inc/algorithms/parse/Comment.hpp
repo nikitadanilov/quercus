@@ -33,7 +33,7 @@
 #ifndef __COMMENT_HPP__
 #define __COMMENT_HPP__
 
-/* $Id: Comment.hpp,v 1.1 2000/09/21 18:34:02 philogelos Exp $ */
+/* $Id: Comment.hpp,v 1.2 2000/10/11 19:51:11 philogelos Exp $ */
 
 #include "TokenFactory.hpp"
 #include "String.hpp"
@@ -56,6 +56,14 @@ public: virtual ~Comment();
 public: virtual Index accept( TokenCradle *aCradle ) const;
 public: virtual String  getClassName() const;
 
+public: virtual void setStart( String aStart );
+public: virtual void setEnd( String anEnd );
+public: virtual void setNest( boolean canNest );
+
+public: virtual String  getStart() const;
+public: virtual String  getEnd() const;
+public: virtual boolean getNest() const;
+ 
 protected: virtual boolean startsHere( TokenCradle *aCradle, Index aPos ) const;
 protected: virtual boolean endsHere( TokenCradle *aCradle, Index aPos ) const;
 protected: virtual boolean startsWith( TokenCradle *aCradle, 
@@ -70,6 +78,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Comment.hpp,v $
+ * Revision 1.2  2000/10/11 19:51:11  philogelos
+ * set/get methods added
+ *
  * Revision 1.1  2000/09/21 18:34:02  philogelos
  * minor changes.
  *
