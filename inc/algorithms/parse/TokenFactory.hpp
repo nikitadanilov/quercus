@@ -33,10 +33,11 @@
 #ifndef __TOKENFACTORY_HPP__
 #define __TOKENFACTORY_HPP__
 
-/* $Id: TokenFactory.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
+/* $Id: TokenFactory.hpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
+#include "Recongnizer.hpp"
 
 BEGIN_QR_NAMESPACE
 
@@ -48,18 +49,24 @@ class Token;
    @author Philogelos
    @created Sun Apr 30 01:41:09 2000
 */
-interface TokenFactory : public virtual Top
+interface TokenFactory : public virtual Recognizer
 {
  public: virtual Index accept( TokenCradle *aCradle ) const = 0;
  public: virtual Token *graduate( TokenCradle *aCradle, Index aLength );
 
+ public: virtual boolean accepts( const Top *const anObject ) const;
+
  protected: virtual Token *getMatrix() const;
+ protected: virtual Top   *getTokenTag() const;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: TokenFactory.hpp,v $
+ * Revision 1.3  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.2  2000/08/26 13:26:57  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

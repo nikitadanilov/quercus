@@ -30,14 +30,16 @@
 
 
 
-/* $Id: ParseStream.cpp,v 1.1.1.1 2000/07/19 16:44:14 philogelos Exp $ */
+/* $Id: ParseStream.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: ParseStream.cpp,v 1.1.1.1 2000/07/19 16:44:14 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ParseStream.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
 #include "algorithms/parse/ParseStream.hpp"
 #include "algorithms/parse/WordParser.hpp"
+#include "containers/IndexPosition.hpp"
+#include "containers/lists/List.hpp"
 #include "containers/Stack.hpp"
 #include "StringBuffer.hpp"
 #include "UCSChar.hpp"
@@ -52,6 +54,7 @@ ParseStream::ParseStream( CharEnumeration *aChars )
 
   chars = aChars;
   pushBack = new Stack();
+  mark = 0;
 }
 
 ParseStream::~ParseStream()
@@ -61,6 +64,7 @@ Char *ParseStream::getCharFast()
 {
   preC_( ! isEOF() );
 
+  ++mark;
   if( pushBack -> isEmpty() )
 	{
 	  return getChars() -> getNextCharFast();
@@ -75,6 +79,7 @@ Char *ParseStream::getChar()
 {
   preC_( ! isEOF() );
 
+  ++mark;
   if( pushBack -> isEmpty() )
 	{
 	  return getChars() -> getNextTypedElement();
@@ -150,7 +155,8 @@ boolean ParseStream::isEOF() const
 
 Position *ParseStream::getCurrentMark() const
 {
-  return NULL; /* do it in sub-classes. */
+  /* XXX oh, what a shame */
+  return new IndexPosition( mark, new List() );
 }
 
 CharEnumeration *ParseStream::getChars() const
@@ -182,6 +188,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ParseStream.cpp,v $
+ * Revision 1.2  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:14  philogelos
  * stored sources into sourceforge.net CVS
  *

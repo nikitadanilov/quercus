@@ -30,13 +30,15 @@
 
 
 
-/* $Id: ParseError.cpp,v 1.1.1.1 2000/07/19 16:44:18 philogelos Exp $ */
+/* $Id: ParseError.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: ParseError.cpp,v 1.1.1.1 2000/07/19 16:44:18 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ParseError.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
+#include "algorithms/parse/GrammarNode.hpp"
 #include "algorithms/parse/ParseError.hpp"
+#include "StringBuffer.hpp"
 #include "Debug.hpp"
 
 BEGIN_QR_NAMESPACE
@@ -44,16 +46,54 @@ BEGIN_QR_NAMESPACE
 ParseError::ParseError( String aMessage, const Top *const aSource ) :
   ExternalError( aMessage, aSource ),
   Exception( aMessage, aSource )
-{}
+{
+  traceback = new List();
+  notes = new List();
+  addTraceBack( const_cast< Top * >( aSource ), "source of error" );
+}
 
 String ParseError::getDescription() const
 {
-  return ExternalError::getDescription() + ": \nparse error";
+  StringBuffer result;
+
+  result.add( ExternalError::getDescription() );
+  result.add( ": \nparse error at: \n" );
+
+  for( getTraceBack() -> toFirst() ; ! getTraceBack() -> atEnd() ;
+	   getTraceBack() -> next(), notes -> next() )
+	{
+	  CRef< Top > frame;
+
+	  frame = getTraceBack() -> getCurrentValue();
+	  if( *frame == NULL )
+		{
+		  result.add( String::nullLiteral );
+		}
+	  else
+		{
+		  result.add( frame -> getString() );
+		}
+	  result.add( ": " );
+	  result.add( notes -> getCurrentValue() -> getString() );
+	  result.add( "\n" );
+	}
+  return result.asString();
 }
 
 String  ParseError::getClassName() const
 {
   return "ParseError";
+}
+
+void ParseError::addTraceBack( Top *aNode, String aNote )
+{
+  traceback -> append( aNode );
+  notes -> append( aNote.clone() );
+}
+
+List *ParseError::getTraceBack() const
+{
+  return *traceback;
 }
 
 END_QR_NAMESPACE
@@ -65,6 +105,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ParseError.cpp,v $
+ * Revision 1.2  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.1.1.1  2000/07/19 16:44:18  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Constant.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
+/* $Id: Constant.cpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Constant.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Constant.cpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -77,12 +77,17 @@ Index Constant::accept( TokenCradle *aCradle ) const
 	}
 }
 
+Top *Constant::getTokenTag() const
+{
+  return *core;
+}
+
 Token *Constant::getMatrix() const
 {
   TokenAdapter *result;
   
   result = new TokenAdapter();
-  result -> setTag( *core );
+  result -> setTag( getTokenTag() );
   return result;
 }
 
@@ -100,6 +105,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Constant.cpp,v $
+ * Revision 1.3  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.2  2000/08/26 13:26:55  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

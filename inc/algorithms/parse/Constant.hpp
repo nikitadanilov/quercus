@@ -33,11 +33,13 @@
 #ifndef __CONSTRANT_HPP__
 #define __CONSTRANT_HPP__
 
-/* $Id: Constant.hpp,v 1.2 2000/08/26 13:26:57 philogelos Exp $ */
+/* $Id: Constant.hpp,v 1.3 2000/09/19 18:20:07 philogelos Exp $ */
 
 #include "TokenFactory.hpp"
 #include "Object.hpp"
 #include "defines.h"
+#include "String.hpp"
+#include "CRef.hpp"
 
 BEGIN_QR_NAMESPACE
 
@@ -59,8 +61,10 @@ public: Constant( String aString, Top *aTokenCore );
 public: virtual ~Constant();
 
 public: virtual Index accept( TokenCradle *aCradle ) const;
+public: virtual Top *getTokenTag() const;
 
 protected: virtual Token *getMatrix() const;
+
   /**
    */
 public:  virtual String  getClassName() const;
@@ -73,6 +77,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Constant.hpp,v $
+ * Revision 1.3  2000/09/19 18:20:07  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.2  2000/08/26 13:26:57  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

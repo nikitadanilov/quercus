@@ -1,6 +1,6 @@
 // -*-C++-*- 
 
-/*  src/algorithms/parse/Parser.cpp  */
+/*  src/algorithms/parse/Lexer.cpp  */
 
 /*
  * Author: Philogelos A. <Philogelos@yahoo.com>
@@ -30,15 +30,15 @@
 
 
 
-/* $Id: Parser.cpp,v 1.3 2000/08/30 12:20:36 philogelos Exp $ */
+/* $Id: Lexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: Parser.cpp,v 1.3 2000/08/30 12:20:36 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Lexer.cpp,v 1.1 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
 #include "Debug.hpp"
 #include "containers/lists/List.hpp"
-#include "algorithms/parse/Parser.hpp"
+#include "algorithms/parse/Lexer.hpp"
 #include "algorithms/parse/ParseError.hpp"
 #include "algorithms/parse/ParseStream.hpp"
 #include "algorithms/parse/TokenCradle.hpp"
@@ -47,7 +47,7 @@ static char debugFileId[] = __FILE__;
 
 BEGIN_QR_NAMESPACE
 
-Parser::Parser( ParseStream *aStream )
+Lexer::Lexer( ParseStream *aStream )
 {
   preC_( aStream != NULL );
 
@@ -55,21 +55,23 @@ Parser::Parser( ParseStream *aStream )
   factory = new List();
 }
 
-Parser::~Parser()
+Lexer::~Lexer()
 {}
 
-void Parser::add( TokenFactory *aFactory )
+void Lexer::add( TokenFactory *aFactory )
 {
   preC_( aFactory != NULL );
 
   factory -> append( aFactory );
 }
 
-Token *Parser::getNextToken() THROWS( ParseError * )
+Token *Lexer::getNextToken() THROWS( ParseError * )
 {
   CRef< TokenFactory > school;
   Index acceptedLength;
-  Position *startPosition;
+  CRef< Position > startPosition;
+
+  //  DLOGOBJECT( "Lexer::getNextToken(): factories: %s", *factory );
 
   school = NULL;
   acceptedLength = 0;
@@ -99,24 +101,40 @@ Token *Parser::getNextToken() THROWS( ParseError * )
 	}
   else
 	{
-	  throw new ParseError( String( "unable to parse at " ) + 
-							startPosition -> getString(), null );
+	  throw new LexError( String( "unable to parse at " ) + 
+						  startPosition -> getString(), null );
 	}
 }
 
-Token *Parser::getNextTypedElement()
+Token *Lexer::getNextTypedElement()
 {
   return getNextToken();
 }
 
-boolean Parser::hasMoreElements()
+boolean Lexer::hasMoreElements()
 {
   return( cradle -> hasAt( 0 ) );
 }
 
-String  Parser::getClassName() const
+String  Lexer::getClassName() const
 {
-  return "Parser";
+  return "Lexer";
+}
+
+LexError::LexError( String aMessage, const Top *const aSource ) :
+  ParseError( aMessage, aSource ),
+  ExternalError( aMessage, aSource ),
+  Exception( aMessage, aSource )
+{}
+
+String LexError::getClassName() const
+{
+  return "LexError";
+}
+
+String LexError::getDescription() const
+{
+  return ParseError::getDescription() + ": unable to get tokens";
 }
 
 #if defined( TESTING )
@@ -133,15 +151,15 @@ END_QR_NAMESPACE
 #include "iter/iterables/NOPIterable.hpp"
 BEGIN_QR_NAMESPACE
 
-boolean Parser::tester( int ) const
+boolean Lexer::tester( int ) const
 {
-  CRef< Parser > parser;
+  CRef< Lexer > parser;
 
   Iterator *it;
   PrettyPrintIterable *runner;
   String result;
 
-  parser = new Parser
+  parser = new Lexer
 	( new ParseStream( new StringEnumeration
 					   ( "s1 keyword (.,) 0 10 20 0xa 0o7" ) ) );
 
@@ -191,12 +209,15 @@ END_QR_NAMESPACE
 
 
 /*
- * $Log: Parser.cpp,v $
+ * $Log: Lexer.cpp,v $
+ * Revision 1.1  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.3  2000/08/30 12:20:36  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
  * Revision 1.2  2000/08/26 13:26:55  philogelos
- * New simple parser framework done. Compiles and passes Parser::tester()
+ * New simple parser framework done. Compiles and passes Lexer::tester()
  *
  * Revision 1.1.1.1  2000/07/19 16:44:18  philogelos
  * stored sources into sourceforge.net CVS

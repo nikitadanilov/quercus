@@ -30,9 +30,9 @@
 
 
 
-/* $Id: TokenFactory.cpp,v 1.1 2000/08/26 13:26:55 philogelos Exp $ */
+/* $Id: TokenFactory.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: TokenFactory.cpp,v 1.1 2000/08/26 13:26:55 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: TokenFactory.cpp,v 1.2 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -58,6 +58,19 @@ Token *TokenFactory::graduate( TokenCradle *aCradle, Index aLength )
   return result;
 }
 
+boolean TokenFactory::accepts( const Top *const anObject ) const
+{
+  CRef< Token > onWireToken;
+  CRef< Top > ourTag;
+  
+  onWireToken = DCAST( anObject, Token );
+  ourTag = getTokenTag();
+
+  // DLOGOBJECT( "TokenFactory::accepts: other: %s", onWireToken -> getTag() );
+  // DLOGOBJECT( "TokenFactory::accepts: our: %s", *ourTag );
+  return( *onWireToken && ( onWireToken -> getTag() -> equals( *ourTag ) ) );
+}
+
 Token *TokenFactory::getMatrix() const
 {
   TokenAdapter *result;
@@ -65,8 +78,13 @@ Token *TokenFactory::getMatrix() const
   result = new TokenAdapter();
   PGuard _result( result, this );
 
-  result -> setTag( new String( getClassName() ) );
+  result -> setTag( getTokenTag() );
   return result;
+}
+
+Top *TokenFactory::getTokenTag() const
+{
+  return new String( getClassName() );
 }
 
 END_QR_NAMESPACE
@@ -78,6 +96,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TokenFactory.cpp,v $
+ * Revision 1.2  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.1  2000/08/26 13:26:55  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

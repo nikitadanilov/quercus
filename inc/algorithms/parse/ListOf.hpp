@@ -1,6 +1,6 @@
 // -*-C++-*- 
 
-/*  inc/algorithms/parse/Parser.hpp  */
+/*  inc/algorithms/parse/ListOf.hpp  */
 
 /*
  * Author: Philogelos A. <Philogelos@yahoo.com>
@@ -30,75 +30,55 @@
 
 
 
-#ifndef __PARSER_HPP__
-#define __PARSER_HPP__
+#ifndef __LISTOF_HPP__
+#define __LISTOF_HPP__
 
-/* $Id: Parser.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: ListOf.hpp,v 1.1 2000/09/19 18:20:07 philogelos Exp $ */
 
+#include "Concatenation.hpp"
+#include "GrammarNode.hpp"
 #include "Object.hpp"
-#include "CRef.hpp"
 #include "defines.h"
-#include "Token.hpp"
+#include "CRef.hpp"
 
 BEGIN_QR_NAMESPACE
-
-class List;
-class ParseStream;
-class TokenCradle;
-class TokenFactory;
-class Token;
-
-class ParseError;
 
 /**
 
    @author Philogelos
-   @created Sun Apr 30 02:48:56 2000
+   @created Mon Sep 11 18:48:00 2000
 */
-class Parser : public TokenEnumeration,
-			   public virtual Object
+class ListOf : public Concatenation
 {
 
   /**
    */
-public: Parser( ParseStream *aStream );
+public: ListOf( String aName, 
+				boolean canBeEmpty,
+				GrammarNode *aStart, 
+				GrammarNode *aItem,
+				GrammarNode *aDelimiter,
+				GrammarNode *anEnd );
 
   /**
    */
-public: virtual ~Parser();
-
-public: virtual void add( TokenFactory *aFactory );
-
-public: virtual Token *getNextToken() THROWS( ParseError * );
-public: virtual Token *getNextTypedElement();
-public: virtual boolean hasMoreElements();
+public: virtual ~ListOf();
 
   /**
    */
 public:  virtual String  getClassName() const;
 
-protected: CRef< TokenCradle > cradle;
-protected: CRef< List > factory;
-
-#if defined( TESTING )
-public:  virtual boolean tester( int aParam ) const;
-#endif
+protected: CRef< Concatenation > representation;
 };
 
 END_QR_NAMESPACE
 
 /*
- * $Log: Parser.hpp,v $
- * Revision 1.2  2000/08/30 12:20:35  philogelos
- * THROWS clauses updates to correspond to the real throws.
- *
- * Revision 1.1.1.1  2000/07/19 16:58:45  philogelos
- * stored sources into sourceforge.net CVS
- *
- * Revision 1.1  2000/07/19 08:48:03  god
- * new parse method: ask all factories and accept one with longest match
+ * $Log: ListOf.hpp,v $
+ * Revision 1.1  2000/09/19 18:20:07  philogelos
+ * Lexer and parser redone.
  *
  */
 
-/* __PARSER_HPP__ */
+/* __LISTOF_HPP__ */
 #endif

@@ -33,29 +33,43 @@
 #ifndef __PARSEERROR_HPP__
 #define __PARSEERROR_HPP__
 
-/* $Id: ParseError.hpp,v 1.1.1.1 2000/07/19 16:58:45 philogelos Exp $ */
+/* $Id: ParseError.hpp,v 1.2 2000/09/19 18:20:07 philogelos Exp $ */
 
 #include "exceptions/ExternalError.hpp"
+#include "containers/lists/List.hpp"
+#include "CRef.hpp"
 #include "defines.h"
 
 BEGIN_QR_NAMESPACE
+
+class GrammarNode;
 
 /**
 
    @author Philogelos
    @created Sun Apr 30 03:19:31 2000
 */
-class ParseError : public virtual ExternalError
+class ParseError : public virtual ExternalError,
+				   public virtual Exception
 {
 public:  ParseError( String aMessage, const Top *const aSource );
-public:  virtual String  getClassName() const;
+public:  virtual String getClassName() const;
 public:  virtual String getDescription() const;
+
+public:  virtual void  addTraceBack( Top *aNode, String aNote );
+public:  virtual List *getTraceBack() const;
+
+protected: CRef< List > traceback;
+protected: CRef< List > notes;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: ParseError.hpp,v $
+ * Revision 1.2  2000/09/19 18:20:07  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:45  philogelos
  * stored sources into sourceforge.net CVS
  *

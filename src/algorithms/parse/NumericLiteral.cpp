@@ -30,9 +30,9 @@
 
 
 
-/* $Id: NumericLiteral.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $ */
+/* $Id: NumericLiteral.cpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: NumericLiteral.cpp,v 1.2 2000/08/26 13:26:55 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: NumericLiteral.cpp,v 1.3 2000/09/19 18:20:08 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -69,8 +69,14 @@ Index NumericLiteral::accept( TokenCradle *aCradle ) const
 	  element = aCradle -> getAt( len );
 	  if( !isDigitInBase( element, base ) )
 		{
-		  if( ( len != 1 ) ||
-			  ( aCradle -> getAt( 0 ) != ( unichar ) '0' ) )
+		  if( ( len == 2 ) &&
+			  ( aCradle -> getAt( 0 ) == ( unichar ) '0' ) )
+			{
+			  /* 0[xobd] is not a valid number */
+			  return -1;
+			}
+		  else if( ( len != 1 ) ||
+				   ( aCradle -> getAt( 0 ) != ( unichar ) '0' ) )
 			{
 			  break;
 			}
@@ -116,6 +122,8 @@ Index NumericLiteral::getBase( unichar aChar )
 	  return 8;
 	case 'b':
 	  return 2;
+	case 'd':
+	  return 10;
 	default:
 	  return -1;
 	}
@@ -135,6 +143,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: NumericLiteral.cpp,v $
+ * Revision 1.3  2000/09/19 18:20:08  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.2  2000/08/26 13:26:55  philogelos
  * New simple parser framework done. Compiles and passes Parser::tester()
  *

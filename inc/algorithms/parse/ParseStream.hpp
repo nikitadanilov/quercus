@@ -33,7 +33,7 @@
 #ifndef __PARSESTREAM_HPP__
 #define __PARSESTREAM_HPP__
 
-/* $Id: ParseStream.hpp,v 1.1.1.1 2000/07/19 16:58:34 philogelos Exp $ */
+/* $Id: ParseStream.hpp,v 1.2 2000/09/19 18:20:07 philogelos Exp $ */
 
 #include "WordParser.hpp"
 #include "Object.hpp"
@@ -73,6 +73,8 @@ public: virtual boolean startWithChar( Char *aChar );
 public: virtual boolean startWithString( String aString );
 public: virtual boolean isEOF() const;
 
+  /* Returns trivial position indication: offset from the 
+	 beginning of the stream. Override in sub-classes. */
 public: virtual Position *getCurrentMark() const;
 public: virtual CharEnumeration *getChars() const;
 
@@ -85,12 +87,17 @@ public:  virtual String  getClassName() const;
 
 protected: CRef< CharEnumeration > chars;
 protected: CRef< Stack > pushBack;
+
+protected: Index mark;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: ParseStream.hpp,v $
+ * Revision 1.2  2000/09/19 18:20:07  philogelos
+ * Lexer and parser redone.
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:34  philogelos
  * stored sources into sourceforge.net CVS
  *
