@@ -30,9 +30,9 @@
 
 
 
-/* $Id: GrammarNode.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $ */
+/* $Id: GrammarNode.cpp,v 1.4 2001/06/23 12:30:21 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.3 2001/06/09 15:02:18 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: GrammarNode.cpp,v 1.4 2001/06/23 12:30:21 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -179,11 +179,6 @@ boolean GrammarNode::testerGrammarNode( int )
   return true;
 }
 
-String GrammarNode::toString() const
-{
-  return getName();
-}
-
 #endif
 
 END_QR_NAMESPACE
@@ -195,6 +190,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: GrammarNode.cpp,v $
+ * Revision 1.4  2001/06/23 12:30:21  philogelos
+ * duplicate declaration of ::toString() removed
+ *
  * Revision 1.3  2001/06/09 15:02:18  philogelos
  * GrammarNode::getResult() and ::[gs]etTransformer() added to the
  * interface and implemented in all nodes.
