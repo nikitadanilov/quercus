@@ -86,10 +86,6 @@
 	have to return value in control flow path with throw in it */
 /* #define RET_AFTER_THROW */
 
-/** Define ``mutable'' to be void if your compiler
-	doesn't support this keyword correctly. */
-#define mutable
-
 #define USE_NAMESPACE
 
 #if defined( WANT_TESTING )
@@ -174,6 +170,8 @@
 
 #if defined( WANT_mutable )
 #elif defined( UNWANT_mutable )
+/** Define ``mutable'' to be void if your compiler
+	doesn't support this keyword correctly. */
 #define mutable
 #endif
 
