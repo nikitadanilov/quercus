@@ -33,7 +33,7 @@
 #ifndef __CONTAINERALGORITHMS_HPP__
 #define __CONTAINERALGORITHMS_HPP__
 
-/* $Id: ContainerAlgorithms.hpp,v 1.1 2001/06/09 15:35:10 philogelos Exp $ */
+/* $Id: ContainerAlgorithms.hpp,v 1.2 2001/06/23 12:22:51 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "algorithms/AlgorithmPackage.hpp"
@@ -47,6 +47,8 @@ BEGIN_QR_NAMESPACE
 
 interface Container;
 interface PositionFactory;
+interface UnaryRelation;
+interface ModifiableContainer;
 
 /**
    Algorithms working with containers.
@@ -59,14 +61,70 @@ class ContainerAlgorithms : public virtual AlgorithmPackage,
 							public virtual Object
 {
 
-public: ContainerAlgorithms();
-public: virtual ~ContainerAlgorithms();
+  /** Returns canonical instance of this class, creating it if necessary. */
 public: static ContainerAlgorithms *get();
+  /** Returns class name: "ContainerAlgorithms" */
 public: virtual String  getClassName() const;
 
-public: virtual void flatten( Top *aStructure, PositionFactory *aFactory );
-							  
+  /** "Flattens" aStructure. aStructure is considered to be a tree:
+	  if its element E is container it's sub-tree, otherwise leaf and
+	  so on, recursively. Flatten puts into aFactory leafs of this
+	  tree in tree order (induced by standard ordering within aStructure
+	  and its sub-trees). 
+	  
+	  If aStructure contains cycles you lose.
 
+	  @param aStructure structure to be flattened
+	  @param source of slots where flattened aStructure will be stored.
+  */
+public: virtual void flatten( Top *aStructure, PositionFactory *aFactory );
+
+  /** Removes first element of aContainer, satisfying aRel.
+	  Returns true iff such element was found. 
+	  
+	  @param aContainer container where to find
+	  @param aRel predicate
+
+	  @see ::removeAll
+	  @see ::remove
+  */
+public: virtual boolean removeFirst( ModifiableContainer *aContainer, 
+									 UnaryRelation *aRel );
+
+  /** Removes all elements of aContainer, satisfying aRel.
+	  Returns number of removed elements. 
+	  
+	  @param aContainer container where to find
+	  @param aRel predicate
+
+	  @see ::removeFirst
+	  @see ::remove
+  */
+public: virtual Index removeAll( ModifiableContainer *aContainer, 
+								 UnaryRelation *aRel );
+
+  /** Removes no more than given number of elements of aContainer,
+	  satisfying aRel.  
+	  Returns number of removed elements.
+	  
+	  @param aContainer container where to find
+	  @param aRel predicate
+	  @param aNumber number of elements to remove. If 0, then
+	  remove all elements satisfying aRel
+
+	  @see ::removeAll
+	  @see ::removeFirst
+  */
+public: virtual Index remove( ModifiableContainer *aContainer, 
+							  UnaryRelation *aRel, Index aNumber );
+
+  /** Hidden constructor. It's used by ::get() to create the only 
+	  instance of this class. 
+	  
+	  @see ::get()
+  */
+protected: ContainerAlgorithms();
+protected: virtual ~ContainerAlgorithms();
 protected: static CRef< ContainerAlgorithms > instance;
 
 #if defined( TESTING )
@@ -78,6 +136,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ContainerAlgorithms.hpp,v $
+ * Revision 1.2  2001/06/23 12:22:51  philogelos
+ *  . ::get(), ::getClassName() and ::flatten() commented
+ *  . ::removeFirst(), ::removeAll() and ::remove() added
+ *
  * Revision 1.1  2001/06/09 15:35:10  philogelos
  * ContainerAlgorithms added (only ::flatten() is implemented as of now)
  *

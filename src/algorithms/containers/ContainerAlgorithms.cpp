@@ -30,16 +30,19 @@
 
 
 
-/* $Id: ContainerAlgorithms.cpp,v 1.1 2001/06/09 15:35:10 philogelos Exp $ */
+/* $Id: ContainerAlgorithms.cpp,v 1.2 2001/06/23 12:22:51 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: ContainerAlgorithms.cpp,v 1.1 2001/06/09 15:35:10 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ContainerAlgorithms.cpp,v 1.2 2001/06/23 12:22:51 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
 #include "algorithms/containers/ContainerAlgorithms.hpp"
+#include "iter/enumerations/TypedEnumeration.hpp"
+#include "containers/ModifiableContainer.hpp"
 #include "containers/Container.hpp"
 #include "containers/PositionFactory.hpp"
 #include "containers/MutablePosition.hpp"
+#include "inc/UnaryRelation.hpp"
 #include "OGuard.hpp"
 #include "String.hpp"
 #include "Debug.hpp"
@@ -87,6 +90,55 @@ void ContainerAlgorithms::flatten( Top *aStructure, PositionFactory *aFactory )
 	}
   /* so, do you still think LISP is too verbose because of its
 	 parens? */
+}
+
+boolean ContainerAlgorithms::removeFirst( ModifiableContainer *aContainer, 
+										  UnaryRelation *aRel )
+{
+  preC_( aContainer != NULL );
+  preC_( aRel != NULL );
+
+  return ( remove( aContainer, aRel, 1 ) > 0 );
+}
+
+Index ContainerAlgorithms::removeAll( ModifiableContainer *aContainer, 
+									  UnaryRelation *aRel )
+{
+  preC_( aContainer != NULL );
+  preC_( aRel != NULL );
+
+  return remove( aContainer, aRel, 0 );
+}
+
+Index ContainerAlgorithms::remove( ModifiableContainer *aContainer, 
+								   UnaryRelation *aRel, Index aNumber )
+{
+  preC_( aContainer != NULL );
+  preC_( aRel != NULL );
+
+  OGuard _container( aContainer, this );
+  OGuard _rel( aRel, this );
+
+  CRef< TypedEnumeration< RemovablePosition > > en;
+  Index actuallyRemoved;
+
+  en = aContainer -> getRemovable();
+  actuallyRemoved = 0;
+
+  while( en -> hasMoreElements() && 
+		 ( ( aNumber == 0 ) || ( actuallyRemoved < aNumber ) ) )
+	{
+	  CRef< RemovablePosition > pos;
+
+	  pos = en -> getNextTypedElement();
+	  if( aRel -> is( pos -> getValue() ) )
+		{
+		  pos -> remove();
+		  ++ actuallyRemoved;
+		}
+	}
+  return actuallyRemoved;
+  
 }
 
 ContainerAlgorithms *ContainerAlgorithms::get()
@@ -151,6 +203,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ContainerAlgorithms.cpp,v $
+ * Revision 1.2  2001/06/23 12:22:51  philogelos
+ *  . ::get(), ::getClassName() and ::flatten() commented
+ *  . ::removeFirst(), ::removeAll() and ::remove() added
+ *
  * Revision 1.1  2001/06/09 15:35:10  philogelos
  * ContainerAlgorithms added (only ::flatten() is implemented as of now)
  *
