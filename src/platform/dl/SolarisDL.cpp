@@ -164,7 +164,7 @@ boolean SolarisDL::tester( int ) const
 
   libdb -> load();
   DLOGOBJECT( loadedModules );
-  DLOG( "db_open() address: 0x%p", libdb -> getSymbolAddress( "db_open" ) );
+  DLOG( "db_open() address: 0x%p", libdb -> getSymbolAddress( "__db_open" ) );
   libdb -> unload();
   DLOGOBJECT( loadedModules );
   return true;
