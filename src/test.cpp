@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.3 2000/09/21 18:24:03 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.4 2000/10/12 21:31:50 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -102,13 +102,13 @@ int QRMain( List * )
 	{
 	  //          test_( false );
 
-	  {
-		BaseDefField< Top, Top >::testerBaseDefField( 0 );
-	  }
-/* untested tests */
-#if 0
 	  {  
 		GrammarNode::testerGrammarNode( 0 );
+	  }
+/* unused tests */
+#if 0
+	  {
+		BaseDefField< Top, Top >::testerBaseDefField( 0 );
 	  }
 	  {
 		DefTree *quercus;
