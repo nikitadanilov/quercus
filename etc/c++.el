@@ -1,9 +1,9 @@
 ;; -*- lisp -*-
 ;;
-;; $Id: c++.el,v 1.1.1.1 2000/07/19 17:34:47 philogelos Exp $
+;; $Id: c++.el,v 1.2 2001/07/03 12:47:02 philogelos Exp $
 ;; $Author: philogelos $
 ;;
-(defvar base-dir "~/projects/quercus-0.0.3/")
+(defvar base-dir "~/projects/quercus-0.0.4/")
 (defvar hpp-file-template "inc/%p/%n.hpp")
 (defvar cpp-file-template "src/%p/%n.cpp")
 (defvar ipp-file-template "src/%p/%n.ipp")
@@ -197,6 +197,9 @@
 
 ;;
 ;; $Log: c++.el,v $
+;; Revision 1.2  2001/07/03 12:47:02  philogelos
+;; update version
+;;
 ;; Revision 1.1.1.1  2000/07/19 17:34:47  philogelos
 ;; stored sources into sourceforge.net CVS
 ;;
