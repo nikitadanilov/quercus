@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: DefaultListNode.cpp,v 1.1.1.1 2000/07/19 16:46:21 philogelos Exp $ */
+/* $Id: DefaultListNode.cpp,v 1.2 2001/04/16 10:43:38 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: DefaultListNode.cpp,v 1.1.1.1 2000/07/19 16:46:21 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DefaultListNode.cpp,v 1.2 2001/04/16 10:43:38 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -47,8 +47,8 @@ BEGIN_QR_NAMESPACE
 DefaultListNode::DefaultListNode()
 {
   value = nil;
-  next = ( ListNode * ) NIL;
-  prev = ( ListNode * ) NIL;
+  next = NIL;
+  prev = NIL;
 }
 
 DefaultListNode::~DefaultListNode()
@@ -107,6 +107,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DefaultListNode.cpp,v $
+ * Revision 1.2  2001/04/16 10:43:38  philogelos
+ * Excessive casts of NULL/NIL removed
+ *
  * Revision 1.1.1.1  2000/07/19 16:46:21  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: List.cpp,v 1.2 2000/09/21 18:05:09 philogelos Exp $ */
+/* $Id: List.cpp,v 1.3 2001/04/16 10:43:38 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: List.cpp,v 1.2 2000/09/21 18:05:09 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: List.cpp,v 1.3 2001/04/16 10:43:38 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -390,9 +390,9 @@ Top *List::behead() THROWS( EmptyContainer * )
 
   if( getHead() == getTail() )
 	{
-	  setCurrent( ( ListNode *) NIL );
-	  setTail( ( ListNode *) NIL );
-	  setHead( ( ListNode *) NIL );
+	  setCurrent( NIL );
+	  setTail( NIL );
+	  setHead( NIL );
 	}
   else
 	{
@@ -404,9 +404,8 @@ Top *List::behead() THROWS( EmptyContainer * )
 	  OGuard _head( getHead(), this );
 	  
 	  setHead( getHead() -> getNext() );
-	  getHead() -> getPrev() -> setNext( ( ListNode * ) NIL );
-	  getHead() -> setPrev( ( ListNode * ) NIL );
-	  
+	  getHead() -> getPrev() -> setNext( NIL );
+	  getHead() -> setPrev( NIL );
 	}
   return headValue;
 }
@@ -427,9 +426,9 @@ Top *List::betail() THROWS( EmptyContainer * )
 
   if( isLast() && isFirst() )
 	{
-	  setCurrent( ( ListNode *) NIL );
-	  setTail( ( ListNode *) NIL );
-	  setHead( ( ListNode *) NIL );
+	  setCurrent( NIL );
+	  setTail( NIL );
+	  setHead( NIL );
 	}
   else
 	{
@@ -441,8 +440,8 @@ Top *List::betail() THROWS( EmptyContainer * )
 	  OGuard _tail( getTail(), this );
 	  
 	  setTail( getTail() -> getPrev() );
-	  getTail() -> getNext() -> setPrev( ( ListNode * ) NIL );
-	  getTail() -> setNext( ( ListNode * ) NIL );
+	  getTail() -> getNext() -> setPrev( NIL );
+	  getTail() -> setNext( NIL );
 	}
   return tailValue;
 }
@@ -479,8 +478,8 @@ Top *List::remove() THROWS( RangedContainer::AfterLast * )
 	  next();
 	  oldCurrent -> getPrev() -> setNext( oldCurrent -> getNext() );
 	  oldCurrent -> getNext() -> setPrev( oldCurrent -> getPrev() );
-	  oldCurrent -> setPrev( ( ListNode * ) NIL );
-	  oldCurrent -> setNext( ( ListNode * ) NIL );
+	  oldCurrent -> setPrev( NIL );
+	  oldCurrent -> setNext( NIL );
 	  return value;
 	}
 }
@@ -1593,6 +1592,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: List.cpp,v $
+ * Revision 1.3  2001/04/16 10:43:38  philogelos
+ * Excessive casts of NULL/NIL removed
+ *
  * Revision 1.2  2000/09/21 18:05:09  philogelos
  * error in clearAll() corrected (can cope with NULL elements now)
  *
