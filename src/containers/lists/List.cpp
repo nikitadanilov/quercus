@@ -30,13 +30,14 @@
  */
 
 
-/* $Id: List.cpp,v 1.3 2001/04/16 10:43:38 philogelos Exp $ */
+/* $Id: List.cpp,v 1.4 2001/06/09 14:52:37 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: List.cpp,v 1.3 2001/04/16 10:43:38 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: List.cpp,v 1.4 2001/06/09 14:52:37 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
 
+#include "CRef.hpp"
 #include "Debug.hpp"
 #include "ObjectWrapper.hpp"
 #include "StringBuffer.hpp"
@@ -744,10 +745,10 @@ String List::toString() const
 
   savedCurrent = self -> getCurrent();
   count = 0;
-  for( self -> toFirst() ; 
-	   ! ( self -> atEnd() ) ; 
-	   self -> next() )
+  for( self -> toFirst() ; ! ( self -> atEnd() ) ; self -> next() )
 	{
+	  CRef< Top > item;
+
 	  if( count > maxPrintCount )
 		{
 		  break;
@@ -766,7 +767,15 @@ String List::toString() const
 		{
 		  result.add( String( "*" ).getUNIChars() );
 		}
-	  result.add( self -> getCurrentValue() -> toString().getUNIChars() );
+	  item = self -> getCurrentValue();
+	  if( *item != NULL )
+		{
+		  result.add( item -> toString() );
+		}
+	  else
+		{
+		  result.add( String::nullLiteral );
+		}
 	  ++count;
 	}
   result.add( String( ") " ).getUNIChars() );
@@ -1592,6 +1601,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: List.cpp,v $
+ * Revision 1.4  2001/06/09 14:52:37  philogelos
+ * detect null element in List::toString()
+ *
  * Revision 1.3  2001/04/16 10:43:38  philogelos
  * Excessive casts of NULL/NIL removed
  *
