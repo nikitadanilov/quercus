@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: EnumerationAlgorithms.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: EnumerationAlgorithms.cpp,v 1.3 2001/04/16 10:23:28 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.3 2001/04/16 10:23:28 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -42,6 +42,8 @@ static char debugFileId[] = __FILE__;
 #include "OGuard.hpp"
 #include "LinkManager.hpp"
 #include "AeternalLifeController.hpp"
+#include "BinaryRelation.hpp"
+#include "Equivalence.hpp"
 
 #include "iter/enumerations/Enumeration.hpp"
 #include "iter/enumerations/ResettableEnumeration.hpp"
@@ -120,7 +122,9 @@ Index EnumerationAlgorithms::getCardinality( Enumeration *anEnum )
   return card;
 }
 
-boolean EnumerationAlgorithms::contains( Enumeration *anEnum, const Top *anElement, const boolean same )
+boolean EnumerationAlgorithms::contains( Enumeration *anEnum, 
+										 const Top *anElement, 
+										 const BinaryRelation *aRel )
 {
   preC_( anEnum != NIL );
   //  preC_( anElement != nil );
@@ -128,25 +132,20 @@ boolean EnumerationAlgorithms::contains( Enumeration *anEnum, const Top *anEleme
   OGuard _element( anElement, ( Top * ) this );
   OGuard _enum( anEnum, ( Top * ) this );
 
+  if( aRel == NULL )
+	{
+	  aRel = EqualsRelation::getEquals();
+	}
+  OGuard _rel( aRel, this );
+
   for( ; anEnum -> hasMoreElements() ; )
 	{
 	  const Top *item;
 
 	  item = anEnum -> getNextElement();
-	  if( anElement == nil )
+	  if( aRel -> in( anElement, item ) )
 		{
-		  if( item == nil )
-			{
-			  return true;
-			}
-		}
-	  else
-		{
-		  if( ( !same && ( anElement -> equals( item ) ) ) ||
-			  ( same && ( anElement == item ) ) )
-			{
-			  return true;
-			}
+		  return true;
 		}
 	}
   return false;
@@ -951,6 +950,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: EnumerationAlgorithms.cpp,v $
+ * Revision 1.3  2001/04/16 10:23:28  philogelos
+ * ::contains() method changed to take arbitrary Relation as argument
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
