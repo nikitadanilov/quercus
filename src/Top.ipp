@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-/* $Id: Top.ipp,v 1.1.1.1 2000/07/19 16:42:48 philogelos Exp $ */
+/* $Id: Top.ipp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 
 /*  src/Top.ipp  */
 
@@ -48,12 +48,10 @@ INLINE Top::Top()
 {
 #if defined(MEMORY_LEAK_TEST)
 
-#if defined( USE_THREADS )
   if( topLock != NULL )
 	{
 	  topLock -> enter( this );
 	}
-#endif
 
   prevInAllocatedChain = lastInAllocatedChain;
   nextInAllocatedChain = nil;
@@ -68,12 +66,10 @@ INLINE Top::Top()
 	}
   lastInAllocatedChain = this;
 
-#if defined( USE_THREADS )
   if( topLock != NULL )
 	{
 	  topLock -> leave( this );
 	}
-#endif
 
 #endif
 #if defined( TRACK_BACKPOINTERS )
@@ -96,10 +92,8 @@ INLINE void Top::dumpAllocated()
   Top *point;
   Index count;
   
-#if defined( USE_THREADS )
   test_( topLock != NULL );
   topLock -> enter( topLock );
-#endif
 
   end = lastInAllocatedChain;
   point = firstInAllocatedChain;
@@ -108,20 +102,14 @@ INLINE void Top::dumpAllocated()
   for( count = 0 ; ( point != nil ) && ( point != end ) ; 
 	   point = point -> nextInAllocatedChain, ++count )
 	{
-#if defined( USE_THREADS )
 	  topLock -> leave( topLock );
-#endif
 	  {
 		PGuard _point( point, point );
 		DLOGOBJECT( "dump: %s", point, &Top::toString );
 	  }
-#if defined( USE_THREADS )
 	  topLock -> enter( topLock );
-#endif
 	}
-#if defined( USE_THREADS )
   topLock -> leave( topLock );
-#endif
   DLOG( "*** Totally allocated: %li, in %li objects", 
 		MemoryMonitor::amount(), count );
 }
@@ -186,7 +174,6 @@ INLINE void Top::dumpBackpointers()
 #endif
 
 
-#if defined( USE_THREADS )
 void Top::initThreads()
 {
 #if defined( MEMORY_LEAK_TEST )
@@ -197,7 +184,6 @@ void Top::initThreads()
   topLock = tmpLock;
 #endif
 }
-#endif
 
 END_QR_NAMESPACE
 
@@ -206,6 +192,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Top.ipp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:42:48  philogelos
  * stored sources into sourceforge.net CVS
  *

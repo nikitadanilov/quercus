@@ -34,7 +34,7 @@
 #ifndef __DEBUG_IPP__
 #define __DEBUG_IPP__
 
-/* $Id: Debug.ipp,v 1.2 2000/08/26 13:48:57 philogelos Exp $ */
+/* $Id: Debug.ipp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
 
 #include "Debug.hpp"
 #include "String.hpp"
@@ -43,14 +43,10 @@
 #include "platform/Platform.hpp"
 #include "exceptions/InternalError.hpp"
 
-#if defined( USE_THREADS )
 #include "platform/threads/ThreadsSystem.hpp"
 #include "platform/threads/ThreadFactory.hpp"
 #include "platform/threads/MGuard.hpp"
 #define LOCK_INSTANCE NS_PREFIX MGuard _instanceLock( getMutex(), this )
-#else
-#define LOCK_INSTANCE
-#endif
 
 #if defined( __BORLANDC__ )
 #include <except.h>
@@ -283,7 +279,6 @@ INLINE void Debug::printStackTrace()
 
 END_QR_NAMESPACE
 
-#if defined( USE_THREADS )
 #include "LinkManager.hpp"
 
 BEGIN_QR_NAMESPACE
@@ -301,14 +296,15 @@ Mutex *Debug::getMutex() const
 
 END_QR_NAMESPACE
 
-#endif
-
 #if defined(_INLINE)
 #include "../src/String.ipp"
 #endif
 
 /*
  * $Log: Debug.ipp,v $
+ * Revision 1.3  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/08/26 13:48:57  philogelos
  * new parameters added to the ::getLogger(). Hopefully will evolve into
  * per-module controllable debug settings

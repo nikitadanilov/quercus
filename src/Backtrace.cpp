@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Backtrace.cpp,v 1.2 2000/09/21 18:03:18 philogelos Exp $ */
+/* $Id: Backtrace.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.2 2000/09/21 18:03:18 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -92,11 +92,7 @@ extern "C" char *cplus_demangle( const char *mangled, int options );
 #include "platform/threads/Mutex.hpp"
 #include "platform/threads/MGuard.hpp"
 
-#if defined( USE_THREADS )
 #define LOCK_BACKTRACE( back ) MGuard _( getMutex(), back )
-#else
-#define LOCK_BACKTRACE( back ) do {} while( false )
-#endif
 
 BEGIN_QR_NAMESPACE
 
@@ -731,6 +727,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Backtrace.cpp,v $
+ * Revision 1.3  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/09/21 18:03:18  philogelos
  * dladdr() support improved
  *

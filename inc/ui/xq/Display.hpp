@@ -33,7 +33,7 @@
 #ifndef __DISPLAY_HPP__
 #define __DISPLAY_HPP__
 
-/* $Id: Display.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: Display.hpp,v 1.3 2000/10/20 20:29:19 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -73,16 +73,17 @@ public: virtual String getClassName() const;
 protected: struct _XDisplay *x11Data;
 protected: Xq::Window *rootWindow;
 
-#if defined( USE_THREADS ) && defined( XQ_USE_X11_MUTEX )
 public: Mutex *getX11Serialiser() const;
 protected: Mutex *x11Serializer;
-#endif
 };
 
 #endif
 
 /*
  * $Log: Display.hpp,v $
+ * Revision 1.3  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *

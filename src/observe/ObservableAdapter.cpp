@@ -30,9 +30,9 @@
 
 
 
-/* $Id: ObservableAdapter.cpp,v 1.1.1.1 2000/07/19 16:50:38 philogelos Exp $ */
+/* $Id: ObservableAdapter.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ObservableAdapter.cpp,v 1.1.1.1 2000/07/19 16:50:38 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ObservableAdapter.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -336,9 +336,7 @@ List *ObservableAdapter::getPassives()
   if( passiveObservers == ( List * ) NIL )
 	{
 	  FINIT( passiveObservers, new List() );
-#if defined( USE_THREADS ) /* XXX it is dirty hack isn't it? */
 	  passiveObservers -> setProtector( THR_SYSTEM -> recMutex() );
-#endif
 	}
   return passiveObservers;
 }
@@ -348,9 +346,7 @@ List *ObservableAdapter::getActives()
   if( activeObservers == ( List * ) NIL )
 	{
 	  FINIT( activeObservers, new List() );
-#if defined( USE_THREADS ) /* XXX it is dirty hack isn't it? */
 	  activeObservers -> setProtector( THR_SYSTEM -> recMutex() );
-#endif
 	}
   return activeObservers;
 }
@@ -362,9 +358,7 @@ List *ObservableAdapter::getClassPassives()
 	{
 	  classPassiveObservers = new List();
 	  classPassiveObservers -> dontManage();
-#if defined( USE_THREADS ) /* XXX it is dirty hack isn't it? */
 	  classPassiveObservers -> setProtector( THR_SYSTEM -> recMutex() );
-#endif
 	}
   return classPassiveObservers;
 }
@@ -375,9 +369,7 @@ List *ObservableAdapter::getClassActives()
 	{
 	  classActiveObservers = new List();
 	  classActiveObservers -> dontManage();
-#if defined( USE_THREADS ) /* XXX it is dirty hack isn't it? */
 	  classActiveObservers -> setProtector( THR_SYSTEM -> recMutex() );
-#endif
 	}
   return classActiveObservers;
 }
@@ -432,6 +424,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ObservableAdapter.cpp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:50:38  philogelos
  * stored sources into sourceforge.net CVS
  *

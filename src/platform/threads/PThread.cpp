@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.4 2000/10/12 21:34:57 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.5 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.4 2000/10/12 21:34:57 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.5 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -102,7 +102,9 @@ static void *pthreadStartupTrampoline( void *anArg )
   CondVar *back;
   ThreadDeath *death;
 
+#if defined( USE_THREADS )
   Backtrace::initThreadBacktrace();
+#endif
 
   if( pthread_setcanceltype( PTHREAD_CANCEL_DEFERRED, ( int * ) NULL ) != 0 )
 	{
@@ -645,6 +647,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.5  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.4  2000/10/12 21:34:57  philogelos
  * Correct handling of errors in sem_* calls
  *

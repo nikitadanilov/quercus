@@ -33,12 +33,14 @@
 #ifndef __THREADFACTORY_HPP__
 #define __THREADFACTORY_HPP__
 
-/* $Id: ThreadFactory.hpp,v 1.1.1.1 2000/07/19 17:14:11 philogelos Exp $ */
+/* $Id: ThreadFactory.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "Top.hpp"
 #include "defines.h"
 
 /* #define DEF_THREAD_FACTORY Win32ThreadFactory */
+/* #define DEF_THREAD_FACTORY NopThreadFactory */
+/* #define DEF_THREAD_FACTORY PThreadFactory */
 
 /**
    Name of default thread factory class.
@@ -46,7 +48,7 @@
    @see PThreadFactory
    @see ThreadFactory::getDefaultFactory()
 */
-#define DEF_THREAD_FACTORY PThreadFactory
+#define DEF_THREAD_FACTORY NopThreadFactory
 
 
 #if defined( WANT_DEF_THREAD_FACTORY )
@@ -150,6 +152,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ThreadFactory.hpp,v $
+ * Revision 1.2  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 17:14:11  philogelos
  * stored sources into sourceforge.net CVS
  *

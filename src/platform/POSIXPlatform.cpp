@@ -30,9 +30,9 @@
 
 
 
-/* $Id: POSIXPlatform.cpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $ */
+/* $Id: POSIXPlatform.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: POSIXPlatform.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -723,12 +723,12 @@ int main( int argc, char *argv[], char *[] )
 	  NS_PREFIX Platform::getInstance() -> setImageName( argv[ 0 ] );
 	  NS_PREFIX Backtrace::initBacktrace();
 
-#if defined( USE_THREADS )
 	  NS_PREFIX Top::initThreads();
 	  NS_PREFIX operatorNewInitThreads();
+#if defined( USE_THREADS )
 	  TCAST( NS_PREFIX Platform::getInstance(), NS_PREFIX POSIXPlatform ) 
 		-> startSignalWaiterThread();
-#endif	  
+#endif
 
 	  args = new NS_PREFIX List();
 	  NS_PREFIX LinkManager::reg( args, args );
@@ -799,6 +799,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.cpp,v $
+ * Revision 1.4  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.3  2000/09/21 18:01:28  philogelos
  * getCWD() added
  *

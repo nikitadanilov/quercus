@@ -30,9 +30,9 @@
 
 
 
-/* $Id: ANSICPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $ */
+/* $Id: ANSICPlatform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.2 2000/08/30 12:33:22 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ANSICPlatform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -234,9 +234,7 @@ void ANSICPlatform::rawErrorVPrintf( const char * format, va_list raw )
 static Index maxOffset;
 
 #if defined( ASK_USER_USE_READLINE )
-#if defined( USE_THREADS )
 static Mutex *readlineSerializer = NULL;
-#endif
 static char *labels[ ASK_USER_MAX_CHOICES ];
 static Index offset;
 static char *completer( char *text, int state )
@@ -302,14 +300,12 @@ Index ANSICPlatform::askUser( const char *caption,
   
 #if defined( ASK_USER_USE_READLINE )
 	  {
-#if defined( USE_THREADS )
 		if( readlineSerializer == NULL )
 		  {
 			readlineSerializer = THR_SYSTEM -> mutex();
 			TCAST( readlineSerializer, Object ) -> dontManage();
 		  }
 		MGuard _( readlineSerializer, this );
-#endif
 		char *line;
 
 		Function *oldCompleter;
@@ -609,6 +605,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ANSICPlatform.cpp,v $
+ * Revision 1.3  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/08/30 12:33:22  philogelos
  * update THROWS to correspond to the actual throws
  *

@@ -34,7 +34,7 @@
 
 #define __TOP_HPP__
 
-/* $Id: Top.hpp,v 1.1.1.1 2000/07/19 16:58:00 philogelos Exp $ */
+/* $Id: Top.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "defines.h"
 
@@ -74,10 +74,7 @@
 
 BEGIN_QR_NAMESPACE
 
-#if defined( USE_THREADS )
 class Mutex;
-#endif
-
 class String;
 class Object;
 interface Protector;
@@ -133,10 +130,7 @@ interface Top
 
  public:  static void dumpAllocated();
 
-#if defined( USE_THREADS )
  public: static Mutex *topLock;
-#endif
-
 /* MEMORY_LEAK_TEST */
 #endif
 
@@ -147,15 +141,16 @@ interface Top
 #endif
 #endif
 
-#if defined( USE_THREADS )
  public: static void initThreads();
-#endif
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: Top.hpp,v $
+ * Revision 1.2  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:58:00  philogelos
  * stored sources into sourceforge.net CVS
  *

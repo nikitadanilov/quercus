@@ -33,7 +33,7 @@
 #ifndef __DEBUG_HPP__
 #define __DEBUG_HPP__
 
-/* $Id: Debug.hpp,v 1.2 2000/08/26 13:48:57 philogelos Exp $ */
+/* $Id: Debug.hpp,v 1.3 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "defines.h"
 #include "Object.hpp"
@@ -46,10 +46,7 @@
 
 BEGIN_QR_NAMESPACE
 
-#if defined( USE_THREADS )
 class Mutex;
-#endif
-
 class String;
 class Object;
 class Exception;
@@ -188,10 +185,8 @@ public: static const char * const nilObjectLiteral;
 protected:  INLINE Debug();
 protected:  virtual ~Debug();
 
-#if defined( USE_THREADS )
 protected: Mutex *getMutex() const;
 protected: Mutex *mutex;
-#endif
 
 protected:  static Debug *logger;
 
@@ -206,6 +201,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Debug.hpp,v $
+ * Revision 1.3  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/08/26 13:48:57  philogelos
  * new parameters added to the ::getLogger(). Hopefully will evolve into
  * per-module controllable debug settings

@@ -29,14 +29,14 @@
  */
 
 
-/* $Id: Win32Platform.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
+/* $Id: Win32Platform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
 
 #include "platform/Win32Platform.hpp"
 
 #if defined( USE_WIN32 )
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Win32Platform.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Win32Platform.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -310,10 +310,8 @@ int WINAPI ::WinMain( HINSTANCE /* hInstance */,
 #endif
 	  NS_PREFIX Backtrace::initBacktrace();
 
-#if defined( USE_THREADS )
 	  NS_PREFIX Top::initThreads();
 	  NS_PREFIX operatorNewInitThreads();
-#endif	  
 
 	  args = new NS_PREFIX List();
 	  NS_PREFIX LinkManager::reg( args, args );
@@ -364,6 +362,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Win32Platform.cpp,v $
+ * Revision 1.3  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.2  2000/08/30 12:33:23  philogelos
  * update THROWS to correspond to the actual throws
  *

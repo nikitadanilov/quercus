@@ -31,7 +31,7 @@
 
 
 
-/* $Id: new-operator.ipp,v 1.1.1.1 2000/07/19 16:43:00 philogelos Exp $ */
+/* $Id: new-operator.ipp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 
 #if !defined(__NEW_OPERATOR_IPP__)
 #define __NEW_OPERATOR_IPP__
@@ -52,10 +52,7 @@
 
 BEGIN_QR_NAMESPACE
 
-#if defined( USE_THREADS )
 static Mutex *newDeleteLock = NULL;
-/* USE_THREADS */
-#endif
 
 long magicStart   = 0xa1efc0fe;
 long magicEnd     = 0xc001deaf;
@@ -129,12 +126,10 @@ INLINE void *newOp( size_t aSize )
 
 #if defined( USE_ALLOC_CHAIN )
 
-#if defined( USE_THREADS )
   if( newDeleteLock != NULL )
 	{
 	  newDeleteLock -> enter( nil );
 	}
-#endif
 
 
   ( ( long * ) arena )[ 2 ] = ( long ) lastInAllocatedChain;
@@ -151,12 +146,10 @@ INLINE void *newOp( size_t aSize )
   lastInAllocatedChain = &( ( long * ) arena )[ 2 ];
 
 
-#if defined( USE_THREADS )
   if( newDeleteLock != NULL )
 	{
 	  newDeleteLock -> leave( nil );
 	}
-#endif
 
   return ( void * )( arena + doubleShift + doubleShift );
 
@@ -226,12 +219,10 @@ INLINE void deleteOp( void *aPointer )
   OP_THROW( int )
 #endif
 {
-#if defined( USE_THREADS )
   if( newDeleteLock != NULL )
 	{
 	  newDeleteLock -> enter( nil );
 	}
-#endif
   long *arena = ( long * ) aPointer;
 #if defined( USE_ALLOC_CHAIN )
   arena -= 2;
@@ -291,12 +282,10 @@ INLINE void deleteOp( void *aPointer )
 	}
 #endif
 
-#if defined( USE_THREADS )
   if( newDeleteLock != NULL )
 	{
 	  newDeleteLock -> leave( nil );
 	}
-#endif
 }
 
 #if defined( USE_ALLOC_CHAIN )
@@ -306,10 +295,8 @@ void dumpAllocatedByNew()
   long *point;
   Index count;
   
-#if defined( USE_THREADS )
   test_( newDeleteLock != NULL );
   MGuard _lock( newDeleteLock, newDeleteLock );
-#endif
 
   end = lastInAllocatedChain;
   point = firstInAllocatedChain;
@@ -317,13 +304,9 @@ void dumpAllocatedByNew()
   for( count = 0 ; ( point != ( long * ) NULL ) && ( point != end ) ; 
 	   point = ( long * ) ( point[ 1 ] ), ++count )
 	{
-#if defined( USE_THREADS )
 	  newDeleteLock -> leave( newDeleteLock );
-#endif
 	  DLOG( "Allocated: 0x%p", point );
-#if defined( USE_THREADS )
 	  newDeleteLock -> enter( newDeleteLock );
-#endif
 	}
   DLOG( "*** Totally allocated: %li, in %li chunks", 
 							 MemoryMonitor::amount(), count );
@@ -331,7 +314,6 @@ void dumpAllocatedByNew()
 
 #endif
 
-#if defined( USE_THREADS )
 void operatorNewInitThreads()
 {
   Mutex *tmpLock;
@@ -340,7 +322,6 @@ void operatorNewInitThreads()
   TCAST( tmpLock, Object ) -> dontManage();
   newDeleteLock = tmpLock;
 }
-#endif
 
 END_QR_NAMESPACE
 
@@ -420,6 +401,9 @@ INLINE void operator delete( void *aPtr )
 
 /*
  * $Log: new-operator.ipp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:43:00  philogelos
  * stored sources into sourceforge.net CVS
  *

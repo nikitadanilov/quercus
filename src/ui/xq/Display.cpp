@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Display.cpp,v 1.3 2000/10/12 21:35:29 philogelos Exp $ */
+/* $Id: Display.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Display.cpp,v 1.3 2000/10/12 21:35:29 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Display.cpp,v 1.4 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -53,10 +53,8 @@ static int XqXErrorHandler( struct _XDisplay *aDisplay,
 
 Xq::Display::Display( struct _XDisplay *aDisplay )
 {
-#if defined( USE_THREADS ) && defined( XQ_USE_X11_MUTEX )
   FINIT( x11Serializer, THR_SYSTEM -> recMutex() );
   setProtector( x11Serializer );
-#endif
 
   LOCK_X11_DISPLAY( this );
 
@@ -72,9 +70,7 @@ Xq::Display::Display( struct _XDisplay *aDisplay )
 
 Xq::Display::~Display()
 {
-#if defined( USE_THREADS ) && defined( XQ_USE_X11_MUTEX )
   FDONE( x11Serializer );
-#endif
   FDONE( rootWindow );
   close();
 }
@@ -173,12 +169,10 @@ struct _XDisplay *Xq::Display::getData() const
   return x11Data;
 }
 
-#if defined( USE_THREADS ) && defined( XQ_USE_X11_MUTEX )
 Mutex *Xq::Display::getX11Serialiser() const
 {
   return x11Serializer;
 }
-#endif
 
 Aq::AqEvent *Xq::Display::getNextTypedElement()
 {
@@ -244,6 +238,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Display.cpp,v $
+ * Revision 1.4  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.3  2000/10/12 21:35:29  philogelos
  * Minor change
  *

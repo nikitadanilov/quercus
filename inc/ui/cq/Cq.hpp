@@ -33,7 +33,7 @@
 #ifndef __CQ_HPP__
 #define __CQ_HPP__
 
-/* $Id: Cq.hpp,v 1.1.1.1 2000/07/19 17:14:40 philogelos Exp $ */
+/* $Id: Cq.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "defines.h"
 
@@ -183,9 +183,7 @@ protected: const Window *window;
 public: static void initClass();
 public: static void restore();
 
-#if defined( USE_THREADS )
 public: static Mutex *cursesLock;
-#endif
 
 public: String getClassName() const;
 
@@ -198,6 +196,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Cq.hpp,v $
+ * Revision 1.2  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 17:14:40  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -34,7 +34,7 @@
 
 #define __NEW_OPERATOR_HPP__
 
-/* $Id: new-operator.hpp,v 1.1.1.1 2000/07/19 16:58:15 philogelos Exp $ */
+/* $Id: new-operator.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #if !defined(__SUNPRO_CC)
 #include <new>
@@ -140,9 +140,7 @@ void dumpAllocatedByNew();
 /* USE_ALLOC_CHAIN */
 #endif
 
-#if defined( USE_THREADS )
 void operatorNewInitThreads();
-#endif
 
 END_QR_NAMESPACE
 

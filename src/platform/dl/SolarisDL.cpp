@@ -30,9 +30,9 @@
 
 
 
-/* $Id: SolarisDL.cpp,v 1.1.1.1 2000/07/19 16:51:34 philogelos Exp $ */
+/* $Id: SolarisDL.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: SolarisDL.cpp,v 1.1.1.1 2000/07/19 16:51:34 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: SolarisDL.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -52,12 +52,8 @@ static char debugFileId[] = __FILE__;
 
 BEGIN_QR_NAMESPACE
 
-#if defined( USE_THREADS )
 Mutex *SolarisDL::loadMutex = NULL;
 #define LOCK_DL_MUTEX MGuard _( SolarisDL::loadMutex, this )
-#else
-#define LOCK_DL_MUTEX 
-#endif
 
 SolarisDL::SolarisDL( String aLibName ) :
   DynamicModule( aLibName )
@@ -171,6 +167,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: SolarisDL.cpp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:51:34  philogelos
  * stored sources into sourceforge.net CVS
  *

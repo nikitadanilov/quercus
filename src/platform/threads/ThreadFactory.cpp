@@ -30,9 +30,9 @@
 
 
 
-/* $Id: ThreadFactory.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $ */
+/* $Id: ThreadFactory.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: ThreadFactory.cpp,v 1.1.1.1 2000/07/19 16:52:02 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: ThreadFactory.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -40,6 +40,7 @@ static char debugFileId[] = __FILE__;
 #include "platform/threads/ThreadFactory.hpp"
 #include "platform/threads/Runnable.hpp"
 #include "platform/threads/PThread.hpp"
+#include "platform/threads/NopThread.hpp"
 #include "containers/lists/List.hpp"
 #include "LinkManager.hpp"
 #include "Debug.hpp"
@@ -130,6 +131,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: ThreadFactory.cpp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:02  philogelos
  * stored sources into sourceforge.net CVS
  *

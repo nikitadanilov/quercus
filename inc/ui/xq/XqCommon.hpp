@@ -33,7 +33,7 @@
 #ifndef __XQCOMMON_HPP__
 #define __XQCOMMON_HPP__
 
-/* $Id: XqCommon.hpp,v 1.1.1.1 2000/07/19 17:16:09 philogelos Exp $ */
+/* $Id: XqCommon.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "Xq.hpp"
 
@@ -90,7 +90,7 @@ extern "C" double cos( double );
 #warning "One ought to define XQ_USE_X11_MUTEX or XQ_USE_XINITTHREADS"
 #endif
 
-#if defined( USE_THREADS ) && defined( XQ_USE_X11_MUTEX )
+#if defined( XQ_USE_X11_MUTEX )
 #include "platform/threads/MGuard.hpp"
  
 #define LOCK_X11_DISPLAY( display )  \
@@ -104,7 +104,7 @@ extern "C" double cos( double );
 #define LOCK_X11 do {} while( false )
 #define LOCK_X11_DISPLAY( display ) do {} while( false )
 
-/* USE_THREADS && XQ_USE_X11_MUTEX */
+/* XQ_USE_X11_MUTEX */
 #endif
 
 /* USE_XQ */

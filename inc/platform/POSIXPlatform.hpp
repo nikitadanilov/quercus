@@ -33,7 +33,7 @@
 #ifndef __POSIXPLATFORM_HPP__
 #define __POSIXPLATFORM_HPP__
 
-/* $Id: POSIXPlatform.hpp,v 1.3 2000/09/21 18:01:28 philogelos Exp $ */
+/* $Id: POSIXPlatform.hpp,v 1.4 2000/10/20 20:29:19 philogelos Exp $ */
 
 #define USE_POSIX
 
@@ -130,9 +130,7 @@
 BEGIN_QR_NAMESPACE
 
 class Errno;
-#if defined( USE_THREADS )
 class PSemaphore;
-#endif
 /**
    POSIX platform. Implements methods of Platform
    interface as wrappers around libc calls.
@@ -309,6 +307,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: POSIXPlatform.hpp,v $
+ * Revision 1.4  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.3  2000/09/21 18:01:28  philogelos
  * getCWD() added
  *

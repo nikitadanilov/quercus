@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: Top.cpp,v 1.1.1.1 2000/07/19 16:42:42 philogelos Exp $ */
+/* $Id: Top.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Top.cpp,v 1.1.1.1 2000/07/19 16:42:42 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Top.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -49,12 +49,10 @@ Top::~Top()
 {
 #if defined( MEMORY_LEAK_TEST )
 
-#if defined( USE_THREADS )
   if( topLock != NULL )
 	{
 	  topLock -> enter( this );
 	}
-#endif
 
   if( nextInAllocatedChain != null )
 	{
@@ -75,12 +73,10 @@ Top::~Top()
 	{
 	  firstInAllocatedChain = nextInAllocatedChain;
 	}
-#if defined( USE_THREADS )
   if( topLock != NULL )
 	{
 	  topLock -> leave( this );
 	}
-#endif
 
 /* MEMORY_LEAK_TEST */
 #endif
@@ -89,9 +85,7 @@ Top::~Top()
 #if defined( MEMORY_LEAK_TEST )
 Top *Top::firstInAllocatedChain = nil;
 Top *Top::lastInAllocatedChain = nil;
-#if defined( USE_THREADS )
 Mutex *Top::topLock = NULL;
-#endif
 
 #endif
 
@@ -114,6 +108,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Top.cpp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:42:42  philogelos
  * stored sources into sourceforge.net CVS
  *

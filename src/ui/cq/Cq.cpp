@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Cq.cpp,v 1.1.1.1 2000/07/19 16:52:31 philogelos Exp $ */
+/* $Id: Cq.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Cq.cpp,v 1.1.1.1 2000/07/19 16:52:31 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Cq.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -46,11 +46,7 @@ static char debugFileId[] = __FILE__;
 #include "platform/threads/MGuard.hpp"
 #include "exceptions/Errno.hpp"
 
-#if defined( USE_THREADS )
 #define C_LOCK MGuard _lockCurses( Cq::cursesLock, Cq::cursesLock )
-#else
-#define C_LOCK 
-#endif
 
 #if defined( __GNUC__ )
 #define __functionName __PRETTY_FUNCTION__
@@ -174,13 +170,11 @@ Cq::Window *Cq::Window::rootWindow = NULL;
 
 void Cq::initClass()
 {
-#if defined( USE_THREADS )
   if( cursesLock == NULL )
 	{
 	  cursesLock = THR_SYSTEM -> recMutex();
 	  TCAST( cursesLock, Object ) -> dontManage();
 	}
-#endif
   /* init sequence as per ncurses(3X) man page */
   PCCALL( initscr() ); 
   ICCALL( cbreak() ); 
@@ -384,6 +378,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Cq.cpp,v $
+ * Revision 1.2  2000/10/20 20:29:20  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 16:52:31  philogelos
  * stored sources into sourceforge.net CVS
  *

@@ -33,7 +33,7 @@
 #ifndef __SOLARISDL_HPP__
 #define __SOLARISDL_HPP__
 
-/* $Id: SolarisDL.hpp,v 1.1.1.1 2000/07/19 17:13:53 philogelos Exp $ */
+/* $Id: SolarisDL.hpp,v 1.2 2000/10/20 20:29:19 philogelos Exp $ */
 
 #include "DynamicModule.hpp"
 #include "defines.h"
@@ -70,9 +70,7 @@ public:  virtual String  getClassName() const;
 
 protected: void *handle;
 
-#if defined( USE_THREADS )
 protected: static Mutex *loadMutex;
-#endif
 
 #if defined( TESTING )
 public: boolean tester( int aParam ) const;
@@ -84,6 +82,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: SolarisDL.hpp,v $
+ * Revision 1.2  2000/10/20 20:29:19  philogelos
+ * Simplifications through using of NopThreads
+ *
  * Revision 1.1.1.1  2000/07/19 17:13:53  philogelos
  * stored sources into sourceforge.net CVS
  *
