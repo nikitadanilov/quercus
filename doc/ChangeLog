@@ -1,3 +1,19 @@
+2000-10-03  Philogelos  <Philogelos@yahoo.com>
+
+	* Display.cpp (getNextTypedElement): changed to use
+	XQ_XCHECKEVENT_HACK and ::select().
+
+2000-10-02  Philogelos  <Philogelos@yahoo.com>
+
+	* PThread.cpp (PSemaphore): sem_* return -1 ans set errno.
+
+2000-09-26  Philogelos  <Philogelos@yahoo.com>
+
+	* Comment.cpp (accept): return (i - 1).
+
+	* StockLexer.cpp: all terminals and tokens are made instance
+	variables (not static)
+
 2000-09-15  Philogelos  <Philogelos@yahoo.com>
 
 	* POSIXPlatform.cpp (getCWD): interface to getcwd(2) added.

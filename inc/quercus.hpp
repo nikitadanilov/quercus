@@ -80,6 +80,8 @@
 #include <IdentityMap.hpp>
 #include <MethodMap.hpp>
 #include <CRef.hpp>
+#include <Proxy.hpp>
+#include <Recognizer.hpp>
 #include <Quercus.hpp>
 #include <exceptions/Throwable.hpp>
 #include <exceptions/Exception.hpp>
@@ -105,6 +107,7 @@
 #include <iter/enumerations/ECursor.hpp>
 #include <iter/enumerations/ECursorAdapter.hpp>
 #include <iter/enumerations/ESequence.hpp>
+#include <iter/enumerations/LookAheadEnumeration.hpp>
 #include <iter/iterators/Iterator.hpp>
 #include <iter/iterators/EnumerationIterator.hpp>
 #include <iter/iterables/Iterable.hpp>
@@ -186,11 +189,23 @@
 #include <algorithms/parse/TokenFactory.hpp>
 #include <algorithms/parse/TokenCradle.hpp>
 #include <algorithms/parse/ParseStream.hpp>
+#include <algorithms/parse/Lexer.hpp>
+#include <algorithms/parse/StockLexer.hpp>
 #include <algorithms/parse/Parser.hpp>
+#include <algorithms/parse/GrammarNode.hpp>
+#include <algorithms/parse/Alternative.hpp>
+#include <algorithms/parse/Concatenation.hpp>
+#include <algorithms/parse/Repeat.hpp>
+#include <algorithms/parse/ListOf.hpp>
+#include <algorithms/parse/Terminal.hpp>
+#include <algorithms/parse/Epsilon.hpp>
 #include <algorithms/parse/ParseError.hpp>
+#include <algorithms/parse/UnableToParse.hpp>
 #include <algorithms/parse/Whitespace.hpp>
 #include <algorithms/parse/Identifier.hpp>
 #include <algorithms/parse/Constant.hpp>
+#include <algorithms/parse/NumericLiteral.hpp>
+#include <algorithms/parse/Comment.hpp>
 #include <algorithms/parse/SimpleWordParser.hpp>
 #include <algorithms/parse/WordParser.hpp>
 #include <algorithms/string/StringFilter.hpp>
@@ -221,6 +236,7 @@
 #include <platform/threads/ThreadDeath.hpp>
 #include <platform/threads/CondVar.hpp>
 #include <platform/threads/RecMutex.hpp>
+#include <platform/store/POSIXStore.hpp>
 #include <ui/xq/Xq.hpp>
 #include <ui/xq/Display.hpp>
 #include <ui/xq/XqCommon.hpp>
@@ -261,4 +277,13 @@
 #include <ui/wq/Pen.hpp>
 #include <ui/cq/Cq.hpp>
 #include <ui/aq/Aq.hpp>
+#include <store/Storable.hpp>
+#include <store/Field.hpp>
+#include <store/StoreError.hpp>
+#include <store/StoreSession.hpp>
+#include <store/StorePlatform.hpp>
+#include <store/StorableDesc.hpp>
+#include <store/StoreDescAdapter.hpp>
+#include <store/FieldWriter.hpp>
+#include <store/DefField.hpp>
 #endif
