@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.5 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.6 2001/04/16 10:35:17 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -58,6 +58,8 @@ static char debugFileId[] = __FILE__;
 #include "algorithms/parse/Lexer.hpp"
 #include "algorithms/parse/GrammarNode.hpp"
 #include "algorithms/parse/WordParser.hpp"
+#include "algorithms/hashes/FNV1Hash.hpp"
+#include "algorithms/access/HashTable.hpp"
 #include "observe/ObservableAdapter.hpp"
 #include "platform/POSIXPlatform.hpp"
 #include "platform/Platform.hpp"
@@ -102,9 +104,39 @@ int QRMain( List * )
 	{
 	  //          test_( false );
 
-	  TCAST( THR_SYSTEM -> getSelf(), Object ) -> tester( 0 );
+	  {
+		CRef< HashTable > table;
+		table = new HashTable( FNV1Hash::getInstance(), 10 );
+		table -> tester( 0 );
+	  }
 /* unused tests */
 #if 0
+	  {
+		DumbDictionary *dummy;
+		dummy = new DumbDictionary();
+		OGuard _dummy( dummy, dummy );
+		if( ! ( dummy -> tester( 0 ) ) )
+		  {
+			Debug::getLogger() -> log( "no!" );
+			break;
+		  }
+	  }
+	  {
+		CRef< Hash > fnv1;
+		HashValue start;
+
+		fnv1 = FNV1Hash::getInstance();
+		start = fnv1 -> initial();
+		DLOG( "Hash:\n%lx\n%lx\n%lx, %lx, %lx\n%lx",
+			  fnv1 -> hashObject( start, new Object() ),
+			  fnv1 -> hashObject( start, new Stack() ),
+			  fnv1 -> hashString( start, "foo1" ),
+			  fnv1 -> hashString( start, "foo2" ),
+			  fnv1 -> hashString( start, "foo3" ),
+			  fnv1 -> hashChars( start, ( unichar * ) "ELMelm", 3 ) );
+
+	  }
+	  TCAST( THR_SYSTEM -> getSelf(), Object ) -> tester( 0 );
 	  {  
 		GrammarNode::testerGrammarNode( 0 );
 	  }
@@ -232,16 +264,6 @@ int QRMain( List * )
 		OGuard _publisher( publisher, publisher );
 
 		publisher -> tester( 0 );
-	  }
-	  {
-		DumbDictionary *dummy;
-		dummy = new DumbDictionary();
-		OGuard _dummy( dummy, dummy );
-		if( ! ( dummy -> tester( 0 ) ) )
-		  {
-			Debug::getLogger() -> log( "no!" );
-			break;
-		  }
 	  }
 	  {
 		Integer *dummyInt;
