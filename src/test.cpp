@@ -29,7 +29,7 @@
  */
 
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: test.cpp,v 1.6 2001/04/16 10:35:17 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: test.cpp,v 1.7 2001/06/09 14:47:49 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -54,6 +54,7 @@ static char debugFileId[] = __FILE__;
 #include "containers/lists/List.hpp"
 #include "containers/dicts/DumbDictionary.hpp"
 #include "algorithms/enumerations/EnumerationAlgorithms.hpp"
+#include "algorithms/containers/ContainerAlgorithms.hpp"
 #include "algorithms/parse/ParseStream.hpp"
 #include "algorithms/parse/Lexer.hpp"
 #include "algorithms/parse/GrammarNode.hpp"
@@ -100,17 +101,24 @@ int QRMain( List * )
 //	  TCAST( PLAF, POSIXPlatform ) -> 
 //		startProfilingThread( "./tmp/profil-%li" );
 #endif
-  for( int i = 0 ; i < 1000 ; ++i )
+  for( int i = 0 ; i < 10 ; ++i )
 	{
 	  //          test_( false );
 
+	  {
+		GrammarNode::testerGrammarNode( 0 );
+	  }
+
+/* unused tests */
+#if 0
+	  {
+		CALG -> tester( 0 );
+	  }
 	  {
 		CRef< HashTable > table;
 		table = new HashTable( FNV1Hash::getInstance(), 10 );
 		table -> tester( 0 );
 	  }
-/* unused tests */
-#if 0
 	  {
 		DumbDictionary *dummy;
 		dummy = new DumbDictionary();
@@ -137,9 +145,6 @@ int QRMain( List * )
 
 	  }
 	  TCAST( THR_SYSTEM -> getSelf(), Object ) -> tester( 0 );
-	  {  
-		GrammarNode::testerGrammarNode( 0 );
-	  }
 	  {
 		BaseDefField< Top, Top >::testerBaseDefField( 0 );
 	  }
