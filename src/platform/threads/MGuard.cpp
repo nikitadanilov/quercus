@@ -30,9 +30,9 @@
 
 
 
-/* $Id: MGuard.cpp,v 1.1.1.1 2000/07/19 16:51:35 philogelos Exp $ */
+/* $Id: MGuard.cpp,v 1.2 2001/03/06 17:44:55 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: MGuard.cpp,v 1.1.1.1 2000/07/19 16:51:35 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: MGuard.cpp,v 1.2 2001/03/06 17:44:55 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -49,14 +49,14 @@ MGuard::MGuard( Mutex *aMutex, Top * )
   preC_( aMutex != NIL );
 
   mutex = aMutex;
-  LinkManager::reg( mutex, mutex );
+  /* LinkManager::reg( mutex, mutex ); XXX */
   mutex -> enter();
 }
 
 MGuard::~MGuard()
 {
   mutex -> leave();
-  LinkManager::free( mutex, mutex );
+  /* LinkManager::free( mutex, mutex ); */
 }
 
 String  MGuard::getClassName() const
@@ -73,6 +73,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: MGuard.cpp,v $
+ * Revision 1.2  2001/03/06 17:44:55  philogelos
+ * _Don't_ lock mutex itself
+ *
  * Revision 1.1.1.1  2000/07/19 16:51:35  philogelos
  * stored sources into sourceforge.net CVS
  *
