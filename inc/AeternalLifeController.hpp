@@ -33,12 +33,14 @@
 #ifndef __AETERNALLIFECONTROLLER_HPP__
 #define __AETERNALLIFECONTROLLER_HPP__
 
-/* $Id: AeternalLifeController.hpp,v 1.1.1.1 2000/07/19 16:55:03 philogelos Exp $ */
+/* $Id: AeternalLifeController.hpp,v 1.2 2001/06/23 12:05:39 philogelos Exp $ */
 
 #include "LifeTimeControllerAdapter.hpp"
 #include "defines.h"
 
 BEGIN_QR_NAMESPACE
+
+#define AELIFE AeternalLifeController::getInstance()
 
 /**
    Implementation of LifeTimeController protecting controlled
@@ -59,13 +61,19 @@ public: virtual ~AeternalLifeController();
 
 public: virtual void notifyOfDelRef( const Top *aControlled );
 
-public:  virtual String  getClassName() const;
+public: virtual String  getClassName() const;
+public: static AeternalLifeController *getInstance();
+protected: static AeternalLifeController *eon;
 };
 
 END_QR_NAMESPACE
 
 /*
  * $Log: AeternalLifeController.hpp,v $
+ * Revision 1.2  2001/06/23 12:05:39  philogelos
+ * class made singleton
+ * (optionally, public constructor is still available)
+ *
  * Revision 1.1.1.1  2000/07/19 16:55:03  philogelos
  * stored sources into sourceforge.net CVS
  *

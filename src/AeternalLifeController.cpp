@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: AeternalLifeController.cpp,v 1.1.1.1 2000/07/19 16:39:43 philogelos Exp $ */
+/* $Id: AeternalLifeController.cpp,v 1.2 2001/06/23 12:05:39 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: AeternalLifeController.cpp,v 1.1.1.1 2000/07/19 16:39:43 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: AeternalLifeController.cpp,v 1.2 2001/06/23 12:05:39 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -60,6 +60,19 @@ String  AeternalLifeController::getClassName() const
   return "AeternalLifeController";
 }
 
+AeternalLifeController *AeternalLifeController::getInstance()
+{
+  /* As usual we don't care for concurrent access when 
+	 initializing odd-balls */
+  if( eon == NULL )
+	{
+	  eon = new AeternalLifeController();
+	}
+  return eon;
+}
+
+AeternalLifeController *AeternalLifeController::eon = NULL;
+
 END_QR_NAMESPACE
 
 #if defined(_INLINE)
@@ -69,6 +82,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: AeternalLifeController.cpp,v $
+ * Revision 1.2  2001/06/23 12:05:39  philogelos
+ * class made singleton
+ * (optionally, public constructor is still available)
+ *
  * Revision 1.1.1.1  2000/07/19 16:39:43  philogelos
  * stored sources into sourceforge.net CVS
  *
