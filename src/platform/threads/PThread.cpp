@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.4 2000/10/12 21:34:57 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.4 2000/10/12 21:34:57 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -562,22 +562,34 @@ String  PCondVar::toString() const
 PSemaphore::PSemaphore( boolean aShared, Index anInitialCount ) 
   THROWS( Errno * )
 {
-  PTHC( sem_init( &core, aShared, anInitialCount ) );
+  if( sem_init( &core, aShared, anInitialCount ) == -1 )
+	{
+	  PTHCR( "sem_init", errno );
+	}
 }
 
 PSemaphore::~PSemaphore() THROWS( Errno * )
 {
-  PTHC( sem_destroy( &core ) );
+  if( sem_destroy( &core ) == -1 )
+	{
+	  PTHCR( "sem_destroy", errno );
+	}
 }
 
 void PSemaphore::inc() THROWS( Errno * )
 {
-  PTHC( sem_post( &core ) );
+  if( sem_post( &core ) == -1 )
+	{
+	  PTHCR( "sem_post", errno );
+	}
 }
 
 void PSemaphore::dec() THROWS( Errno * )
 {
-  PTHC( sem_wait( &core ) );
+  if( sem_wait( &core ) == -1 )
+	{
+	  PTHCR( "sem_dec", errno );
+	}
 }
 
 boolean PSemaphore::tryDec() THROWS( Errno * )
@@ -633,6 +645,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.4  2000/10/12 21:34:57  philogelos
+ * Correct handling of errors in sem_* calls
+ *
  * Revision 1.3  2000/09/21 18:07:24  philogelos
  * updated throws clauses
  *
