@@ -28,9 +28,9 @@
  *
  */
 
-/* $Id: NopThread.cpp,v 1.1 2000/10/20 20:28:36 philogelos Exp $ */
+/* $Id: NopThread.cpp,v 1.2 2001/06/23 12:14:39 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: NopThread.cpp,v 1.1 2000/10/20 20:28:36 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: NopThread.cpp,v 1.2 2001/06/23 12:14:39 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -38,7 +38,6 @@ static char debugFileId[] = __FILE__;
 
 #if defined( USE_NOPTHREADS )
 
-#include "AeternalLifeController.hpp"
 #include "containers/lists/List.hpp"
 #include "exceptions/NotImplemented.hpp"
 #include "platform/threads/RecMutex.hpp"
@@ -347,6 +346,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: NopThread.cpp,v $
+ * Revision 1.2  2001/06/23 12:14:39  philogelos
+ * include of "AeternalLifeController.hpp" removed
+ *
  * Revision 1.1  2000/10/20 20:28:36  philogelos
  * No-op thread implementation added
  *

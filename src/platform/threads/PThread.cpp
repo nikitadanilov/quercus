@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.6 2001/03/06 17:38:34 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.7 2001/06/23 12:14:39 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.6 2001/03/06 17:38:34 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.7 2001/06/23 12:14:39 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -40,7 +40,6 @@ static char debugFileId[] = __FILE__;
 
 #if defined( USE_PTHREADS )
 
-#include "AeternalLifeController.hpp"
 #include "containers/lists/List.hpp"
 #include "exceptions/NotImplemented.hpp"
 #include "platform/threads/RecMutex.hpp"
@@ -670,6 +669,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.7  2001/06/23 12:14:39  philogelos
+ * include of "AeternalLifeController.hpp" removed
+ *
  * Revision 1.6  2001/03/06 17:38:34  philogelos
  * Support for LOCKS_INFO
  *

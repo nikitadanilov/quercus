@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: Integer.cpp,v 1.1.1.1 2000/07/19 16:40:50 philogelos Exp $ */
+/* $Id: Integer.cpp,v 1.2 2001/06/23 12:14:39 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Integer.cpp,v 1.1.1.1 2000/07/19 16:40:50 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Integer.cpp,v 1.2 2001/06/23 12:14:39 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -40,7 +40,6 @@ static char debugFileId[] = __FILE__;
 #include "Integer.hpp"
 #include "Debug.hpp"
 #include "OGuard.hpp"
-#include "AeternalLifeController.hpp"
 
 #include "exceptions/NotImplemented.hpp"
 #include "exceptions/DivideByZero.hpp"
@@ -208,6 +207,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Integer.cpp,v $
+ * Revision 1.2  2001/06/23 12:14:39  philogelos
+ * include of "AeternalLifeController.hpp" removed
+ *
  * Revision 1.1.1.1  2000/07/19 16:40:50  philogelos
  * stored sources into sourceforge.net CVS
  *
