@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Backtrace.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: Backtrace.cpp,v 1.4 2001/03/06 17:40:59 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.3 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.4 2001/03/06 17:40:59 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -54,7 +54,12 @@ static char debugFileId[] = __FILE__;
 #include "platform/threads/ThreadsSystem.hpp"
 
 #if defined( USE_DLADDR_DLSYM_FOR_BACKTRACE )
+#define _GNU_SOURCE
+#define __USE_GNU
+#undef _DLFCN_H
 #include <dlfcn.h>
+#undef _GNU_SOURCE
+#undef __USE_GNU
 #endif
 
 #include <stdlib.h> /* for qsort of sorts and free */
@@ -323,9 +328,7 @@ boolean Backtrace::loadSymTableFor( const char *
 #endif
 									)
 {
-#if defined( USE_DLADDR_DLSYM_FOR_BACKTRACE )
-  return true;
-#elif !defined( CAN_LOAD_SYM_TABLE )
+#if !defined( CAN_LOAD_SYM_TABLE )
   return false;
 #else
 #if !defined( HAS_BFD )
@@ -404,9 +407,6 @@ boolean Backtrace::loadSymTableFor( const char *
   qsort( symbol_table, number_of_symbols, sizeof symbol_table[ 0 ],
 		 compare_by_address );
 
-  addresses = new CArray( 0, number_of_symbols );
-  names = new CArray( 0, number_of_symbols );
-
   tableSize = 0;
   for( i = 0 ; i < number_of_symbols ; ++i )
 	{
@@ -462,21 +462,24 @@ boolean Backtrace::loadSymTableFor( const char *
 
 boolean Backtrace::wasBFDError = false;
 boolean Backtrace::tableLoaded = false;
-CArray *Backtrace::addresses = ( CArray * ) NULL;
-CArray *Backtrace::names = ( CArray * ) NULL;
+CArray *Backtrace::addresses = NULL;
+CArray *Backtrace::names = NULL;
 
 /* HAS_BFD */
 #endif
 
 String Backtrace::getDescriptionFor( void *anAddress )
 {
+  String result;
+  boolean found;
+
+  found = false;
 #if defined( USE_DLADDR_DLSYM_FOR_BACKTRACE )
   Dl_info symbolInfo;
-  String result;
 
   if( dladdr( anAddress, &symbolInfo ) == 0 )
 	{
-	  result = "address not mapped";
+	  result = "not mapped";
 	}
   else 
 	{
@@ -486,16 +489,19 @@ String Backtrace::getDescriptionFor( void *anAddress )
 		{
 		  result = demangle( symbolInfo.dli_sname ) + " : 0x" +
 			String( ( Index ) symbolInfo.dli_saddr, 16 ) + result;
+		  found = true;
 		}
 	  else
 		{
-		  result = String( "address not found" ) + result;
+		  result = String( "no dlinfo" ) + result;
 		}
 	}
-  return result;
-#else
-  return demangle( getNameFor( anAddress ) );
 #endif
+  if( !found )
+	{
+	  result = result + " " + demangle( getNameFor( anAddress ) );
+	}
+  return result;
 }
 
 String Backtrace::getNameFor( void *anAddress )
@@ -511,8 +517,8 @@ String Backtrace::getNameFor( void *anAddress )
 	{
 	  return "no symbol table";
 	}
-  test_( addresses != ( CArray * ) NULL );
-  test_( names != ( CArray * ) NULL );
+  test_( addresses != NULL );
+  test_( names != NULL );
   
   tableSize = addresses -> getCardinality();
   test_( names -> getCardinality() == tableSize );
@@ -727,6 +733,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Backtrace.cpp,v $
+ * Revision 1.4  2001/03/06 17:40:59  philogelos
+ * __USE_GNU for <dlfcn.h>; support of both dladdr abd libbfd at the same time
+ *
  * Revision 1.3  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *
