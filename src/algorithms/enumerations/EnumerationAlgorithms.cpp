@@ -30,9 +30,9 @@
  */
 
 
-/* $Id: EnumerationAlgorithms.cpp,v 1.3 2001/04/16 10:23:28 philogelos Exp $ */
+/* $Id: EnumerationAlgorithms.cpp,v 1.4 2001/06/23 12:25:38 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.3 2001/04/16 10:23:28 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: EnumerationAlgorithms.cpp,v 1.4 2001/06/23 12:25:38 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -43,6 +43,7 @@ static char debugFileId[] = __FILE__;
 #include "LinkManager.hpp"
 #include "AeternalLifeController.hpp"
 #include "BinaryRelation.hpp"
+#include "UnaryRelation.hpp"
 #include "Equivalence.hpp"
 
 #include "iter/enumerations/Enumeration.hpp"
@@ -62,7 +63,7 @@ BEGIN_QR_NAMESPACE
 
 EnumerationAlgorithms::EnumerationAlgorithms()
 {
-  Object::setLifeTimeController( new AeternalLifeController() );
+  dontManage();
 }
 
 EnumerationAlgorithms::~EnumerationAlgorithms()
@@ -122,9 +123,9 @@ Index EnumerationAlgorithms::getCardinality( Enumeration *anEnum )
   return card;
 }
 
-boolean EnumerationAlgorithms::contains( Enumeration *anEnum, 
-										 const Top *anElement, 
-										 const BinaryRelation *aRel )
+Top *EnumerationAlgorithms::contains( Enumeration *anEnum, 
+									  const Top *anElement, 
+									  const BinaryRelation *aRel )
 {
   preC_( anEnum != NIL );
   //  preC_( anElement != nil );
@@ -138,17 +139,41 @@ boolean EnumerationAlgorithms::contains( Enumeration *anEnum,
 	}
   OGuard _rel( aRel, this );
 
-  for( ; anEnum -> hasMoreElements() ; )
+  while( anEnum -> hasMoreElements() )
 	{
-	  const Top *item;
+	  Top *item;
 
 	  item = anEnum -> getNextElement();
 	  if( aRel -> in( anElement, item ) )
 		{
-		  return true;
+		  return item;
 		}
+	  OGuard _item( item, this );
 	}
-  return false;
+  return NULL;
+}
+
+Top *EnumerationAlgorithms::contains( Enumeration *anEnum, 
+									  const UnaryRelation *aRel )
+{
+  preC_( anEnum != NIL );
+  preC_( aRel != NIL );
+
+  OGuard _rel( aRel, this );
+  OGuard _enum( anEnum, this );
+
+  while( anEnum -> hasMoreElements() )
+	{
+	  Top *item;
+
+	  item = anEnum -> getNextElement();
+	  if( aRel -> is( item ) )
+		{
+		  return item;
+		}
+	  OGuard _item( item, this );
+	}
+  return NULL;
 }
 
 Container *EnumerationAlgorithms::getAsContainer( ResettableEnumeration *anEnum )
@@ -482,8 +507,7 @@ boolean UnionEnumeration::getNextElementInternal()
 		  OGuard _next( nextObject, ( Top * ) this );
 
 		  firstArg -> reset();
-		  if( ! ( EAlg::get() 
-				  -> contains( *firstArg, nextObject ) ) )
+		  if( ! ( EAlg::get() -> contains( *firstArg, nextObject, NULL ) ) )
 			{
 			  FMOVE( cachedObject, nextObject );
 			  return true;
@@ -950,6 +974,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: EnumerationAlgorithms.cpp,v $
+ * Revision 1.4  2001/06/23 12:25:38  philogelos
+ *  . ::contains() now returns object found
+ *  . new form of ::contains() taking UnaryRelation
+ *
  * Revision 1.3  2001/04/16 10:23:28  philogelos
  * ::contains() method changed to take arbitrary Relation as argument
  *

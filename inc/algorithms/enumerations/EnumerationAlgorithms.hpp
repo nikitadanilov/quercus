@@ -33,7 +33,7 @@
 #ifndef __ENUMERATIONALGORITHMS_HPP__
 #define __ENUMERATIONALGORITHMS_HPP__
 
-/* $Id: EnumerationAlgorithms.hpp,v 1.3 2001/04/16 10:23:28 philogelos Exp $ */
+/* $Id: EnumerationAlgorithms.hpp,v 1.4 2001/06/23 12:25:38 philogelos Exp $ */
 
 #include "Object.hpp"
 #include "algorithms/AlgorithmPackage.hpp"
@@ -63,6 +63,7 @@ interface ModifiableContainer;
 interface PositionFactory;
 interface Iterator;
 interface BinaryRelation;
+interface UnaryRelation;
 
 class NoEntity;
 
@@ -109,9 +110,11 @@ public: virtual  Index getCardinality( Enumeration *anEnum );
 	  @see EqualsRelation
 	  @see Container::contains
   */
-public: virtual  boolean contains( Enumeration *anEnum, 
-								   const Top *anElement, 
-								   const BinaryRelation *aRel = NULL );
+public: virtual  Top *contains( Enumeration *anEnum, 
+								const Top *anElement, 
+								const BinaryRelation *aRel = NULL );
+public: virtual  Top *contains( Enumeration *anEnum, 
+								const UnaryRelation *aRel );
 public: virtual  Container *getAsContainer( ResettableEnumeration *anEnum );
 public: virtual  boolean add( ModifiableContainer *aContainer, Enumeration *anEnum );
 public: virtual  boolean addAt( PositionFactory *aFactory, Enumeration *anEnum );
@@ -339,6 +342,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: EnumerationAlgorithms.hpp,v $
+ * Revision 1.4  2001/06/23 12:25:38  philogelos
+ *  . ::contains() now returns object found
+ *  . new form of ::contains() taking UnaryRelation
+ *
  * Revision 1.3  2001/04/16 10:23:28  philogelos
  * ::contains() method changed to take arbitrary Relation as argument
  *
