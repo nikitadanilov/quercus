@@ -30,9 +30,9 @@
 
 
 
-/* $Id: XqEvent.cpp,v 1.1.1.1 2000/07/19 16:55:01 philogelos Exp $ */
+/* $Id: XqEvent.cpp,v 1.2 2001/03/06 17:51:53 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: XqEvent.cpp,v 1.1.1.1 2000/07/19 16:55:01 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: XqEvent.cpp,v 1.2 2001/03/06 17:51:53 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -75,7 +75,7 @@ Xq::XqEvent *Xq::XqEvent::create( Xq::Display *aDisplay,
 							  XEvent *aData,
 							  Xq::Window *aWindow )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 
   Xq::XqEvent *result;
 
@@ -122,6 +122,9 @@ Xq::XqEvent *Xq::XqEvent::create( Xq::Display *aDisplay,
 	case SelectionNotify:
 	  result = new Xq::SelectionEvent( aDisplay, aData );
 	  break;
+	default:
+	  /* DLOG( "Unknown XEvent.type: %i", ( int ) aData -> type ); */
+	  /* FALLTHRU */
 	case ColormapNotify:
 	case ClientMessage:
 
@@ -136,8 +139,6 @@ Xq::XqEvent *Xq::XqEvent::create( Xq::Display *aDisplay,
 	  break;
 	case LASTEvent:
 	  test( false, "XEvent.type == LASTEvent ?!" );
-	default:
-	  test( false, "Unknown XEvent.type" );
 	}
   result -> setWindow( aWindow );
   return result;
@@ -149,8 +150,7 @@ String Xq::XqEvent::toString() const
 	String( " of type: %i serial: %lu SendEvent?: %s window: " ).
 	sprintf( 1, event.type, event.xany.serial, 
 			 ( event.xany.send_event ) ? "yes" : "no" ) +
-	( ( window != ( Xq::Window * ) NULL ) ? window -> toString() : 
-	  String( "unknown" ) );
+	( ( window != NULL ) ? window -> toString() : String( "unknown" ) );
 }
 
 String Xq::XqEvent::getClassName() const
@@ -162,7 +162,7 @@ Xq::KeyEvent::KeyEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::KeyEvent::~KeyEvent()
@@ -206,7 +206,7 @@ Xq::ButtonEvent::ButtonEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::ButtonEvent::~ButtonEvent()
@@ -221,7 +221,7 @@ Xq::MouseMotionEvent::MouseMotionEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::MouseMotionEvent::~MouseMotionEvent()
@@ -236,7 +236,7 @@ Xq::FocusEvent::FocusEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::FocusEvent::~FocusEvent()
@@ -251,7 +251,7 @@ Xq::WindowEvent::WindowEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::WindowEvent::~WindowEvent()
@@ -266,7 +266,7 @@ Xq::DestroyEvent::DestroyEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::DestroyEvent::~DestroyEvent()
@@ -281,7 +281,7 @@ Xq::ResizeEvent::ResizeEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::ResizeEvent::~ResizeEvent()
@@ -296,7 +296,7 @@ Xq::SelectionEvent::SelectionEvent( Xq::Display *aDisplay, XEvent *aData ) :
   Xq::XqObject( aDisplay ),
   Xq::XqEvent( aDisplay, aData )
 {
-  preC_( aData != ( XEvent * ) NULL );
+  preC_( aData != NULL );
 }
 
 Xq::SelectionEvent::~SelectionEvent()
@@ -318,6 +318,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: XqEvent.cpp,v $
+ * Revision 1.2  2001/03/06 17:51:53  philogelos
+ * Cope with unknown XEvents and remove casts before NULL
+ *
  * Revision 1.1.1.1  2000/07/19 16:55:01  philogelos
  * stored sources into sourceforge.net CVS
  *
