@@ -33,7 +33,7 @@
 #ifndef __TYPEDENUMERATION_HPP__
 #define __TYPEDENUMERATION_HPP__
 
-/* $Id: TypedEnumeration.hpp,v 1.1.1.1 2000/07/19 17:02:16 philogelos Exp $ */
+/* $Id: TypedEnumeration.hpp,v 1.2 2001/06/23 12:13:30 philogelos Exp $ */
 
 #include "Enumeration.hpp"
 #include "defines.h"
@@ -42,16 +42,26 @@ BEGIN_QR_NAMESPACE
 
 class InvalidArgument;
 /**
+   Enumeration generalized over type of elements.
 
    @author Philogelos
    @created Пнд 21 Сен 1998 14:22:42
 */
 template< class X > abstract class TypedEnumeration : public virtual Enumeration
 {
+  /** Returns next element preserving type information. */
 public: virtual X *getNextTypedElement() = 0;
 
+  /** Returns next element forgeting type information. */
 public: virtual Top *getNextElement();
 
+  /** Returns new typed enumeration that contains the same elements
+	  as given enumeration and tries to upcast them to the given type
+	  as necessary.
+
+	  @param aBase enumeration on which new enumeration will be based
+	  @param X type to which elements of aBase will be casted
+  */
 public: static TypedEnumeration< X > *upcast( Enumeration *aBase );
 };
 
@@ -76,6 +86,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: TypedEnumeration.hpp,v $
+ * Revision 1.2  2001/06/23 12:13:30  philogelos
+ * class and its methods commented
+ *
  * Revision 1.1.1.1  2000/07/19 17:02:16  philogelos
  * stored sources into sourceforge.net CVS
  *
