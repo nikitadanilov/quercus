@@ -30,9 +30,9 @@
 
 
 
-/* $Id: SolarisDL.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $ */
+/* $Id: SolarisDL.cpp,v 1.3 2001/06/23 18:54:41 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: SolarisDL.cpp,v 1.2 2000/10/20 20:29:20 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: SolarisDL.cpp,v 1.3 2001/06/23 18:54:41 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -142,18 +142,31 @@ void SolarisDL::platformUnload() THROWS( Errno * )
 	}
 }
 
+String  SolarisDL::getString() const
+{
+  return DynamicModule::getString() + " (dlopen)";
+}
+
 String  SolarisDL::getClassName() const
 {
   return "SolarisDL";
 }
 
 #if defined( TESTING )
+
+END_QR_NAMESPACE
+#include "containers/lists/List.hpp"
+BEGIN_QR_NAMESPACE
+
 boolean SolarisDL::tester( int ) const
 {
-  CRef< SolarisDL > libc( new SolarisDL( "c" ) );
+  CRef< SolarisDL > libdb( new SolarisDL( "db" ) );
 
-  libc -> load();
-  DLOG( "fork address: 0x%p", libc -> getSymbolAddress( "fork" ) );
+  libdb -> load();
+  DLOGOBJECT( loadedModules );
+  DLOG( "db_open() address: 0x%p", libdb -> getSymbolAddress( "db_open" ) );
+  libdb -> unload();
+  DLOGOBJECT( loadedModules );
   return true;
 }
 #endif
@@ -167,6 +180,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: SolarisDL.cpp,v $
+ * Revision 1.3  2001/06/23 18:54:41  philogelos
+ *  . module is removed from global list of modules on unload.
+ *  . ::tester() improved
+ *
  * Revision 1.2  2000/10/20 20:29:20  philogelos
  * Simplifications through using of NopThreads
  *

@@ -30,16 +30,19 @@
 
 
 
-/* $Id: DynamicModule.cpp,v 1.1.1.1 2000/07/19 16:51:33 philogelos Exp $ */
+/* $Id: DynamicModule.cpp,v 1.2 2001/06/23 18:54:41 philogelos Exp $ */
 #if !defined( _INLINE )
-static char cvsid[] = "@(#)$Id: DynamicModule.cpp,v 1.1.1.1 2000/07/19 16:51:33 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: DynamicModule.cpp,v 1.2 2001/06/23 18:54:41 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
-#include "exceptions/Errno.hpp"
-#include "platform/dl/DynamicModule.hpp"
 #include "Debug.hpp"
+#include "Equivalence.hpp"
+#include "UnaryRelation.hpp"
+#include "exceptions/Errno.hpp"
 #include "containers/lists/List.hpp"
+#include "platform/dl/DynamicModule.hpp"
+#include "algorithms/containers/ContainerAlgorithms.hpp"
 
 BEGIN_QR_NAMESPACE
 
@@ -85,7 +88,9 @@ void DynamicModule::unload() THROWS( Errno * )
 	{
 	  platformUnload();
 	}
-  /* XXX Need code in Algorithms to remove given object from given container. */
+  CALG -> removeFirst
+	( loadedModules, 
+	  UnaryRelation::getProjection( DeltaRelation::getDelta(), this, 1 ) );
 }
 
 boolean DynamicModule::isLoaded() const
@@ -113,6 +118,12 @@ String DynamicModule::getPlatformName() const
   return platformName;
 }
 
+String DynamicModule::getString() const
+{
+  return getPortableName() + " [ " + getPlatformName() + " : " +
+	String( moduleRefCount ) + " ] ";
+}
+
 List *DynamicModule::loadedModules = NULL;
 
 END_QR_NAMESPACE
@@ -124,6 +135,10 @@ END_QR_NAMESPACE
 
 /*
  * $Log: DynamicModule.cpp,v $
+ * Revision 1.2  2001/06/23 18:54:41  philogelos
+ *  . module is removed from global list of modules on unload.
+ *  . ::tester() improved
+ *
  * Revision 1.1.1.1  2000/07/19 16:51:33  philogelos
  * stored sources into sourceforge.net CVS
  *
