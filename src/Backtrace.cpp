@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Backtrace.cpp,v 1.4 2001/03/06 17:40:59 philogelos Exp $ */
+/* $Id: Backtrace.cpp,v 1.5 2001/06/23 12:07:30 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.4 2001/03/06 17:40:59 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Backtrace.cpp,v 1.5 2001/06/23 12:07:30 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -55,7 +55,7 @@ static char debugFileId[] = __FILE__;
 
 #if defined( USE_DLADDR_DLSYM_FOR_BACKTRACE )
 #define _GNU_SOURCE
-#define __USE_GNU
+#define __USE_GNU 1
 #undef _DLFCN_H
 #include <dlfcn.h>
 #undef _GNU_SOURCE
@@ -733,6 +733,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Backtrace.cpp,v $
+ * Revision 1.5  2001/06/23 12:07:30  philogelos
+ * __USE_GNU #defined 1, to avoid "redefinition" warnings
+ *
  * Revision 1.4  2001/03/06 17:40:59  philogelos
  * __USE_GNU for <dlfcn.h>; support of both dladdr abd libbfd at the same time
  *
