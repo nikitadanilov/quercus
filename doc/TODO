@@ -1,0 +1,42 @@
+; -*- outline -*-
+
+* typed containers
+
+* ``throw'' clauses in methods (Done.)
+#define DEF_THROW InternalError *, OutOfMemory * 
+#define THROWS( A ) throw{ DEF_THROW, A }
+#define THROWS( A, B ) throw{ DEF_THROW, A, B }
+#define THROWS( A, B, C ) throw{ DEF_THROW, A, B, C }
+...
+class Foo
+{
+	...
+	Bar *baz() THROWS( QUUX, THUD )
+	...
+};
+
+* documentation
+* profiling
+** parser code: big cycle hog, why?
+may be string operations?
+* dynamic code loading
+** candidates:
+*** List
+*** DumbDuctionary
+*** EnumerationAlgorithms
+*** WordParser
+*** Platform implementations? (may be unsafe)
+** tool for automatic stub generation
+*** there was C++ parser on the Net somewhere
+*** what to do with templates?
+*** what to do with inlines?
+* remove operation in slots (done.)
+** make RemovablePosition --- sub-class of Position with getRemover() method? (done. -- Modifiablecontainer::getRemovable())
+* make Errno to take (optionally) error code in constructor (for mt code) 
+	(done.)
+* interface to STL containers
+* THROW macros checking std::uncaught_exception(), may be emulating throw to work around MT and shared libs bug.
+* split [CWAX]q into per-class files. (done.)
+* cron-driven night builds (done.)
+* auto_ptr template to initialise all instance fields. (done.)
+
