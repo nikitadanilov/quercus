@@ -30,9 +30,9 @@
 
 
 
-/* $Id: PThread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
+/* $Id: PThread.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: PThread.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -282,7 +282,7 @@ void PThreadsSystem::onceFunc( void ( * )() )
   throw new NotImplemented( "PThreadsSystem::onceFunc()", null );
 }
 
-Mutex *PThreadsSystem::mutex()
+Mutex *PThreadsSystem::mutex() THROWS( Errno * )
 {
   return new PMutex();
 }
@@ -633,6 +633,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: PThread.cpp,v $
+ * Revision 1.3  2000/09/21 18:07:24  philogelos
+ * updated throws clauses
+ *
  * Revision 1.2  2000/08/30 12:33:23  philogelos
  * update THROWS to correspond to the actual throws
  *

@@ -30,9 +30,9 @@
 
 
 
-/* $Id: Font.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $ */
+/* $Id: Font.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $ */
 #if !defined(_INLINE)
-static char cvsid[] = "@(#)$Id: Font.cpp,v 1.2 2000/08/30 12:33:23 philogelos Exp $";
+static char cvsid[] = "@(#)$Id: Font.cpp,v 1.3 2000/09/21 18:07:24 philogelos Exp $";
 static char debugFileId[] = __FILE__;
 #endif
 
@@ -85,7 +85,7 @@ Aq::Size Xq::Font::getAscent() const
   return getData() -> max_bounds.ascent;
 }
 
-Xq::Font *Xq::Font::createFixed( Display *aDisplay )
+Xq::Font *Xq::Font::createFixed( Display *aDisplay ) THROWS( XException * )
 {
   return create( aDisplay, "fixed" );
 }
@@ -120,6 +120,9 @@ END_QR_NAMESPACE
 
 /*
  * $Log: Font.cpp,v $
+ * Revision 1.3  2000/09/21 18:07:24  philogelos
+ * updated throws clauses
+ *
  * Revision 1.2  2000/08/30 12:33:23  philogelos
  * update THROWS to correspond to the actual throws
  *
