@@ -33,7 +33,7 @@
 #ifndef __XQ_WINDOWEVENTSOURCE_HPP__
 #define __XQ_WINDOWEVENTSOURCE_HPP__
 
-/* $Id: WindowEventSource.hpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: WindowEventSource.hpp,v 1.3 2000/10/12 21:30:46 philogelos Exp $ */
 
 #if defined( INSIDE_XQ_SCOPE )
 
@@ -44,7 +44,7 @@
 */
 public: class WindowEventSource : public XqEventSource
 {
-public: WindowEventSource( const Xq::Window *aWindow );
+public: WindowEventSource( const Xq::Window *aWindow, boolean allEvents);
 public: virtual ~WindowEventSource();
 
 public: Xq::Window *getWindow() const;
@@ -54,10 +54,14 @@ public: virtual Aq::AqEvent *getNextTypedElement() THROWS( Errno * );
 public: virtual String getClassName() const;
 
 protected: const Xq::Window *window;
+protected: boolean all;
 };
 
 /*
  * $Log: WindowEventSource.hpp,v $
+ * Revision 1.3  2000/10/12 21:30:46  philogelos
+ * Support of new parameter in Xq::Window::getXEventSource()
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
