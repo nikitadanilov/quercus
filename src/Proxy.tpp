@@ -30,7 +30,7 @@
 
 
 
-/* $Id: Proxy.tpp,v 1.2 2000/08/30 12:20:35 philogelos Exp $ */
+/* $Id: Proxy.tpp,v 1.3 2001/07/03 12:48:08 philogelos Exp $ */
 
 #include "Proxy.hpp"
 #include "Debug.hpp"
@@ -111,6 +111,7 @@ END_QR_NAMESPACE
 #include "Integer.hpp"
 #include "ObjectFactory.hpp"
 #include "containers/Queue.hpp"
+#include "containers/lists/List.hpp"
 BEGIN_QR_NAMESPACE
 
 template< class X > boolean Proxy< X >::tester( int ) const
@@ -145,6 +146,9 @@ END_QR_NAMESPACE
 
 /* 
  * $Log: Proxy.tpp,v $
+ * Revision 1.3  2001/07/03 12:48:08  philogelos
+ * add #include "containers/lists/List.hpp"
+ *
  * Revision 1.2  2000/08/30 12:20:35  philogelos
  * THROWS clauses updates to correspond to the real throws.
  *
