@@ -1,6 +1,9 @@
 # Makefile for Quercus Robusta project
-# $Id: Makefile,v 1.2 2000/08/21 18:25:18 philogelos Exp $
+# $Id: Makefile,v 1.3 2000/08/26 13:55:54 philogelos Exp $
 # $Log: Makefile,v $
+# Revision 1.3  2000/08/26 13:55:54  philogelos
+# TokenFactory.cpp added
+#
 # Revision 1.2  2000/08/21 18:25:18  philogelos
 # added menuconfig target (calling etc/dialog-configure)
 #
@@ -741,6 +744,7 @@ CPP_SRC_ALGORITHMS= \
 	algorithms/parse/ParseStream.cpp \
 	algorithms/parse/Parser.cpp \
 	algorithms/parse/ParseError.cpp \
+	algorithms/parse/TokenFactory.cpp \
 	algorithms/parse/Whitespace.cpp \
 	algorithms/parse/Identifier.cpp \
 	algorithms/parse/Constant.cpp \
