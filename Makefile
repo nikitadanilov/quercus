@@ -1,6 +1,9 @@
 # Makefile for Quercus Robusta project
-# $Id: Makefile,v 1.6 2000/10/12 21:26:49 philogelos Exp $
+# $Id: Makefile,v 1.7 2000/10/16 18:42:51 philogelos Exp $
 # $Log: Makefile,v $
+# Revision 1.7  2000/10/16 18:42:51  philogelos
+# check-distr: target added
+#
 # Revision 1.6  2000/10/12 21:26:49  philogelos
 # Normal changes
 #
@@ -204,7 +207,7 @@ USR  := philogelos#$(shell /usr/xpg4/bin/id -un)
 
 MAJOR_VERSION=0
 MINOR_VERSION=0
-MICRO_VERSION=3
+MICRO_VERSION=4
 QR_CODENAME=Cuchulain#Setanta
 
 ###########################################################################
@@ -967,6 +970,31 @@ SRC=$(ALL_SOURCE:%=$(SRC_DIR)/%)
 OBJ=$(CPP_OBJ:%=$(OBJ_DIR)/%)
 SOBJ=$(CPP_SOBJ:%=$(LIB_DIR)/%)
 
+ALL_DISTR_FILES= \
+	$(INC) \
+	$(SRC) \
+	\
+	Makefile .build \
+	\
+	$(ETC_DIR)/c++.el \
+	$(ETC_DIR)/dialog-configure \
+	$(ETC_DIR)/funny-gcc-error-message \
+	$(ETC_DIR)/cc-filter \
+	\
+	$(DOC_DIR)/BERKELEY.COPYRIGHT \
+	$(DOC_DIR)/COPYING \
+	$(DOC_DIR)/COPYING.LIB \
+	$(DOC_DIR)/ChangeLog \
+	$(DOC_DIR)/README \
+	$(DOC_DIR)/TODO \
+	$(DOC_DIR)/copyright \
+	$(DOC_DIR)/doxygen.config \
+	$(DOC_DIR)/index.html \
+	$(DOC_DIR)/overview.html \
+	$(DOC_DIR)/red-triangle.gif \
+	$(DOC_DIR)/style.css \
+	$(DOC_DIR)/tuning-macros.txt
+
 CPP_SOBJ_BASE=$(CPP_SRC_BASE:.cpp=.so)
 SOBJ_BASE=$(CPP_SOBJ_BASE:%=$(LIB_DIR)/%)
 
@@ -1087,6 +1115,9 @@ tags:
 
 archive: 
 	LANG=C ; tar cf - $(SRC_DIR) $(INC_DIR) $(DOC_DIR) $(ETC_DIR) Makefile .build | gzip -9c > $$HOME/archive/quercus-`date "+%Y-%m-%d-%H-%M"`.tar.gz
+
+check-distr:
+	@for f in $(ALL_DISTR_FILES) ;do if test ! -r $$f ;then echo $$f missing. ;fi ;done
 
 cronbuild: clean makedirs depend tags archive build libs all-in-one-shared #api-docs 
 
