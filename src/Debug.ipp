@@ -77,8 +77,10 @@ GET_LOGGER_BODY
 
 INLINE Debug::Debug()
 {
+#if 0
   oldTerminateHandler = set_terminate( terminateHandler );
   oldUnexpectedHandler = set_unexpected( unexpectedHandler );
+#endif
   totalMessagesLogged = 0;
 
 }

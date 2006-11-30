@@ -63,10 +63,9 @@ extern "C"
 #include <readline/readline.h>
 #include <readline/history.h>
 
-/* for strncasecmp */
-#define _XPG4_2
-#include <strings.h>
-#include <string.h>
+extern int strcasecmp(const char *s1, const char *s2) throw ();
+extern int strncasecmp(const char *s1, const char *s2, size_t n) throw ();
+
 }
 #endif
 
@@ -247,7 +246,7 @@ static char *completer( const char *text, int state )
 	{
 	  if( labels[ offset ] != NULL )
 		{
-		  if( strncasecmp( labels[ offset ], text, strlen( text ) ) == 0 )
+		  if( ::strncasecmp( labels[ offset ], text, strlen( text ) ) == 0 )
 			{
 			  return strcpy( ( char * ) 
 							 malloc( strlen( labels[ offset ] ) + 1 ),

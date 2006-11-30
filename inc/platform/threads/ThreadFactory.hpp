@@ -48,7 +48,7 @@
    @see PThreadFactory
    @see ThreadFactory::getDefaultFactory()
 */
-#define DEF_THREAD_FACTORY NopThreadFactory
+#define DEF_THREAD_FACTORY PThreadFactory
 
 
 #if defined( WANT_DEF_THREAD_FACTORY )

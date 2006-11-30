@@ -40,6 +40,8 @@ static char debugFileId[] = __FILE__;
 
 #if defined( USE_POSIX )
 
+#define __USE_BSD 1
+
 #include <sys/signal.h>
 
 #include <sys/types.h>
@@ -78,7 +80,7 @@ static char debugFileId[] = __FILE__;
 
 BEGIN_QR_NAMESPACE
 
-extern "C" int kill( pid_t pid, int sig );
+extern "C" int kill( pid_t pid, int sig ) throw ();
 #if defined( USE_CLOCK_GETTIME )
 extern "C" int clock_gettime( clockid_t clock_id, struct timespec *tp );
 #endif
@@ -423,9 +425,10 @@ String POSIXPlatform::getCWD() THROWS( Errno * )
 
 END_QR_NAMESPACE
 
+extern "C" {
 extern unsigned short *_etext;
-// extern "C" void profil( unsigned short *buff, unsigned int bufsiz,
-//					    unsigned int offset, unsigned int scale );
+extern int profil( unsigned short int *, size_t, size_t, unsigned int ) throw();
+}
 
 BEGIN_QR_NAMESPACE
 
@@ -435,8 +438,6 @@ typedef struct
   Index  secDelay;
   Index  nanDelay;
 } ProfileTask;
-
-extern int profil( unsigned short int *, size_t, size_t, unsigned int );
 
 static void *profileThread( void *aTask )
 {
@@ -467,9 +468,10 @@ static void *profileThread( void *aTask )
 	  int fd;
   
 	  buffer = new unsigned short[ bufSize + 1 ];
-	  profil( buffer, bufSize, startAddress - ( unsigned short * ) NULL, scale );
+	  ::profil( buffer, bufSize, startAddress - ( unsigned short * ) NULL, 
+				   scale );
 	  THR_SYSTEM -> sleep( task -> secDelay, task -> nanDelay );
-	  profil( buffer, 0, startAddress - ( unsigned short * ) NULL, 0 );
+	  ::profil( buffer, 0, startAddress - ( unsigned short * ) NULL, 0 );
 	  
 	  fileName = task -> outFileTemplate.format( 1, tick ).getChars();
 	  DLOG( "Profiling: writing tick %li to `%s'", tick, fileName );
