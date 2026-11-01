@@ -139,7 +139,11 @@ void ANSICPlatform::vsprintf( char *s, const char *format, va_list raw )
   preC_( format != NULL );
   preC_( s != NULL );
 
-  ::vsprintf( s, format, raw );
+  va_list copy;
+
+  va_copy( copy, raw );
+  ::vsprintf( s, format, copy );
+  va_end( copy );
   ++callsNum;
 }
 
@@ -189,7 +193,11 @@ Index ANSICPlatform::vprintfLength( const char * format, va_list raw )
 	}
   while( true )
 	{
-	  result = ::VSNPRINTF( dummyBuf, size, format, raw );
+	  va_list copy;
+
+	  va_copy( copy, raw );
+	  result = ::VSNPRINTF( dummyBuf, size, format, copy );
+	  va_end( copy );
 	  if( result == -1 )
 		{
 		  delete []dummyBuf;
@@ -202,7 +210,11 @@ Index ANSICPlatform::vprintfLength( const char * format, va_list raw )
 		}
 	}
 #else
-  result = ::VSNPRINTF( dummyBuf, 2, format, raw );
+  va_list copy;
+
+  va_copy( copy, raw );
+  result = ::VSNPRINTF( dummyBuf, 2, format, copy );
+  va_end( copy );
 #endif
   postC_( result >= 0 );
   return result;
@@ -226,7 +238,11 @@ void ANSICPlatform::rawErrorVPrintf( const char * format, va_list raw )
 {
   preC_( format != NULL );
 
-  vfprintf( stderr, format, raw );
+  va_list copy;
+
+  va_copy( copy, raw );
+  vfprintf( stderr, format, copy );
+  va_end( copy );
   ++callsNum;
 }
 

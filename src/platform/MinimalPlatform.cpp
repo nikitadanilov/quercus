@@ -109,7 +109,11 @@ void MinimalPlatform::sprintf( char *s, const char * format, /* args */ ...)
 
 void MinimalPlatform::vsprintf( char *s, const char *format, va_list raw )
 {
-  ::vsprintf( s, format, raw );
+  va_list copy;
+
+  va_copy( copy, raw );
+  ::vsprintf( s, format, copy );
+  va_end( copy );
 }
 
 void MinimalPlatform::rawErrorPrintf( const char * format, /* args */ ... ) 
@@ -123,7 +127,11 @@ void MinimalPlatform::rawErrorPrintf( const char * format, /* args */ ... )
 
 void MinimalPlatform::rawErrorVPrintf( const char * format, va_list raw ) 
 {
-  vfprintf( stderr, format, raw );
+  va_list copy;
+
+  va_copy( copy, raw );
+  vfprintf( stderr, format, copy );
+  va_end( copy );
 }
 
 
