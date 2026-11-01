@@ -238,6 +238,7 @@ Cq::Window *Cq::Painter::getCWin() const
 void Cq::Painter::drawChar( Aq::CoordX aStartX, Aq::CoordY aStartY, 
 							chtype aChar ) const
 {
+  C_LOCK;
   mvwaddch( getCWin() -> getCWin(), aStartY, aStartX, aChar ) ;
 }
 
@@ -253,6 +254,7 @@ void Cq::Painter::drawPoint( Aq::CoordX , Aq::CoordY  ) const
 void Cq::Painter::drawCString( Aq::CoordX aX, Aq::CoordY aY, 
 							   char *aString ) const
 {
+  C_LOCK;
   mvwaddstr( getCWin() -> getCWin(), aY, aX, aString );
 }
 
