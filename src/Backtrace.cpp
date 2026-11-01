@@ -64,6 +64,10 @@ static char debugFileId[] = __FILE__;
 
 #include <stdlib.h> /* for qsort of sorts and free */
 
+#if defined( __GLIBC__ )
+#include <execinfo.h> /* for backtrace() */
+#endif
+
 #if defined( HAS_BFD )
 
 /* BFD uses boolean typedef (well, quercus too) */
@@ -194,6 +198,9 @@ boolean Backtrace::isInitialFrame( void *anAddress )
 	;
 }
 
+#if defined( __GNUC__ )
+__attribute__(( noinline ))
+#endif
 void Backtrace::initBacktrace()
 {
   if( ! initialised )
@@ -207,6 +214,9 @@ void Backtrace::initBacktrace()
 }
   
 #if defined( USE_THREADS )
+#if defined( __GNUC__ )
+__attribute__(( noinline ))
+#endif
 void Backtrace::initThreadBacktrace()
 {
   threadStartAddress = getAddressAtFrame( 2 );
@@ -259,56 +269,38 @@ String  Backtrace::getClassName() const
   return "Backtrace";
 }
 
-#define RA( i ) __builtin_return_address( i )
-
+/*
+  Returns the return address of the aFrame-th caller of this function, as
+  __builtin_return_address( aFrame ) would. That builtin follows saved
+  frame pointers and crashes once they are omitted (-O2 and above), so
+  glibc's backtrace(), which uses the unwind tables, is used instead.
+  This function must not be inlined, or the frame numbering shifts.
+*/
+#if defined( __GNUC__ )
+__attribute__(( noinline ))
+#endif
 void *Backtrace::getAddressAtFrame( Index aFrame )
 {
   preC_( aFrame >= 0 );
 
-#if defined( __GNUC__ )
-  switch( aFrame )
+#if defined( __GLIBC__ )
+  enum { MAX_FRAMES = 32 };
+  void *frames[ MAX_FRAMES ];
+  int   depth;
+
+  /* frames[ 0 ] is within this function, frames[ 1 ] is RA( 0 ) */
+  if( aFrame + 1 >= MAX_FRAMES )
 	{
-	case 0: return RA( 0 );
-	case 1: return RA( 1 );
-	case 2: return RA( 2 );
-	case 3: return RA( 3 );
-	case 4: return RA( 4 );
-	case 5: return RA( 5 );
-	case 6: return RA( 6 );
-	case 7: return RA( 7 );
-	case 8: return RA( 8 );
-	case 9: return RA( 9 );
-	case 10: return RA( 10 );
-	case 11: return RA( 11 );
-	case 12: return RA( 12 );
-	case 13: return RA( 13 );
-	case 14: return RA( 14 );
-	case 15: return RA( 15 );
-	case 16: return RA( 16 );
-	case 17: return RA( 17 );
-	case 18: return RA( 18 );
-	case 19: return RA( 19 );
-	case 20: return RA( 20 );
-	case 21: return RA( 21 );
-	case 22: return RA( 22 );
-	case 23: return RA( 23 );
-	case 24: return RA( 24 );
-	case 25: return RA( 25 );
-	case 26: return RA( 26 );
-	case 27: return RA( 27 );
-	case 28: return RA( 28 );
-	case 29: return RA( 29 );
-	case 30: return RA( 30 );
-	default: return ( void * ) NULL;
+	  return ( void * ) NULL;
 	}
+  depth = backtrace( frames, ( int ) aFrame + 2 );
+  return ( aFrame + 1 < depth ) ? frames[ aFrame + 1 ] : ( void * ) NULL;
 #else
   /* XXX is there any (semi-)portable way to walk
 	 through stack frames? */
   return ( void * ) NULL;
 #endif
 }
-
-#undef RA
 
 #if defined( HAS_BFD )
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x510)
