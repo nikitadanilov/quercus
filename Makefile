@@ -161,58 +161,78 @@ default: all
   #                                                                         #
   ###########################################################################
 
-CC           = cc
-CPP          = cc
+# Modern GCC (2026 port). The 2002 settings follow, commented out.
+CC           = gcc
+CPP          = g++
 DEFINES      = -D_REENTRANT 
-# -D_THREAD_SAFE -D__USE_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 
-COPT         = -frepo \
-               -fno-vtable-thunks
-PROFOPT      = -g -pg
-LIBS         = -L/usr/X11/lib \
-               -lbfd \
-               -liberty \
-               -lpthread \
+COPT         = -std=gnu++11 -fpermissive
+PROFOPT      = -g
+LIBS         = -lpthread \
                -lX11 \
                -lm \
                -lXpm \
                -lreadline \
                -lncurses \
-               -lstdc++ \
-               -ldl #-lgc #-lefence -lposix4 
+               -ldl
 SHARED_COPT  = -fPIC -shared -DUNWANT_TESTING
-SHARED_LDOPT = -shared -dy -DUNWANT_TESTING
+SHARED_LDOPT = -shared -DUNWANT_TESTING
 CFLAGS      := $(COPT) \
                $(PROFOPT) \
                -pipe \
-               -ansi \
-               -pedantic \
-               -W \
-               -Wall \
-               -Wtraditional \
-               -Wshadow \
-               -Wid-clash-24 \
-               -Wpointer-arith \
-               -Wwrite-strings \
-               -Wconversion \
-               -Wstrict-prototypes \
-               -Wmissing-prototypes \
-               -Wmissing-declarations \
-               -Wnested-externs \
-               -Woverloaded-virtual \
-               -Winline -Wformat \
-               -Wbad-function-cast \
-               -Wconversion \
-               -Wsynth \
-               -Wundef \
-               -Wcast-align \
-               -Wno-comment \
-               -Wbad-function-cast \
-               -Wsign-compare \
-               -Wmissing-noreturn \
-               -Wlarger-than-1024 \
-               -Wnon-virtual-dtor \
-               -Wreorder \
-               -Wsign-promo
+               -w
+
+#CC           = cc
+#CPP          = cc
+#DEFINES      = -D_REENTRANT 
+# -D_THREAD_SAFE -D__USE_REENTRANT -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 
+#COPT         = -frepo \
+#               -fno-vtable-thunks
+#PROFOPT      = -g -pg
+#LIBS         = -L/usr/X11/lib \
+#               -lbfd \
+#               -liberty \
+#               -lpthread \
+#               -lX11 \
+#               -lm \
+#               -lXpm \
+#               -lreadline \
+#               -lncurses \
+#               -lstdc++ \
+#               -ldl #-lgc #-lefence -lposix4 
+#SHARED_COPT  = -fPIC -shared -DUNWANT_TESTING
+#SHARED_LDOPT = -shared -dy -DUNWANT_TESTING
+#CFLAGS      := $(COPT) \
+#               $(PROFOPT) \
+#               -pipe \
+#               -ansi \
+#               -pedantic \
+#               -W \
+#               -Wall \
+#               -Wtraditional \
+#               -Wshadow \
+#               -Wid-clash-24 \
+#               -Wpointer-arith \
+#               -Wwrite-strings \
+#               -Wconversion \
+#               -Wstrict-prototypes \
+#               -Wmissing-prototypes \
+#               -Wmissing-declarations \
+#               -Wnested-externs \
+#               -Woverloaded-virtual \
+#               -Winline -Wformat \
+#               -Wbad-function-cast \
+#               -Wconversion \
+#               -Wsynth \
+#               -Wundef \
+#               -Wcast-align \
+#               -Wno-comment \
+#               -Wbad-function-cast \
+#               -Wsign-compare \
+#               -Wmissing-noreturn \
+#               -Wlarger-than-1024 \
+#               -Wnon-virtual-dtor \
+#               -Wreorder \
+#               -Wsign-promo
 #-Weffc++ -Waggregate-return -Wcast-qual -Wredundant-decls 
 
 LDFLAGS     := $(PROFOPT) \
@@ -1061,7 +1081,7 @@ CPP_TPP:= \
   #                                                                         #
   ###########################################################################
 
-INCS            := -I. -I$(INC_DIR) $(ADDITIONAL_INCS)
+INCS            := -I. -I$(INC_DIR) -I$(SRC_DIR) $(ADDITIONAL_INCS)
 SHLIB            = lib/libquercus.so
 ALL_SOURCE      := $(CPP_SRC) $(CPP_IPP) $(CPP_TPP)
 CPP_OBJ         := $(CPP_SRC:.cpp=.o)

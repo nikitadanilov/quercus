@@ -95,7 +95,7 @@ INLINE void MemoryMonitor::inc( Index anAmount, void * /* anAddress */ )
 INLINE void MemoryMonitor::dec( Index anAmount, void * /* anAddress */ )
 {
   allocated -= anAmount;
-  testF_( amount >= 0 );
+  testF_( amount() >= 0 );
   if( wasInitialised && ( anAmount <= statBufferSize ) )
 	{
 	  Index totalTimes;

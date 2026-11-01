@@ -130,13 +130,13 @@
 #endif
 #endif
 
-#if defined( DEBUG )
-
 #if defined( __GNUC__ )
 #define __functionName __PRETTY_FUNCTION__
 #else
 #define __functionName ""
 #endif
+
+#if defined( DEBUG )
 
 #if defined( __STDC__ )
 

@@ -168,7 +168,7 @@ void POSIXPlatform::startSignalWaiterThread()
 {
   if( signalCatched == NULL )
 	{
-	  signalCatched = new PSemaphore::PSemaphore( SHARE_SIGNAL_COUNTER, 0 );
+	  signalCatched = new PSemaphore( SHARE_SIGNAL_COUNTER, 0 );
 	  signalCatched -> dontManage();
 	}
   if( signalWaiter == NULL )

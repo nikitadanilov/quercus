@@ -94,7 +94,7 @@ DefField< S, Storable * >::DefField( String aName, const S *aBase,
 									 Storable *S::*aField ) :
   BaseDefField< S, Storable * >( aName, aBase )
 {
-  field = aField;
+  this -> field = aField;
 }
 
 template< class S > 
@@ -124,7 +124,7 @@ DefField< S, String >::DefField( String aName, const S *aBase,
 								 String S::*aField ) :
   BaseDefField< S, String >( aName, aBase )
 {
-  field = aField;
+  this -> field = aField;
 }
 
 template< class S > 
@@ -154,7 +154,7 @@ DefField< S, Index >::DefField( String aName, const S *aBase,
 								Index S::*aField ) :
   BaseDefField< S, Index >( aName, aBase )
 {
-  field = aField;
+  this -> field = aField;
 }
 
 template< class S > 
@@ -184,7 +184,7 @@ DefField< S, boolean >::DefField( String aName, const S *aBase,
 								  boolean S::*aField ) :
   BaseDefField< S, boolean >( aName, aBase )
 {
-  field = aField;
+  this -> field = aField;
 }
 
 template< class S > 
@@ -214,7 +214,7 @@ DefField< S, CRef< Storable > >::DefField( String aName, const S *aBase,
 										   CRef< Storable > S::*aField ) :
   BaseDefField< S, CRef< Storable > >( aName, aBase )
 {
-  field = aField;
+  this -> field = aField;
 }
 
 template< class S > 

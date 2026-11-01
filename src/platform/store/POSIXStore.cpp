@@ -45,6 +45,7 @@ static char debugFileId[] = __FILE__;
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 BEGIN_QR_NAMESPACE
 
